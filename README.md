@@ -4,7 +4,7 @@ Working title: **Cygnet**. A cozy 3D exploration game about raising a "duckling"
 
 ## Status
 
-Pre-production. Engine decided: Godot 4.x with GDScript. Solo developer, PC only (Steam / itch.io). Target length 2–3 hours.
+Pre-production. Engine decided: Godot 4.7.2 with GDScript. Solo developer, PC only (Steam / itch.io). Target length 2–3 hours.
 
 ## Documents
 

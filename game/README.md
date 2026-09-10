@@ -1,10 +1,10 @@
 # Cygnet — Godot project
 
-Prototype **P1 — Duckling**: a grey-box pond you can waddle, paddle, and hop around in. Built for Godot 4.4 or newer.
+Prototype **P1 — Duckling**: a grey-box pond you can waddle, paddle, and hop around in. Built for **Godot 4.7.2** (the project's feature tag is 4.7; 4.7.x or newer opens it directly).
 
 ## Run it
 
-1. Open Godot 4.4+, click **Import**, and pick `game/project.godot`.
+1. Open Godot 4.7.2, click **Import**, and pick `game/project.godot`.
 2. Press **F5**. You spawn on the shore next to the nest.
 
 ## Controls
