@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3]
+[gd_scene load_steps=64 format=3]
 
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://world/water_volume.gd" id="2_water"]
@@ -12,6 +12,37 @@
 [ext_resource type="Script" path="res://world/heart_environment.gd" id="10_heart_env"]
 [ext_resource type="PackedScene" path="res://world/nib.tscn" id="11_nib"]
 [ext_resource type="PackedScene" path="res://world/seed.tscn" id="12_seed"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Bush_Common.gltf" id="k_Bush_Common"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Bush_Common_Flowers.gltf" id="k_Bush_Common_Flowers"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Clover_1.gltf" id="k_Clover_1"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Clover_2.gltf" id="k_Clover_2"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/CommonTree_1.gltf" id="k_CommonTree_1"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/CommonTree_2.gltf" id="k_CommonTree_2"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/CommonTree_3.gltf" id="k_CommonTree_3"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/CommonTree_4.gltf" id="k_CommonTree_4"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/CommonTree_5.gltf" id="k_CommonTree_5"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Flower_3_Group.gltf" id="k_Flower_3_Group"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Flower_3_Single.gltf" id="k_Flower_3_Single"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Flower_4_Group.gltf" id="k_Flower_4_Group"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Flower_4_Single.gltf" id="k_Flower_4_Single"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Grass_Common_Short.gltf" id="k_Grass_Common_Short"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Grass_Common_Tall.gltf" id="k_Grass_Common_Tall"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Grass_Wispy_Short.gltf" id="k_Grass_Wispy_Short"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Grass_Wispy_Tall.gltf" id="k_Grass_Wispy_Tall"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Mushroom_Common.gltf" id="k_Mushroom_Common"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Mushroom_Laetiporus.gltf" id="k_Mushroom_Laetiporus"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Pebble_Round_1.gltf" id="k_Pebble_Round_1"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Pebble_Round_2.gltf" id="k_Pebble_Round_2"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Pebble_Square_1.gltf" id="k_Pebble_Square_1"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Pebble_Square_2.gltf" id="k_Pebble_Square_2"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Pine_1.gltf" id="k_Pine_1"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Pine_2.gltf" id="k_Pine_2"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Pine_3.gltf" id="k_Pine_3"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Plant_7.gltf" id="k_Plant_7"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Plant_7_Big.gltf" id="k_Plant_7_Big"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Rock_Medium_1.gltf" id="k_Rock_Medium_1"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Rock_Medium_2.gltf" id="k_Rock_Medium_2"]
+[ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Rock_Medium_3.gltf" id="k_Rock_Medium_3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.36, 0.58, 0.88, 1)
@@ -72,6 +103,26 @@ size = Vector3(0.8, 2.0, 5.2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_culvert"]
 size = Vector3(0.6, 1.6, 1.8)
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_lily"]
+height = 0.06
+radius = 0.55
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_trunk"]
+height = 4.0
+radius = 0.35
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rock1"]
+radius = 0.740
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rock2"]
+radius = 0.781
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rock3"]
+radius = 0.770
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rock4"]
+radius = 0.605
+
 [node name="PondGreybox" type="Node3D" node_paths=PackedStringArray("siblings", "nib")]
 script = ExtResource("4_pond")
 siblings = [NodePath("World/Siblings/Sibling1"), NodePath("World/Siblings/Sibling2"), NodePath("World/Siblings/Sibling3")]
@@ -127,159 +178,138 @@ shape = SubResource("CylinderShape3D_water")
 [node name="Props" type="Node3D" parent="World"]
 
 [node name="Nest" type="CSGTorus3D" parent="World/Props"]
-position = Vector3(1.500, 0.080, 12.500)
+position = Vector3(1.5, 0.08, 12.5)
 inner_radius = 0.4
 outer_radius = 0.8
 sides = 8
 ring_sides = 6
 material = SubResource("StandardMaterial3D_wood")
 
-[node name="Reed1" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-6.579, 0.314, -7.027)
-radius = 0.06
-height = 1.69
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed1" parent="World/Props" instance=ExtResource("k_Grass_Wispy_Tall")]
+position = Vector3(-6.299, -0.230, -8.073)
+rotation = Vector3(0.000, 2.924, 0.000)
+scale = Vector3(1.002, 1.002, 1.002)
 
-[node name="Reed2" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-8.170, 0.558, -6.112)
-radius = 0.06
-height = 1.52
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed3" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-8.197, 0.435, -6.004)
-radius = 0.06
-height = 1.32
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed2" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(-5.206, -0.553, -8.157)
+rotation = Vector3(0.000, 3.956, 0.000)
+scale = Vector3(1.088, 1.088, 1.088)
 
-[node name="Reed4" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-5.944, 0.080, -7.417)
-radius = 0.06
-height = 1.35
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed5" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-6.707, 0.687, -8.260)
-radius = 0.06
-height = 1.37
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed3" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(-7.801, -0.453, -6.023)
+rotation = Vector3(0.000, 5.085, 0.000)
+scale = Vector3(1.058, 1.058, 1.058)
 
-[node name="Reed6" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-7.582, 0.815, -7.033)
-radius = 0.06
-height = 1.87
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed7" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-5.438, 0.619, -8.386)
-radius = 0.06
-height = 1.89
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed4" parent="World/Props" instance=ExtResource("k_Grass_Wispy_Tall")]
+position = Vector3(-8.844, -0.050, -6.326)
+rotation = Vector3(0.000, 4.107, 0.000)
+scale = Vector3(1.035, 1.035, 1.035)
 
-[node name="Reed8" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(8.733, 0.737, 6.161)
-radius = 0.06
-height = 1.47
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed9" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(7.471, 0.184, 5.991)
-radius = 0.06
-height = 1.49
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed5" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(-7.196, -0.691, -6.083)
+rotation = Vector3(0.000, 0.374, 0.000)
+scale = Vector3(0.907, 0.907, 0.907)
 
-[node name="Reed10" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(4.394, 0.318, 8.615)
-radius = 0.06
-height = 1.65
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed11" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(5.485, 0.470, 8.312)
-radius = 0.06
-height = 1.63
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed6" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(-6.840, -0.679, -6.513)
+rotation = Vector3(0.000, 2.767, 0.000)
+scale = Vector3(1.103, 1.103, 1.103)
 
-[node name="Reed12" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(7.698, 0.106, 5.549)
-radius = 0.06
-height = 1.42
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed13" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(5.310, 0.448, 8.523)
-radius = 0.06
-height = 1.49
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed7" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(-5.984, -0.157, -8.457)
+rotation = Vector3(0.000, 4.160, 0.000)
+scale = Vector3(0.987, 0.987, 0.987)
 
-[node name="Reed14" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(5.831, 0.466, 8.222)
-radius = 0.06
-height = 1.48
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed15" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-8.758, 0.670, 5.698)
-radius = 0.06
-height = 1.45
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed8" parent="World/Props" instance=ExtResource("k_Grass_Wispy_Tall")]
+position = Vector3(7.896, -0.050, 7.509)
+rotation = Vector3(0.000, 5.277, 0.000)
+scale = Vector3(1.062, 1.062, 1.062)
 
-[node name="Reed16" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-7.793, 0.702, 6.562)
-radius = 0.06
-height = 1.83
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed17" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-8.041, 0.528, 5.657)
-radius = 0.06
-height = 1.89
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed9" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(6.903, -0.516, 6.878)
+rotation = Vector3(0.000, 0.441, 0.000)
+scale = Vector3(1.080, 1.080, 1.080)
 
-[node name="Reed18" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-5.788, 0.572, 8.188)
-radius = 0.06
-height = 1.75
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed19" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-6.005, 0.419, 8.162)
-radius = 0.06
-height = 1.32
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed10" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(7.144, -0.050, 7.926)
+rotation = Vector3(0.000, 6.017, 0.000)
+scale = Vector3(1.104, 1.104, 1.104)
 
-[node name="Reed20" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-8.413, 0.822, 6.361)
-radius = 0.06
-height = 1.64
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed21" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-8.510, 0.464, 5.001)
-radius = 0.06
-height = 1.72
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed11" parent="World/Props" instance=ExtResource("k_Grass_Wispy_Tall")]
+position = Vector3(8.097, -0.532, 5.367)
+rotation = Vector3(0.000, 2.952, 0.000)
+scale = Vector3(1.144, 1.144, 1.144)
+
+
+[node name="Reed12" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(6.380, -0.645, 7.052)
+rotation = Vector3(0.000, 4.889, 0.000)
+scale = Vector3(0.931, 0.931, 0.931)
+
+
+[node name="Reed13" parent="World/Props" instance=ExtResource("k_Grass_Wispy_Tall")]
+position = Vector3(7.940, -0.428, 5.911)
+rotation = Vector3(0.000, 4.760, 0.000)
+scale = Vector3(0.885, 0.885, 0.885)
+
+
+[node name="Reed14" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(7.052, -0.622, 6.442)
+rotation = Vector3(0.000, 5.005, 0.000)
+scale = Vector3(0.903, 0.903, 0.903)
+
+
+[node name="Reed15" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(-7.648, -0.329, 6.552)
+rotation = Vector3(0.000, 4.596, 0.000)
+scale = Vector3(0.889, 0.889, 0.889)
+
+
+[node name="Reed16" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(-7.557, -0.609, 5.879)
+rotation = Vector3(0.000, 1.337, 0.000)
+scale = Vector3(0.931, 0.931, 0.931)
+
+
+[node name="Reed17" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(-9.417, -0.050, 4.877)
+rotation = Vector3(0.000, 5.557, 0.000)
+scale = Vector3(0.913, 0.913, 0.913)
+
+
+[node name="Reed18" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(-7.436, -0.050, 7.668)
+rotation = Vector3(0.000, 0.630, 0.000)
+scale = Vector3(1.147, 1.147, 1.147)
+
+
+[node name="Reed19" parent="World/Props" instance=ExtResource("k_Grass_Wispy_Tall")]
+position = Vector3(-6.067, -0.492, 7.680)
+rotation = Vector3(0.000, 2.066, 0.000)
+scale = Vector3(0.939, 0.939, 0.939)
+
+
+[node name="Reed20" parent="World/Props" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(-5.307, -0.631, 7.922)
+rotation = Vector3(0.000, 1.526, 0.000)
+scale = Vector3(1.030, 1.030, 1.030)
+
+
+[node name="Reed21" parent="World/Props" instance=ExtResource("k_Grass_Wispy_Tall")]
+position = Vector3(-6.925, -0.324, 7.325)
+rotation = Vector3(0.000, 3.038, 0.000)
+scale = Vector3(1.022, 1.022, 1.022)
+
 
 [node name="LogFloating" type="CSGBox3D" parent="World/Props"]
 position = Vector3(-4.000, -0.350, 8.000)
@@ -293,68 +323,1104 @@ rotation = Vector3(0.000, -0.400, 0.050)
 size = Vector3(3.000, 0.500, 0.500)
 material = SubResource("StandardMaterial3D_wood")
 
-[node name="Rock1" type="CSGSphere3D" parent="World/Props"]
-position = Vector3(11.500, 0.280, -5.500)
-radius = 0.70
-radial_segments = 10
-rings = 6
-material = SubResource("StandardMaterial3D_rock")
+[node name="Rock1" type="StaticBody3D" parent="World/Props"]
+position = Vector3(11.500, -0.150, -5.500)
 
-[node name="Rock2" type="CSGSphere3D" parent="World/Props"]
-position = Vector3(-11.000, 0.360, -3.000)
-radius = 0.90
-radial_segments = 10
-rings = 6
-material = SubResource("StandardMaterial3D_rock")
+[node name="Mesh" parent="World/Props/Rock1" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 5.442, 0.000)
+scale = Vector3(0.550, 0.550, 0.550)
 
-[node name="Rock3" type="CSGSphere3D" parent="World/Props"]
-position = Vector3(3.000, 0.240, -12.000)
-radius = 0.60
-radial_segments = 10
-rings = 6
-material = SubResource("StandardMaterial3D_rock")
 
-[node name="Rock4" type="CSGSphere3D" parent="World/Props"]
-position = Vector3(-9.500, 0.200, 8.500)
-radius = 0.50
-radial_segments = 10
-rings = 6
-material = SubResource("StandardMaterial3D_rock")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/Rock1"]
+position = Vector3(0, 0.518, 0)
+shape = SubResource("SphereShape3D_rock1")
 
-[node name="LilyPad1" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(3.000, -0.460, 2.000)
+[node name="Rock2" type="StaticBody3D" parent="World/Props"]
+position = Vector3(-11.000, -0.150, -3.000)
+
+[node name="Mesh" parent="World/Props/Rock2" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 1.148, 0.000)
+scale = Vector3(0.700, 0.700, 0.700)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/Rock2"]
+position = Vector3(0, 0.547, 0)
+shape = SubResource("SphereShape3D_rock2")
+
+[node name="Rock3" type="StaticBody3D" parent="World/Props"]
+position = Vector3(3.000, -0.150, -12.000)
+
+[node name="Mesh" parent="World/Props/Rock3" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 0.968, 0.000)
+scale = Vector3(0.500, 0.500, 0.500)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/Rock3"]
+position = Vector3(0, 0.539, 0)
+shape = SubResource("SphereShape3D_rock3")
+
+[node name="Rock4" type="StaticBody3D" parent="World/Props"]
+position = Vector3(-9.500, -0.150, 8.500)
+
+[node name="Mesh" parent="World/Props/Rock4" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 5.705, 0.000)
+scale = Vector3(0.450, 0.450, 0.450)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/Rock4"]
+position = Vector3(0, 0.424, 0)
+shape = SubResource("SphereShape3D_rock4")
+
+[node name="LilyPad1" type="StaticBody3D" parent="World/Props"]
+position = Vector3(3.000, -0.490, 2.000)
+
+[node name="Pad" type="CSGCylinder3D" parent="World/Props/LilyPad1"]
+position = Vector3(0, 0.02, 0)
 radius = 0.55
 height = 0.06
-sides = 10
+sides = 12
 material = SubResource("StandardMaterial3D_lily")
 
-[node name="LilyPad2" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-2.500, -0.460, 4.000)
+[node name="Mesh" parent="World/Props/LilyPad1" instance=ExtResource("k_Plant_7_Big")]
+position = Vector3(0.12, 0.05, -0.1)
+rotation = Vector3(0.000, 5.136, 0.000)
+scale = Vector3(0.45, 0.45, 0.45)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/LilyPad1"]
+position = Vector3(0, 0.02, 0)
+shape = SubResource("CylinderShape3D_lily")
+
+[node name="LilyPad2" type="StaticBody3D" parent="World/Props"]
+position = Vector3(-2.500, -0.490, 4.000)
+
+[node name="Pad" type="CSGCylinder3D" parent="World/Props/LilyPad2"]
+position = Vector3(0, 0.02, 0)
 radius = 0.55
 height = 0.06
-sides = 10
+sides = 12
 material = SubResource("StandardMaterial3D_lily")
 
-[node name="LilyPad3" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(-5.000, -0.460, -3.000)
+[node name="Mesh" parent="World/Props/LilyPad2" instance=ExtResource("k_Plant_7")]
+position = Vector3(0.12, 0.05, -0.1)
+rotation = Vector3(0.000, 1.567, 0.000)
+scale = Vector3(0.45, 0.45, 0.45)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/LilyPad2"]
+position = Vector3(0, 0.02, 0)
+shape = SubResource("CylinderShape3D_lily")
+
+[node name="LilyPad3" type="StaticBody3D" parent="World/Props"]
+position = Vector3(-5.000, -0.490, -3.000)
+
+[node name="Pad" type="CSGCylinder3D" parent="World/Props/LilyPad3"]
+position = Vector3(0, 0.02, 0)
 radius = 0.55
 height = 0.06
-sides = 10
+sides = 12
 material = SubResource("StandardMaterial3D_lily")
 
-[node name="LilyPad4" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(1.000, -0.460, -5.500)
+[node name="Mesh" parent="World/Props/LilyPad3" instance=ExtResource("k_Plant_7_Big")]
+position = Vector3(0.12, 0.05, -0.1)
+rotation = Vector3(0.000, 1.192, 0.000)
+scale = Vector3(0.45, 0.45, 0.45)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/LilyPad3"]
+position = Vector3(0, 0.02, 0)
+shape = SubResource("CylinderShape3D_lily")
+
+[node name="LilyPad4" type="StaticBody3D" parent="World/Props"]
+position = Vector3(1.000, -0.490, -5.500)
+
+[node name="Pad" type="CSGCylinder3D" parent="World/Props/LilyPad4"]
+position = Vector3(0, 0.02, 0)
 radius = 0.55
 height = 0.06
-sides = 10
+sides = 12
 material = SubResource("StandardMaterial3D_lily")
 
-[node name="LilyPad5" type="CSGCylinder3D" parent="World/Props"]
-position = Vector3(5.500, -0.460, -1.000)
+[node name="Mesh" parent="World/Props/LilyPad4" instance=ExtResource("k_Plant_7")]
+position = Vector3(0.12, 0.05, -0.1)
+rotation = Vector3(0.000, 4.644, 0.000)
+scale = Vector3(0.45, 0.45, 0.45)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/LilyPad4"]
+position = Vector3(0, 0.02, 0)
+shape = SubResource("CylinderShape3D_lily")
+
+[node name="LilyPad5" type="StaticBody3D" parent="World/Props"]
+position = Vector3(5.500, -0.490, -1.000)
+
+[node name="Pad" type="CSGCylinder3D" parent="World/Props/LilyPad5"]
+position = Vector3(0, 0.02, 0)
 radius = 0.55
 height = 0.06
-sides = 10
+sides = 12
 material = SubResource("StandardMaterial3D_lily")
+
+[node name="Mesh" parent="World/Props/LilyPad5" instance=ExtResource("k_Plant_7_Big")]
+position = Vector3(0.12, 0.05, -0.1)
+rotation = Vector3(0.000, 5.906, 0.000)
+scale = Vector3(0.45, 0.45, 0.45)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/LilyPad5"]
+position = Vector3(0, 0.02, 0)
+shape = SubResource("CylinderShape3D_lily")
+[node name="WallRocks" type="Node3D" parent="World"]
+
+[node name="Boulder1" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(17.167, -0.350, 8.076)
+rotation = Vector3(0.000, 5.946, 0.000)
+scale = Vector3(0.697, 0.697, 0.697)
+
+
+[node name="Boulder2" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(19.500, -0.350, 8.169)
+rotation = Vector3(0.000, 5.716, 0.000)
+scale = Vector3(0.711, 0.711, 0.711)
+
+
+[node name="Boulder3" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(21.833, -0.350, 8.185)
+rotation = Vector3(0.000, 3.758, 0.000)
+scale = Vector3(0.630, 0.630, 0.630)
+
+
+[node name="Boulder4" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(24.167, -0.350, 7.827)
+rotation = Vector3(0.000, 2.003, 0.000)
+scale = Vector3(0.750, 0.750, 0.750)
+
+
+[node name="Boulder5" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(26.500, -0.350, 7.830)
+rotation = Vector3(0.000, 2.310, 0.000)
+scale = Vector3(0.626, 0.626, 0.626)
+
+
+[node name="Boulder6" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(28.833, -0.350, 8.174)
+rotation = Vector3(0.000, 4.419, 0.000)
+scale = Vector3(0.723, 0.723, 0.723)
+
+
+[node name="Boulder7" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(17.167, -0.350, -7.834)
+rotation = Vector3(0.000, 0.533, 0.000)
+scale = Vector3(0.682, 0.682, 0.682)
+
+
+[node name="Boulder8" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(19.500, -0.350, -8.169)
+rotation = Vector3(0.000, 5.930, 0.000)
+scale = Vector3(0.624, 0.624, 0.624)
+
+
+[node name="Boulder9" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(21.833, -0.350, -8.000)
+rotation = Vector3(0.000, 3.925, 0.000)
+scale = Vector3(0.670, 0.670, 0.670)
+
+
+[node name="Boulder10" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(24.167, -0.350, -7.967)
+rotation = Vector3(0.000, 0.454, 0.000)
+scale = Vector3(0.632, 0.632, 0.632)
+
+
+[node name="Boulder11" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(26.500, -0.350, -8.154)
+rotation = Vector3(0.000, 5.525, 0.000)
+scale = Vector3(0.715, 0.715, 0.715)
+
+
+[node name="Boulder12" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(28.833, -0.350, -8.045)
+rotation = Vector3(0.000, 4.359, 0.000)
+scale = Vector3(0.680, 0.680, 0.680)
+
+
+[node name="Boulder13" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(29.985, -0.350, -7.286)
+rotation = Vector3(0.000, 0.526, 0.000)
+scale = Vector3(0.718, 0.718, 0.718)
+
+
+[node name="Boulder14" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(29.812, -0.350, -4.857)
+rotation = Vector3(0.000, 0.551, 0.000)
+scale = Vector3(0.623, 0.623, 0.623)
+
+
+[node name="Boulder15" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(30.183, -0.350, -2.429)
+rotation = Vector3(0.000, 3.123, 0.000)
+scale = Vector3(0.700, 0.700, 0.700)
+
+
+[node name="Boulder16" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(30.168, -0.350, 0.000)
+rotation = Vector3(0.000, 5.630, 0.000)
+scale = Vector3(0.668, 0.668, 0.668)
+
+
+[node name="Boulder17" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(29.857, -0.350, 2.429)
+rotation = Vector3(0.000, 1.272, 0.000)
+scale = Vector3(0.642, 0.642, 0.642)
+
+
+[node name="Boulder18" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(30.162, -0.350, 4.857)
+rotation = Vector3(0.000, 5.842, 0.000)
+scale = Vector3(0.685, 0.685, 0.685)
+
+
+[node name="Boulder19" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(29.897, -0.350, 7.286)
+rotation = Vector3(0.000, 4.182, 0.000)
+scale = Vector3(0.646, 0.646, 0.646)
+
+
+[node name="Boulder20" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(15.972, -0.350, 3.925)
+rotation = Vector3(0.000, 5.528, 0.000)
+scale = Vector3(0.670, 0.670, 0.670)
+
+
+[node name="Boulder21" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(16.033, -0.350, 6.775)
+rotation = Vector3(0.000, 1.318, 0.000)
+scale = Vector3(0.637, 0.637, 0.637)
+
+
+[node name="Boulder22" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(15.940, -0.350, -6.775)
+rotation = Vector3(0.000, 4.466, 0.000)
+scale = Vector3(0.744, 0.744, 0.744)
+
+
+[node name="Boulder23" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(15.911, -0.350, -3.925)
+rotation = Vector3(0.000, 0.709, 0.000)
+scale = Vector3(0.681, 0.681, 0.681)
+
+
+[node name="Boulder24" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(-28.900, -0.350, 10.170)
+rotation = Vector3(0.000, 2.402, 0.000)
+scale = Vector3(0.688, 0.688, 0.688)
+
+
+[node name="Boulder25" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(-26.700, -0.350, 10.069)
+rotation = Vector3(0.000, 5.270, 0.000)
+scale = Vector3(0.748, 0.748, 0.748)
+
+
+[node name="Boulder26" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(-24.500, -0.350, 9.981)
+rotation = Vector3(0.000, 5.204, 0.000)
+scale = Vector3(0.656, 0.656, 0.656)
+
+
+[node name="Boulder27" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(-22.300, -0.350, 10.043)
+rotation = Vector3(0.000, 4.450, 0.000)
+scale = Vector3(0.694, 0.694, 0.694)
+
+
+[node name="Boulder28" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(-20.100, -0.350, 9.924)
+rotation = Vector3(0.000, 0.120, 0.000)
+scale = Vector3(0.638, 0.638, 0.638)
+
+
+[node name="Boulder29" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(-28.900, -0.350, -10.018)
+rotation = Vector3(0.000, 4.831, 0.000)
+scale = Vector3(0.655, 0.655, 0.655)
+
+
+[node name="Boulder30" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(-26.700, -0.350, -9.888)
+rotation = Vector3(0.000, 6.180, 0.000)
+scale = Vector3(0.635, 0.635, 0.635)
+
+
+[node name="Boulder31" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(-24.500, -0.350, -10.156)
+rotation = Vector3(0.000, 4.114, 0.000)
+scale = Vector3(0.725, 0.725, 0.725)
+
+
+[node name="Boulder32" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(-22.300, -0.350, -9.817)
+rotation = Vector3(0.000, 1.244, 0.000)
+scale = Vector3(0.727, 0.727, 0.727)
+
+
+[node name="Boulder33" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(-20.100, -0.350, -10.098)
+rotation = Vector3(0.000, 0.068, 0.000)
+scale = Vector3(0.681, 0.681, 0.681)
+
+
+[node name="Boulder34" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(-29.914, -0.350, -9.333)
+rotation = Vector3(0.000, 1.422, 0.000)
+scale = Vector3(0.721, 0.721, 0.721)
+
+
+[node name="Boulder35" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(-29.984, -0.350, -7.000)
+rotation = Vector3(0.000, 3.143, 0.000)
+scale = Vector3(0.750, 0.750, 0.750)
+
+
+[node name="Boulder36" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(-30.136, -0.350, -4.667)
+rotation = Vector3(0.000, 5.691, 0.000)
+scale = Vector3(0.631, 0.631, 0.631)
+
+
+[node name="Boulder37" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(-29.827, -0.350, -2.333)
+rotation = Vector3(0.000, 2.436, 0.000)
+scale = Vector3(0.679, 0.679, 0.679)
+
+
+[node name="Boulder38" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(-30.121, -0.350, 0.000)
+rotation = Vector3(0.000, 2.366, 0.000)
+scale = Vector3(0.694, 0.694, 0.694)
+
+
+[node name="Boulder39" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(-29.848, -0.350, 2.333)
+rotation = Vector3(0.000, 2.912, 0.000)
+scale = Vector3(0.705, 0.705, 0.705)
+
+
+[node name="Boulder40" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_3")]
+position = Vector3(-30.118, -0.350, 4.667)
+rotation = Vector3(0.000, 5.439, 0.000)
+scale = Vector3(0.724, 0.724, 0.724)
+
+
+[node name="Boulder41" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_1")]
+position = Vector3(-29.830, -0.350, 7.000)
+rotation = Vector3(0.000, 1.340, 0.000)
+scale = Vector3(0.737, 0.737, 0.737)
+
+
+[node name="Boulder42" parent="World/WallRocks" instance=ExtResource("k_Rock_Medium_2")]
+position = Vector3(-29.808, -0.350, 9.333)
+rotation = Vector3(0.000, 3.372, 0.000)
+scale = Vector3(0.723, 0.723, 0.723)
+
+
+[node name="BankGrass1" parent="World/WallRocks" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(-16.898, 2.950, 7.790)
+rotation = Vector3(0.000, 2.189, 0.000)
+scale = Vector3(0.825, 0.825, 0.825)
+
+
+[node name="BankGrass2" parent="World/WallRocks" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(-16.295, 2.950, 0.956)
+rotation = Vector3(0.000, 3.061, 0.000)
+scale = Vector3(0.809, 0.809, 0.809)
+
+
+[node name="BankGrass3" parent="World/WallRocks" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(-14.454, 2.950, -8.283)
+rotation = Vector3(0.000, 1.086, 0.000)
+scale = Vector3(0.901, 0.901, 0.901)
+
+
+[node name="BankGrass4" parent="World/WallRocks" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(-14.560, 2.950, -6.830)
+rotation = Vector3(0.000, 6.279, 0.000)
+scale = Vector3(1.070, 1.070, 1.070)
+
+
+[node name="BankGrass5" parent="World/WallRocks" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(-15.909, 2.950, 3.380)
+rotation = Vector3(0.000, 5.939, 0.000)
+scale = Vector3(0.948, 0.948, 0.948)
+
+
+[node name="BankGrass6" parent="World/WallRocks" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(-13.754, 2.950, -7.866)
+rotation = Vector3(0.000, 2.760, 0.000)
+scale = Vector3(0.968, 0.968, 0.968)
+
+
+[node name="BankGrass7" parent="World/WallRocks" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(-14.344, 2.950, 1.169)
+rotation = Vector3(0.000, 3.283, 0.000)
+scale = Vector3(1.053, 1.053, 1.053)
+
+
+[node name="BankGrass8" parent="World/WallRocks" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(-15.700, 2.950, -3.578)
+rotation = Vector3(0.000, 5.996, 0.000)
+scale = Vector3(1.061, 1.061, 1.061)
+
+
+[node name="BankGrass9" parent="World/WallRocks" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(-15.453, 2.950, -3.715)
+rotation = Vector3(0.000, 6.082, 0.000)
+scale = Vector3(0.957, 0.957, 0.957)
+
+
+[node name="BankGrass10" parent="World/WallRocks" instance=ExtResource("k_Clover_1")]
+position = Vector3(-15.635, 2.950, -5.682)
+rotation = Vector3(0.000, 0.718, 0.000)
+scale = Vector3(0.801, 0.801, 0.801)
+
+
+[node name="BankMushroom1" parent="World/WallRocks" instance=ExtResource("k_Mushroom_Common")]
+position = Vector3(-12.600, 0.000, 3.200)
+rotation = Vector3(0.000, 0.400, 0.000)
+scale = Vector3(0.800, 0.800, 0.800)
+
+
+[node name="BankMushroom2" parent="World/WallRocks" instance=ExtResource("k_Mushroom_Laetiporus")]
+position = Vector3(-12.700, 0.000, -4.500)
+rotation = Vector3(0.000, 2.100, 0.000)
+scale = Vector3(0.500, 0.500, 0.500)
+
+[node name="Flora" type="Node3D" parent="World"]
+
+[node name="Tree1" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(17.142, -0.100, -9.803)
+
+[node name="Mesh" parent="World/Flora/Tree1" instance=ExtResource("k_CommonTree_5")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 0.766, 0.000)
+scale = Vector3(0.878, 0.878, 0.878)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree1"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree2" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(23.548, -0.100, -12.800)
+
+[node name="Mesh" parent="World/Flora/Tree2" instance=ExtResource("k_Pine_2")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 1.691, 0.000)
+scale = Vector3(0.992, 0.992, 0.992)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree2"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree3" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(26.654, -0.100, -19.230)
+
+[node name="Mesh" parent="World/Flora/Tree3" instance=ExtResource("k_CommonTree_3")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 0.682, 0.000)
+scale = Vector3(0.976, 0.976, 0.976)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree3"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree4" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(-1.251, -0.100, 19.460)
+
+[node name="Mesh" parent="World/Flora/Tree4" instance=ExtResource("k_CommonTree_1")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 0.224, 0.000)
+scale = Vector3(0.897, 0.897, 0.897)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree4"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree5" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(1.089, -0.100, 31.282)
+
+[node name="Mesh" parent="World/Flora/Tree5" instance=ExtResource("k_CommonTree_4")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 4.590, 0.000)
+scale = Vector3(0.887, 0.887, 0.887)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree5"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree6" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(-18.770, -0.100, 18.600)
+
+[node name="Mesh" parent="World/Flora/Tree6" instance=ExtResource("k_CommonTree_5")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 3.867, 0.000)
+scale = Vector3(1.011, 1.011, 1.011)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree6"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree7" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(-32.920, -0.100, -7.139)
+
+[node name="Mesh" parent="World/Flora/Tree7" instance=ExtResource("k_CommonTree_2")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 5.346, 0.000)
+scale = Vector3(1.034, 1.034, 1.034)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree7"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree8" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(11.720, -0.100, -29.339)
+
+[node name="Mesh" parent="World/Flora/Tree8" instance=ExtResource("k_Pine_2")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 3.788, 0.000)
+scale = Vector3(1.117, 1.117, 1.117)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree8"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree9" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(3.945, -0.100, -21.958)
+
+[node name="Mesh" parent="World/Flora/Tree9" instance=ExtResource("k_CommonTree_1")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 0.841, 0.000)
+scale = Vector3(0.922, 0.922, 0.922)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree9"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree10" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(10.191, -0.100, -17.959)
+
+[node name="Mesh" parent="World/Flora/Tree10" instance=ExtResource("k_CommonTree_2")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 1.260, 0.000)
+scale = Vector3(1.038, 1.038, 1.038)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree10"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree11" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(26.825, -0.100, 18.491)
+
+[node name="Mesh" parent="World/Flora/Tree11" instance=ExtResource("k_CommonTree_3")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 5.723, 0.000)
+scale = Vector3(1.141, 1.141, 1.141)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree11"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree12" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(-31.884, -0.100, -0.555)
+
+[node name="Mesh" parent="World/Flora/Tree12" instance=ExtResource("k_CommonTree_2")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 5.042, 0.000)
+scale = Vector3(0.995, 0.995, 0.995)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree12"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree13" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(10.075, -0.100, 25.246)
+
+[node name="Mesh" parent="World/Flora/Tree13" instance=ExtResource("k_CommonTree_2")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 5.277, 0.000)
+scale = Vector3(1.147, 1.147, 1.147)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree13"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree14" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(-25.123, -0.100, 11.809)
+
+[node name="Mesh" parent="World/Flora/Tree14" instance=ExtResource("k_CommonTree_1")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 3.982, 0.000)
+scale = Vector3(0.862, 0.862, 0.862)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree14"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree15" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(-18.760, -0.100, 12.248)
+
+[node name="Mesh" parent="World/Flora/Tree15" instance=ExtResource("k_CommonTree_3")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 2.545, 0.000)
+scale = Vector3(0.909, 0.909, 0.909)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree15"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree16" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(-9.172, -0.100, -31.313)
+
+[node name="Mesh" parent="World/Flora/Tree16" instance=ExtResource("k_Pine_3")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 5.901, 0.000)
+scale = Vector3(1.021, 1.021, 1.021)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree16"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree17" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(-19.177, -0.100, -11.276)
+
+[node name="Mesh" parent="World/Flora/Tree17" instance=ExtResource("k_CommonTree_3")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 1.755, 0.000)
+scale = Vector3(0.885, 0.885, 0.885)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree17"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree18" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(16.943, -0.100, 26.710)
+
+[node name="Mesh" parent="World/Flora/Tree18" instance=ExtResource("k_Pine_1")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 5.630, 0.000)
+scale = Vector3(1.114, 1.114, 1.114)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree18"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree19" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(3.332, -0.100, -30.631)
+
+[node name="Mesh" parent="World/Flora/Tree19" instance=ExtResource("k_CommonTree_4")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 1.299, 0.000)
+scale = Vector3(0.905, 0.905, 0.905)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree19"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree20" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(-10.386, -0.100, 30.853)
+
+[node name="Mesh" parent="World/Flora/Tree20" instance=ExtResource("k_CommonTree_3")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 6.221, 0.000)
+scale = Vector3(1.121, 1.121, 1.121)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree20"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree21" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(19.569, -0.100, 10.256)
+
+[node name="Mesh" parent="World/Flora/Tree21" instance=ExtResource("k_CommonTree_4")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 4.033, 0.000)
+scale = Vector3(1.060, 1.060, 1.060)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree21"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Tree22" type="StaticBody3D" parent="World/Flora"]
+position = Vector3(31.699, -0.100, -3.993)
+
+[node name="Mesh" parent="World/Flora/Tree22" instance=ExtResource("k_CommonTree_5")]
+position = Vector3(0.000, 0.000, 0.000)
+rotation = Vector3(0.000, 0.679, 0.000)
+scale = Vector3(0.921, 0.921, 0.921)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Flora/Tree22"]
+position = Vector3(0, 2, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Bush1" parent="World/Flora" instance=ExtResource("k_Bush_Common")]
+position = Vector3(14.500, -0.100, 11.500)
+rotation = Vector3(0.000, 2.786, 0.000)
+scale = Vector3(0.801, 0.801, 0.801)
+
+
+[node name="Bush2" parent="World/Flora" instance=ExtResource("k_Bush_Common_Flowers")]
+position = Vector3(14.000, -0.100, -11.000)
+rotation = Vector3(0.000, 4.781, 0.000)
+scale = Vector3(0.830, 0.830, 0.830)
+
+
+[node name="Bush3" parent="World/Flora" instance=ExtResource("k_Bush_Common")]
+position = Vector3(-11.500, -0.100, 12.500)
+rotation = Vector3(0.000, 0.068, 0.000)
+scale = Vector3(0.752, 0.752, 0.752)
+
+
+[node name="Bush4" parent="World/Flora" instance=ExtResource("k_Bush_Common_Flowers")]
+position = Vector3(31.500, -0.100, 9.500)
+rotation = Vector3(0.000, 1.731, 0.000)
+scale = Vector3(0.768, 0.768, 0.768)
+
+
+[node name="Bush5" parent="World/Flora" instance=ExtResource("k_Bush_Common")]
+position = Vector3(31.500, -0.100, -9.500)
+rotation = Vector3(0.000, 3.394, 0.000)
+scale = Vector3(0.783, 0.783, 0.783)
+
+
+[node name="Flower1" parent="World/Flora" instance=ExtResource("k_Flower_3_Group")]
+position = Vector3(-2.500, 0.000, 13.500)
+rotation = Vector3(0.000, 3.270, 0.000)
+scale = Vector3(0.669, 0.669, 0.669)
+
+
+[node name="Flower2" parent="World/Flora" instance=ExtResource("k_Flower_4_Single")]
+position = Vector3(5.500, 0.000, 12.000)
+rotation = Vector3(0.000, 0.626, 0.000)
+scale = Vector3(0.589, 0.589, 0.589)
+
+
+[node name="Flower3" parent="World/Flora" instance=ExtResource("k_Clover_2")]
+position = Vector3(-6.000, 0.000, 11.500)
+rotation = Vector3(0.000, 4.048, 0.000)
+scale = Vector3(0.610, 0.610, 0.610)
+
+
+[node name="Flower4" parent="World/Flora" instance=ExtResource("k_Flower_4_Group")]
+position = Vector3(24.000, 0.000, -6.000)
+rotation = Vector3(0.000, 4.198, 0.000)
+scale = Vector3(0.691, 0.691, 0.691)
+
+
+[node name="Flower5" parent="World/Flora" instance=ExtResource("k_Clover_1")]
+position = Vector3(20.500, 0.000, 5.500)
+rotation = Vector3(0.000, 2.427, 0.000)
+scale = Vector3(0.688, 0.688, 0.688)
+
+
+[node name="Flower6" parent="World/Flora" instance=ExtResource("k_Flower_3_Single")]
+position = Vector3(27.500, 0.000, 5.000)
+rotation = Vector3(0.000, 2.423, 0.000)
+scale = Vector3(0.694, 0.694, 0.694)
+
+
+[node name="Flower7" parent="World/Flora" instance=ExtResource("k_Flower_3_Single")]
+position = Vector3(12.500, 0.000, 3.000)
+rotation = Vector3(0.000, 5.374, 0.000)
+scale = Vector3(0.608, 0.608, 0.608)
+
+
+[node name="Flower8" parent="World/Flora" instance=ExtResource("k_Flower_4_Group")]
+position = Vector3(-12.000, 0.000, -12.000)
+rotation = Vector3(0.000, 3.746, 0.000)
+scale = Vector3(0.586, 0.586, 0.586)
+
+
+[node name="Grass2" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(-10.708, -0.050, 7.929)
+rotation = Vector3(0.000, 3.035, 0.000)
+scale = Vector3(0.781, 0.781, 0.781)
+
+
+[node name="Grass3" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(14.194, -0.050, -6.739)
+rotation = Vector3(0.000, 0.169, 0.000)
+scale = Vector3(0.932, 0.932, 0.932)
+
+
+[node name="Grass6" parent="World/Flora" instance=ExtResource("k_Clover_1")]
+position = Vector3(12.616, -0.050, 4.345)
+rotation = Vector3(0.000, 0.315, 0.000)
+scale = Vector3(0.997, 0.997, 0.997)
+
+
+[node name="Grass7" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(10.994, -0.050, -4.003)
+rotation = Vector3(0.000, 2.697, 0.000)
+scale = Vector3(0.843, 0.843, 0.843)
+
+
+[node name="Grass8" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(12.675, -0.050, -2.160)
+rotation = Vector3(0.000, 5.886, 0.000)
+scale = Vector3(0.917, 0.917, 0.917)
+
+
+[node name="Grass10" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(6.225, -0.050, -13.981)
+rotation = Vector3(0.000, 0.317, 0.000)
+scale = Vector3(0.825, 0.825, 0.825)
+
+
+[node name="Grass11" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(12.582, -0.050, 11.515)
+rotation = Vector3(0.000, 3.316, 0.000)
+scale = Vector3(0.737, 0.737, 0.737)
+
+
+[node name="Grass15" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(2.587, -0.050, -14.582)
+rotation = Vector3(0.000, 5.983, 0.000)
+scale = Vector3(0.920, 0.920, 0.920)
+
+
+[node name="Grass17" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(12.914, -0.050, -10.323)
+rotation = Vector3(0.000, 1.725, 0.000)
+scale = Vector3(0.883, 0.883, 0.883)
+
+
+[node name="Grass18" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(-2.490, -0.050, -15.758)
+rotation = Vector3(0.000, 3.976, 0.000)
+scale = Vector3(0.926, 0.926, 0.926)
+
+
+[node name="Grass21" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(8.298, -0.050, -7.916)
+rotation = Vector3(0.000, 0.060, 0.000)
+scale = Vector3(0.778, 0.778, 0.778)
+
+
+[node name="Grass22" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(11.295, -0.050, 1.928)
+rotation = Vector3(0.000, 3.402, 0.000)
+scale = Vector3(0.722, 0.722, 0.722)
+
+
+[node name="Grass23" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(13.525, -0.050, 8.165)
+rotation = Vector3(0.000, 3.963, 0.000)
+scale = Vector3(0.812, 0.812, 0.812)
+
+
+[node name="Grass25" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(-9.031, -0.050, 13.527)
+rotation = Vector3(0.000, 5.038, 0.000)
+scale = Vector3(0.834, 0.834, 0.834)
+
+
+[node name="Grass26" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(7.388, -0.050, -15.198)
+rotation = Vector3(0.000, 2.790, 0.000)
+scale = Vector3(0.924, 0.924, 0.924)
+
+
+[node name="Grass27" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(-9.425, -0.050, 7.786)
+rotation = Vector3(0.000, 4.105, 0.000)
+scale = Vector3(0.997, 0.997, 0.997)
+
+
+[node name="Grass28" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(-6.810, -0.050, 13.287)
+rotation = Vector3(0.000, 2.686, 0.000)
+scale = Vector3(0.811, 0.811, 0.811)
+
+
+[node name="Grass29" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(14.062, -0.050, 9.819)
+rotation = Vector3(0.000, 3.414, 0.000)
+scale = Vector3(0.830, 0.830, 0.830)
+
+
+[node name="Grass32" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(13.286, -0.050, 0.777)
+rotation = Vector3(0.000, 4.365, 0.000)
+scale = Vector3(0.848, 0.848, 0.848)
+
+
+[node name="Grass33" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(1.190, -0.050, -13.377)
+rotation = Vector3(0.000, 1.374, 0.000)
+scale = Vector3(0.897, 0.897, 0.897)
+
+
+[node name="Grass34" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(-8.082, -0.050, 15.367)
+rotation = Vector3(0.000, 4.454, 0.000)
+scale = Vector3(0.871, 0.871, 0.871)
+
+
+[node name="Grass36" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(12.128, -0.050, -7.344)
+rotation = Vector3(0.000, 2.878, 0.000)
+scale = Vector3(0.766, 0.766, 0.766)
+
+
+[node name="Grass38" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(-11.713, -0.050, -1.193)
+rotation = Vector3(0.000, 0.151, 0.000)
+scale = Vector3(0.903, 0.903, 0.903)
+
+
+[node name="Grass40" parent="World/Flora" instance=ExtResource("k_Clover_1")]
+position = Vector3(-0.963, -0.050, -13.670)
+rotation = Vector3(0.000, 3.395, 0.000)
+scale = Vector3(0.951, 0.951, 0.951)
+
+
+[node name="PocketGrass1" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(23.753, -0.050, -4.528)
+rotation = Vector3(0.000, 5.532, 0.000)
+scale = Vector3(0.784, 0.784, 0.784)
+
+
+[node name="PocketGrass2" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(17.267, -0.050, 0.219)
+rotation = Vector3(0.000, 3.564, 0.000)
+scale = Vector3(0.990, 0.990, 0.990)
+
+
+[node name="PocketGrass3" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(24.814, -0.050, 4.260)
+rotation = Vector3(0.000, 3.655, 0.000)
+scale = Vector3(0.792, 0.792, 0.792)
+
+
+[node name="PocketGrass5" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(20.284, -0.050, -5.524)
+rotation = Vector3(0.000, 0.532, 0.000)
+scale = Vector3(0.890, 0.890, 0.890)
+
+
+[node name="PocketGrass6" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(18.727, -0.050, 3.441)
+rotation = Vector3(0.000, 1.541, 0.000)
+scale = Vector3(0.766, 0.766, 0.766)
+
+
+[node name="PocketGrass9" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(21.054, -0.050, 6.556)
+rotation = Vector3(0.000, 3.100, 0.000)
+scale = Vector3(0.861, 0.861, 0.861)
+
+
+[node name="PocketGrass11" parent="World/Flora" instance=ExtResource("k_Grass_Wispy_Short")]
+position = Vector3(27.980, -0.050, -1.252)
+rotation = Vector3(0.000, 5.360, 0.000)
+scale = Vector3(0.942, 0.942, 0.942)
+
+
+[node name="PocketGrass12" parent="World/Flora" instance=ExtResource("k_Grass_Common_Short")]
+position = Vector3(27.006, -0.050, 5.441)
+rotation = Vector3(0.000, 3.290, 0.000)
+scale = Vector3(0.913, 0.913, 0.913)
+
+
+[node name="Pebble1" parent="World/Flora" instance=ExtResource("k_Pebble_Square_1")]
+position = Vector3(3.712, -0.020, -10.902)
+rotation = Vector3(0.000, 5.750, 0.000)
+scale = Vector3(0.923, 0.923, 0.923)
+
+
+[node name="Pebble2" parent="World/Flora" instance=ExtResource("k_Pebble_Round_2")]
+position = Vector3(6.223, -0.020, 10.119)
+rotation = Vector3(0.000, 2.015, 0.000)
+scale = Vector3(0.995, 0.995, 0.995)
+
+
+[node name="Pebble3" parent="World/Flora" instance=ExtResource("k_Pebble_Round_1")]
+position = Vector3(-11.079, -0.020, -2.045)
+rotation = Vector3(0.000, 2.961, 0.000)
+scale = Vector3(1.165, 1.165, 1.165)
+
+
+[node name="Pebble5" parent="World/Flora" instance=ExtResource("k_Pebble_Square_1")]
+position = Vector3(10.812, -0.020, -5.970)
+rotation = Vector3(0.000, 0.108, 0.000)
+scale = Vector3(1.041, 1.041, 1.041)
+
+
+[node name="Pebble6" parent="World/Flora" instance=ExtResource("k_Pebble_Round_2")]
+position = Vector3(3.527, -0.020, -10.768)
+rotation = Vector3(0.000, 1.159, 0.000)
+scale = Vector3(0.909, 0.909, 0.909)
+
+
+[node name="Pebble8" parent="World/Flora" instance=ExtResource("k_Pebble_Round_2")]
+position = Vector3(-9.256, -0.020, -6.271)
+rotation = Vector3(0.000, 5.618, 0.000)
+scale = Vector3(1.001, 1.001, 1.001)
+
+
+[node name="Pebble9" parent="World/Flora" instance=ExtResource("k_Pebble_Square_2")]
+position = Vector3(10.491, -0.020, -6.598)
+rotation = Vector3(0.000, 5.916, 0.000)
+scale = Vector3(1.075, 1.075, 1.075)
+
+
+[node name="Pebble10" parent="World/Flora" instance=ExtResource("k_Pebble_Square_1")]
+position = Vector3(7.030, -0.020, -9.258)
+rotation = Vector3(0.000, 5.742, 0.000)
+scale = Vector3(0.971, 0.971, 0.971)
+
+
+[node name="Pebble11" parent="World/Flora" instance=ExtResource("k_Pebble_Square_1")]
+position = Vector3(-11.881, -0.020, -3.642)
+rotation = Vector3(0.000, 5.417, 0.000)
+scale = Vector3(1.000, 1.000, 1.000)
+
+
+[node name="Pebble13" parent="World/Flora" instance=ExtResource("k_Pebble_Square_2")]
+position = Vector3(3.720, -0.020, -11.891)
+rotation = Vector3(0.000, 4.862, 0.000)
+scale = Vector3(1.194, 1.194, 1.194)
+
+
+[node name="Pebble14" parent="World/Flora" instance=ExtResource("k_Pebble_Round_1")]
+position = Vector3(11.561, -0.020, 4.405)
+rotation = Vector3(0.000, 5.489, 0.000)
+scale = Vector3(1.253, 1.253, 1.253)
 
 [node name="Siblings" type="Node3D" parent="World"]
 
@@ -381,30 +1447,35 @@ scale = Vector3(0.850, 0.850, 0.850)
 [node name="ReedPocket" type="Node3D" parent="World"]
 
 [node name="WallN" type="CSGBox3D" parent="World/ReedPocket"]
+visible = false
 use_collision = true
 position = Vector3(23.000, 1.000, 8.000)
 size = Vector3(14.000, 2.000, 1.000)
 material = SubResource("StandardMaterial3D_rock")
 
 [node name="WallS" type="CSGBox3D" parent="World/ReedPocket"]
+visible = false
 use_collision = true
 position = Vector3(23.000, 1.000, -8.000)
 size = Vector3(14.000, 2.000, 1.000)
 material = SubResource("StandardMaterial3D_rock")
 
 [node name="WallE" type="CSGBox3D" parent="World/ReedPocket"]
+visible = false
 use_collision = true
 position = Vector3(30.000, 1.000, 0.000)
 size = Vector3(1.000, 2.000, 17.000)
 material = SubResource("StandardMaterial3D_rock")
 
 [node name="WallWn" type="CSGBox3D" parent="World/ReedPocket"]
+visible = false
 use_collision = true
 position = Vector3(16.000, 1.000, 5.350)
 size = Vector3(1.000, 2.000, 5.700)
 material = SubResource("StandardMaterial3D_rock")
 
 [node name="WallWs" type="CSGBox3D" parent="World/ReedPocket"]
+visible = false
 use_collision = true
 position = Vector3(16.000, 1.000, -5.350)
 size = Vector3(1.000, 2.000, 5.700)
@@ -427,182 +1498,146 @@ position = Vector3(0, -1, 0)
 [node name="ReedPivot1" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.027, 0, -2.309)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot1"]
-position = Vector3(0, 0.892, 0)
-radius = 0.07
-height = 1.78
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot1" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 1.235, 0.000)
+scale = Vector3(1.090, 1.090, 1.090)
 
 [node name="ReedPivot2" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.075, 0, -1.983)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot2"]
-position = Vector3(0, 0.816, 0)
-radius = 0.07
-height = 1.63
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot2" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 5.540, 0.000)
+scale = Vector3(1.021, 1.021, 1.021)
 
 [node name="ReedPivot3" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.202, 0, -1.811)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot3"]
-position = Vector3(0, 0.865, 0)
-radius = 0.07
-height = 1.73
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot3" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 2.647, 0.000)
+scale = Vector3(0.921, 0.921, 0.921)
 
 [node name="ReedPivot4" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.297, 0, -1.509)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot4"]
-position = Vector3(0, 0.918, 0)
-radius = 0.07
-height = 1.84
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot4" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 0.243, 0.000)
+scale = Vector3(1.093, 1.093, 1.093)
 
 [node name="ReedPivot5" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(-0.014, 0, -1.146)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot5"]
-position = Vector3(0, 0.960, 0)
-radius = 0.07
-height = 1.92
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot5" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 1.497, 0.000)
+scale = Vector3(1.041, 1.041, 1.041)
 
 [node name="ReedPivot6" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.081, 0, -0.989)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot6"]
-position = Vector3(0, 1.017, 0)
-radius = 0.07
-height = 2.03
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot6" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 1.614, 0.000)
+scale = Vector3(1.065, 1.065, 1.065)
 
 [node name="ReedPivot7" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.145, 0, -0.663)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot7"]
-position = Vector3(0, 0.968, 0)
-radius = 0.07
-height = 1.94
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot7" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 3.746, 0.000)
+scale = Vector3(0.959, 0.959, 0.959)
 
 [node name="ReedPivot8" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.155, 0, -0.470)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot8"]
-position = Vector3(0, 0.948, 0)
-radius = 0.07
-height = 1.90
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot8" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 1.102, 0.000)
+scale = Vector3(1.044, 1.044, 1.044)
 
 [node name="ReedPivot9" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(-0.281, 0, -0.165)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot9"]
-position = Vector3(0, 1.016, 0)
-radius = 0.07
-height = 2.03
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot9" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 0.432, 0.000)
+scale = Vector3(0.946, 0.946, 0.946)
 
 [node name="ReedPivot10" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.131, 0, 0.129)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot10"]
-position = Vector3(0, 1.020, 0)
-radius = 0.07
-height = 2.04
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot10" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 3.513, 0.000)
+scale = Vector3(1.070, 1.070, 1.070)
 
 [node name="ReedPivot11" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.253, 0, 0.434)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot11"]
-position = Vector3(0, 0.899, 0)
-radius = 0.07
-height = 1.80
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot11" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 3.858, 0.000)
+scale = Vector3(0.956, 0.956, 0.956)
 
 [node name="ReedPivot12" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(-0.033, 0, 0.715)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot12"]
-position = Vector3(0, 1.034, 0)
-radius = 0.07
-height = 2.07
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot12" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 5.761, 0.000)
+scale = Vector3(0.941, 0.941, 0.941)
 
 [node name="ReedPivot13" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(-0.242, 0, 0.994)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot13"]
-position = Vector3(0, 0.834, 0)
-radius = 0.07
-height = 1.67
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot13" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 0.104, 0.000)
+scale = Vector3(0.954, 0.954, 0.954)
 
 [node name="ReedPivot14" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.279, 0, 1.155)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot14"]
-position = Vector3(0, 0.909, 0)
-radius = 0.07
-height = 1.82
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot14" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 2.799, 0.000)
+scale = Vector3(0.912, 0.912, 0.912)
 
 [node name="ReedPivot15" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(-0.119, 0, 1.487)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot15"]
-position = Vector3(0, 0.927, 0)
-radius = 0.07
-height = 1.85
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot15" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 1.107, 0.000)
+scale = Vector3(0.974, 0.974, 0.974)
 
 [node name="ReedPivot16" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(-0.089, 0, 1.715)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot16"]
-position = Vector3(0, 0.946, 0)
-radius = 0.07
-height = 1.89
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot16" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 3.593, 0.000)
+scale = Vector3(0.926, 0.926, 0.926)
 
 [node name="ReedPivot17" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.243, 0, 2.013)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot17"]
-position = Vector3(0, 0.970, 0)
-radius = 0.07
-height = 1.94
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot17" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 2.274, 0.000)
+scale = Vector3(1.078, 1.078, 1.078)
 
 [node name="ReedPivot18" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
 position = Vector3(0.214, 0, 2.335)
 
-[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot18"]
-position = Vector3(0, 1.048, 0)
-radius = 0.07
-height = 2.10
-sides = 6
-material = SubResource("StandardMaterial3D_reed")
+[node name="Reed" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot18" instance=ExtResource("k_Grass_Common_Tall")]
+position = Vector3(0.000, -0.050, 0.000)
+rotation = Vector3(0.000, 6.157, 0.000)
+scale = Vector3(1.031, 1.031, 1.031)
 [node name="PocketRock1" type="CSGSphere3D" parent="World/ReedPocket"]
 use_collision = true
 position = Vector3(27.000, 0.240, 5.000)
@@ -654,18 +1689,21 @@ sides = 16
 [node name="FarShore" type="Node3D" parent="World"]
 
 [node name="WallN" type="CSGBox3D" parent="World/FarShore"]
+visible = false
 use_collision = true
 position = Vector3(-24.500, 1.000, 10.000)
 size = Vector3(11.000, 2.000, 1.000)
 material = SubResource("StandardMaterial3D_rock")
 
 [node name="WallS" type="CSGBox3D" parent="World/FarShore"]
+visible = false
 use_collision = true
 position = Vector3(-24.500, 1.000, -10.000)
 size = Vector3(11.000, 2.000, 1.000)
 material = SubResource("StandardMaterial3D_rock")
 
 [node name="WallW" type="CSGBox3D" parent="World/FarShore"]
+visible = false
 use_collision = true
 position = Vector3(-30.000, 1.000, 0.000)
 size = Vector3(1.000, 2.000, 21.000)

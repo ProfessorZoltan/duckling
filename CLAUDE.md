@@ -7,6 +7,13 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - **Size gates must match what the eye sees.** A `SizeGate` is a scale check, not a physical fit, so the visual opening must be sized so the blocked stage visibly does not fit and the allowed stage visibly does. Player heights at scale 1.0: head top ≈ 0.67 m, body width ≈ 0.44 m. Multiply by `Globals.STAGE_SCALE` for each stage (Duckling 1.25 → 0.84 m tall). Give the physical collision a little more room than the visual so the allowed stage never snags. When a gate opens, change the visual too (reeds part, etc.), never just the collision.
 - **Flight is fun as tuned.** Don't retune `glide_sink_degrees`, `flap_lift`, `flap_cost`, `air_drag`, or `landing_speed` without the user asking.
 
+## Art assets
+
+- `game/assets/nature_kit/` is the Stylized Nature MegaKit (Quaternius, CC0), glTF only. Instance the `.gltf` files directly as PackedScenes; never edit the imported resources.
+- Kit models are at human scale with the base at y≈0 (trees and rocks sink 0.1–0.3 m; place them slightly below ground). Grass_Common_Tall is 1.9 m, CommonTree 7–9 m, Rock_Medium 2–3 m. `Plant_7` is a purple flower, not a lily pad.
+- Textured materials cannot be tinted; `HeartRegion` swaps them for `HeartMaterial` shader copies. Anything textured that should lose color must be under `visuals_root`.
+- Collision comes from a `StaticBody3D` wrapper (trees, boulders, lilies) or from an invisible CSG shape, never from the visual mesh. Ground clutter (grass, flowers, pebbles) has no collision.
+
 ## Structural rules
 
 - Everything that should shrink in a Growth Spurt lives under a scene's `World` node. Player, lights and sky stay outside it.

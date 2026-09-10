@@ -15,9 +15,10 @@ Pre-production. Engine decided: Godot 4.7.2 with GDScript. Solo developer, PC on
 ## Layout
 
 - `docs/design/` — design documents, versioned by filename.
-- `game/` — the Godot 4 project. See [game/README.md](game/README.md) for controls, layout, and the smoke test.
+- `game/` — the Godot 4 project. See [game/README.md](game/README.md) for controls, layout, and the smoke tests.
+- `game/assets/nature_kit/` — Stylized Nature MegaKit (standard, free version) by Quaternius, CC0. Trees, grass, rocks, flowers, pebbles.
 
-## Screenshots (P1 grey-box, software-rendered)
+## Screenshots (Home Pond with the Stylized Nature MegaKit, software-rendered)
 
 | Spawn at the nest | Paddling as a hatchling | Same pond at juvenile scale |
 |---|---|---|
