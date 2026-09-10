@@ -10,9 +10,19 @@ const SCENES := {
 @export var player: Player
 
 @onready var label: Label = $Label
+@onready var notice_label: Label = $Notice
+
+var _notice_timer: float = 0.0
 
 
-func _process(_delta: float) -> void:
+func _ready() -> void:
+	Globals.notice.connect(_on_notice)
+	notice_label.text = ""
+
+
+func _process(delta: float) -> void:
+	_notice_timer = maxf(_notice_timer - delta, 0.0)
+	notice_label.modulate.a = clampf(_notice_timer, 0.0, 1.0)
 	if player == null:
 		label.text = "No player assigned"
 		return
@@ -30,14 +40,19 @@ func _process(_delta: float) -> void:
 	var course := get_tree().get_first_node_in_group("flight_course")
 	if course:
 		lines.append("Rings  %d / %d   %.1fs" % [course.rings_passed, course.rings_total, course.run_time])
+	var hunt := get_tree().get_first_node_in_group("bug_hunt")
+	if hunt:
+		lines.append("Bugs  %d / %d" % [hunt.bugs_collected, hunt.bugs_total])
 
 	lines.append("")
-	lines.append("Space flap/hop   W pull up   S dive   [ ] stage   F1 pond   F2 cliff   Esc mouse")
+	lines.append("Space flap/hop   W pull up   S dive   G growth spurt   [ ] stage   F1 pond   F2 cliff   Esc mouse")
 	label.text = "\n".join(lines)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug_stage_up"):
+	if event.is_action_pressed("debug_growth_spurt"):
+		Globals.request_growth_spurt()
+	elif event.is_action_pressed("debug_stage_up"):
 		Globals.advance_stage()
 	elif event.is_action_pressed("debug_stage_down"):
 		Globals.regress_stage()
@@ -45,3 +60,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		for action in SCENES:
 			if event.is_action_pressed(action):
 				get_tree().change_scene_to_file(SCENES[action])
+
+
+func _on_notice(text: String) -> void:
+	notice_label.text = text
+	_notice_timer = 3.5

@@ -68,6 +68,9 @@ var heading: float = 0.0
 ## Flight pitch in radians, positive is nose up.
 var pitch: float = 0.0
 
+## While frozen (cutscenes) the body ignores input and physics.
+var frozen: bool = false
+
 var _water_volume_count: int = 0
 var _thermal_lift: float = 0.0
 var _flap_lift_vel: float = 0.0
@@ -97,6 +100,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if frozen:
+		velocity = Vector3.ZERO
+		return
 	_update_state()
 
 	var raw_input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -115,6 +121,7 @@ func _physics_process(delta: float) -> void:
 			_fly(delta, raw_input, s)
 
 	move_and_slide()
+	_notify_gate_bumps()
 
 	if state == State.FLY:
 		_resolve_flight_contact(s)
@@ -252,6 +259,13 @@ func _resolve_flight_contact(s: float) -> void:
 			deg_to_rad(pitch_down_degrees), deg_to_rad(pitch_up_degrees))
 	_flap_lift_vel = 0.0
 	velocity = bounced
+
+
+func _notify_gate_bumps() -> void:
+	for i in get_slide_collision_count():
+		var collider := get_slide_collision(i).get_collider()
+		if collider is SizeGate:
+			(collider as SizeGate).bump()
 
 
 # --- State ------------------------------------------------------------------

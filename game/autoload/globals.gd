@@ -9,6 +9,11 @@ extends Node
 signal stage_changed(new_stage: Stage)
 signal player_scale_changed(new_scale: float)
 signal heart_changed(new_heart: float)
+## Something asked for a Growth Spurt. A GrowthSpurtDirector in the scene plays
+## the cutscene; if none is listening, the stage advances instantly.
+signal growth_spurt_requested
+## Short on-screen message for the HUD (gate hints, stage announcements).
+signal notice(text: String)
 
 enum Stage { EGG, HATCHLING, DUCKLING, JUVENILE, FLEDGLING, YOUNG_SWAN, ADULT_SWAN }
 
@@ -60,3 +65,26 @@ func advance_stage() -> void:
 func regress_stage() -> void:
 	if stage > Stage.HATCHLING:
 		stage = (stage - 1) as Stage
+
+
+func next_stage() -> Stage:
+	return mini(stage + 1, Stage.ADULT_SWAN) as Stage
+
+
+func stage_name(which: Stage = stage) -> String:
+	return Stage.keys()[which].capitalize().replace("_", " ")
+
+
+## Ask for a Growth Spurt (design doc §7.2). Story beats call this, never timers.
+func request_growth_spurt() -> void:
+	if stage >= Stage.ADULT_SWAN:
+		return
+	if growth_spurt_requested.get_connections().is_empty():
+		advance_stage()
+		notify("Growth spurt! You are a %s now." % stage_name())
+	else:
+		growth_spurt_requested.emit()
+
+
+func notify(text: String) -> void:
+	notice.emit(text)

@@ -1,8 +1,13 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://world/water_volume.gd" id="2_water"]
 [ext_resource type="Script" path="res://ui/debug_hud.gd" id="3_hud"]
+[ext_resource type="Script" path="res://world/pond_greybox.gd" id="4_pond"]
+[ext_resource type="Script" path="res://world/growth_spurt_director.gd" id="5_director"]
+[ext_resource type="Script" path="res://world/size_gate.gd" id="6_gate"]
+[ext_resource type="PackedScene" path="res://world/water_bug.tscn" id="7_bug"]
+[ext_resource type="PackedScene" path="res://world/duckling_prop.tscn" id="8_sibling"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.36, 0.58, 0.88, 1)
@@ -57,7 +62,14 @@ size = Vector2(22, 22)
 height = 3.6
 radius = 10.5
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_reedgate"]
+size = Vector3(0.8, 2.0, 5.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_culvert"]
+size = Vector3(1.2, 1.6, 1.8)
+
 [node name="PondGreybox" type="Node3D"]
+script = ExtResource("4_pond")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_pond")
@@ -67,15 +79,17 @@ rotation = Vector3(-0.9, 0.55, 0)
 light_energy = 1.0
 shadow_enabled = true
 
-[node name="Terrain" type="CSGCombiner3D" parent="."]
+[node name="World" type="Node3D" parent="."]
+
+[node name="Terrain" type="CSGCombiner3D" parent="World"]
 use_collision = true
 
-[node name="Ground" type="CSGBox3D" parent="Terrain"]
+[node name="Ground" type="CSGBox3D" parent="World/Terrain"]
 position = Vector3(0, -1, 0)
 size = Vector3(80, 2, 80)
 material = SubResource("StandardMaterial3D_grass")
 
-[node name="PondBasin" type="CSGSphere3D" parent="Terrain"]
+[node name="PondBasin" type="CSGSphere3D" parent="World/Terrain"]
 operation = 2
 position = Vector3(0, 17, 0)
 radius = 20.0
@@ -83,22 +97,22 @@ radial_segments = 64
 rings = 32
 material = SubResource("StandardMaterial3D_mud")
 
-[node name="Water" type="MeshInstance3D" parent="."]
+[node name="Water" type="MeshInstance3D" parent="World"]
 position = Vector3(0, -0.5, 0)
 mesh = SubResource("PlaneMesh_water")
 surface_material_override/0 = SubResource("StandardMaterial3D_water")
 
-[node name="WaterVolume" type="Area3D" parent="."]
+[node name="WaterVolume" type="Area3D" parent="World"]
 position = Vector3(0, -0.5, 0)
 script = ExtResource("2_water")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WaterVolume"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/WaterVolume"]
 position = Vector3(0, -1.5, 0)
 shape = SubResource("CylinderShape3D_water")
 
-[node name="Props" type="Node3D" parent="."]
+[node name="Props" type="Node3D" parent="World"]
 
-[node name="Nest" type="CSGTorus3D" parent="Props"]
+[node name="Nest" type="CSGTorus3D" parent="World/Props"]
 position = Vector3(1.500, 0.080, 12.500)
 inner_radius = 0.4
 outer_radius = 0.8
@@ -106,230 +120,485 @@ sides = 8
 ring_sides = 6
 material = SubResource("StandardMaterial3D_wood")
 
-[node name="Reed1" type="CSGCylinder3D" parent="Props"]
+[node name="Reed1" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-6.579, 0.314, -7.027)
 radius = 0.06
 height = 1.69
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed2" type="CSGCylinder3D" parent="Props"]
+[node name="Reed2" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-8.170, 0.558, -6.112)
 radius = 0.06
 height = 1.52
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed3" type="CSGCylinder3D" parent="Props"]
+[node name="Reed3" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-8.197, 0.435, -6.004)
 radius = 0.06
 height = 1.32
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed4" type="CSGCylinder3D" parent="Props"]
+[node name="Reed4" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-5.944, 0.080, -7.417)
 radius = 0.06
 height = 1.35
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed5" type="CSGCylinder3D" parent="Props"]
+[node name="Reed5" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-6.707, 0.687, -8.260)
 radius = 0.06
 height = 1.37
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed6" type="CSGCylinder3D" parent="Props"]
+[node name="Reed6" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-7.582, 0.815, -7.033)
 radius = 0.06
 height = 1.87
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed7" type="CSGCylinder3D" parent="Props"]
+[node name="Reed7" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-5.438, 0.619, -8.386)
 radius = 0.06
 height = 1.89
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed8" type="CSGCylinder3D" parent="Props"]
+[node name="Reed8" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(8.733, 0.737, 6.161)
 radius = 0.06
 height = 1.47
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed9" type="CSGCylinder3D" parent="Props"]
+[node name="Reed9" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(7.471, 0.184, 5.991)
 radius = 0.06
 height = 1.49
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed10" type="CSGCylinder3D" parent="Props"]
+[node name="Reed10" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(4.394, 0.318, 8.615)
 radius = 0.06
 height = 1.65
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed11" type="CSGCylinder3D" parent="Props"]
+[node name="Reed11" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(5.485, 0.470, 8.312)
 radius = 0.06
 height = 1.63
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed12" type="CSGCylinder3D" parent="Props"]
+[node name="Reed12" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(7.698, 0.106, 5.549)
 radius = 0.06
 height = 1.42
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed13" type="CSGCylinder3D" parent="Props"]
+[node name="Reed13" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(5.310, 0.448, 8.523)
 radius = 0.06
 height = 1.49
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed14" type="CSGCylinder3D" parent="Props"]
+[node name="Reed14" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(5.831, 0.466, 8.222)
 radius = 0.06
 height = 1.48
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed15" type="CSGCylinder3D" parent="Props"]
+[node name="Reed15" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-8.758, 0.670, 5.698)
 radius = 0.06
 height = 1.45
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed16" type="CSGCylinder3D" parent="Props"]
+[node name="Reed16" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-7.793, 0.702, 6.562)
 radius = 0.06
 height = 1.83
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed17" type="CSGCylinder3D" parent="Props"]
+[node name="Reed17" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-8.041, 0.528, 5.657)
 radius = 0.06
 height = 1.89
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed18" type="CSGCylinder3D" parent="Props"]
+[node name="Reed18" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-5.788, 0.572, 8.188)
 radius = 0.06
 height = 1.75
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed19" type="CSGCylinder3D" parent="Props"]
+[node name="Reed19" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-6.005, 0.419, 8.162)
 radius = 0.06
 height = 1.32
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed20" type="CSGCylinder3D" parent="Props"]
+[node name="Reed20" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-8.413, 0.822, 6.361)
 radius = 0.06
 height = 1.64
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed21" type="CSGCylinder3D" parent="Props"]
+[node name="Reed21" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-8.510, 0.464, 5.001)
 radius = 0.06
 height = 1.72
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="LogFloating" type="CSGBox3D" parent="Props"]
+[node name="LogFloating" type="CSGBox3D" parent="World/Props"]
 position = Vector3(-4.000, -0.350, 8.000)
 rotation = Vector3(0.000, 0.600, 0.000)
 size = Vector3(2.600, 0.500, 0.500)
 material = SubResource("StandardMaterial3D_wood")
 
-[node name="LogShore" type="CSGBox3D" parent="Props"]
+[node name="LogShore" type="CSGBox3D" parent="World/Props"]
 position = Vector3(7.000, 0.250, 9.500)
 rotation = Vector3(0.000, -0.400, 0.050)
 size = Vector3(3.000, 0.500, 0.500)
 material = SubResource("StandardMaterial3D_wood")
 
-[node name="Rock1" type="CSGSphere3D" parent="Props"]
+[node name="Rock1" type="CSGSphere3D" parent="World/Props"]
 position = Vector3(11.500, 0.280, -5.500)
 radius = 0.70
 radial_segments = 10
 rings = 6
 material = SubResource("StandardMaterial3D_rock")
 
-[node name="Rock2" type="CSGSphere3D" parent="Props"]
+[node name="Rock2" type="CSGSphere3D" parent="World/Props"]
 position = Vector3(-11.000, 0.360, -3.000)
 radius = 0.90
 radial_segments = 10
 rings = 6
 material = SubResource("StandardMaterial3D_rock")
 
-[node name="Rock3" type="CSGSphere3D" parent="Props"]
+[node name="Rock3" type="CSGSphere3D" parent="World/Props"]
 position = Vector3(3.000, 0.240, -12.000)
 radius = 0.60
 radial_segments = 10
 rings = 6
 material = SubResource("StandardMaterial3D_rock")
 
-[node name="Rock4" type="CSGSphere3D" parent="Props"]
+[node name="Rock4" type="CSGSphere3D" parent="World/Props"]
 position = Vector3(-9.500, 0.200, 8.500)
 radius = 0.50
 radial_segments = 10
 rings = 6
 material = SubResource("StandardMaterial3D_rock")
 
-[node name="LilyPad1" type="CSGCylinder3D" parent="Props"]
+[node name="LilyPad1" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(3.000, -0.460, 2.000)
 radius = 0.55
 height = 0.06
 sides = 10
 material = SubResource("StandardMaterial3D_lily")
 
-[node name="LilyPad2" type="CSGCylinder3D" parent="Props"]
+[node name="LilyPad2" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-2.500, -0.460, 4.000)
 radius = 0.55
 height = 0.06
 sides = 10
 material = SubResource("StandardMaterial3D_lily")
 
-[node name="LilyPad3" type="CSGCylinder3D" parent="Props"]
+[node name="LilyPad3" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(-5.000, -0.460, -3.000)
 radius = 0.55
 height = 0.06
 sides = 10
 material = SubResource("StandardMaterial3D_lily")
 
-[node name="LilyPad4" type="CSGCylinder3D" parent="Props"]
+[node name="LilyPad4" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(1.000, -0.460, -5.500)
 radius = 0.55
 height = 0.06
 sides = 10
 material = SubResource("StandardMaterial3D_lily")
 
-[node name="LilyPad5" type="CSGCylinder3D" parent="Props"]
+[node name="LilyPad5" type="CSGCylinder3D" parent="World/Props"]
 position = Vector3(5.500, -0.460, -1.000)
 radius = 0.55
 height = 0.06
 sides = 10
 material = SubResource("StandardMaterial3D_lily")
 
+[node name="Siblings" type="Node3D" parent="World"]
+
+[node name="Sibling1" parent="World/Siblings" instance=ExtResource("8_sibling")]
+position = Vector3(2.600, 0.000, 13.400)
+rotation = Vector3(0.000, 2.400, 0.000)
+scale = Vector3(0.850, 0.850, 0.850)
+
+[node name="Sibling2" parent="World/Siblings" instance=ExtResource("8_sibling")]
+position = Vector3(0.400, 0.000, 13.600)
+rotation = Vector3(0.000, 3.600, 0.000)
+scale = Vector3(0.850, 0.850, 0.850)
+
+[node name="Sibling3" parent="World/Siblings" instance=ExtResource("8_sibling")]
+position = Vector3(3.200, 0.000, 11.600)
+rotation = Vector3(0.000, 1.200, 0.000)
+scale = Vector3(0.850, 0.850, 0.850)
+
+[node name="Sibling4" parent="World/Siblings" instance=ExtResource("8_sibling")]
+position = Vector3(-21.500, 0.000, 0.000)
+rotation = Vector3(0.000, -1.570, 0.000)
+scale = Vector3(0.850, 0.850, 0.850)
+
+[node name="ReedPocket" type="Node3D" parent="World"]
+
+[node name="WallN" type="CSGBox3D" parent="World/ReedPocket"]
+use_collision = true
+position = Vector3(23.000, 1.000, 8.000)
+size = Vector3(14.000, 2.000, 1.000)
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="WallS" type="CSGBox3D" parent="World/ReedPocket"]
+use_collision = true
+position = Vector3(23.000, 1.000, -8.000)
+size = Vector3(14.000, 2.000, 1.000)
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="WallE" type="CSGBox3D" parent="World/ReedPocket"]
+use_collision = true
+position = Vector3(30.000, 1.000, 0.000)
+size = Vector3(1.000, 2.000, 17.000)
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="WallWn" type="CSGBox3D" parent="World/ReedPocket"]
+use_collision = true
+position = Vector3(16.000, 1.000, 5.350)
+size = Vector3(1.000, 2.000, 5.700)
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="WallWs" type="CSGBox3D" parent="World/ReedPocket"]
+use_collision = true
+position = Vector3(16.000, 1.000, -5.350)
+size = Vector3(1.000, 2.000, 5.700)
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="ReedGate" type="StaticBody3D" parent="World/ReedPocket" node_paths=PackedStringArray("wobble_target")]
+position = Vector3(16, 1, 0)
+script = ExtResource("6_gate")
+min_scale = 1.2
+closed_hint = "The reeds are too thick. You are too small to push through."
+wobble_target = NodePath("Reeds")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/ReedPocket/ReedGate"]
+shape = SubResource("BoxShape3D_reedgate")
+
+[node name="Reeds" type="Node3D" parent="World/ReedPocket/ReedGate"]
+position = Vector3(0.000, -1.000, 0.000)
+
+[node name="Reed1" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.022, 0.892, -1.258)
+radius = 0.07
+height = 1.78
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed2" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.063, 0.816, 0.499)
+radius = 0.07
+height = 1.63
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed3" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.169, 0.865, -2.337)
+radius = 0.07
+height = 1.73
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed4" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.248, 0.918, -1.275)
+radius = 0.07
+height = 1.84
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed5" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(-0.012, 0.960, 1.615)
+radius = 0.07
+height = 1.92
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed6" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.067, 1.017, -1.677)
+radius = 0.07
+height = 2.03
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed7" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.121, 0.968, 0.111)
+radius = 0.07
+height = 1.94
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed8" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.129, 0.948, -2.093)
+radius = 0.07
+height = 1.90
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed9" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(-0.234, 1.016, -0.954)
+radius = 0.07
+height = 2.03
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed10" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.109, 1.020, -0.131)
+radius = 0.07
+height = 2.04
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed11" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.211, 0.899, 1.028)
+radius = 0.07
+height = 1.80
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed12" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(-0.028, 1.034, 1.444)
+radius = 0.07
+height = 2.07
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed13" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(-0.201, 0.834, 1.819)
+radius = 0.07
+height = 1.67
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed14" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.233, 0.909, -1.358)
+radius = 0.07
+height = 1.82
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="PocketRock1" type="CSGSphere3D" parent="World/ReedPocket"]
+use_collision = true
+position = Vector3(27.000, 0.240, 5.000)
+radius = 0.60
+radial_segments = 10
+rings = 6
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="PocketRock2" type="CSGSphere3D" parent="World/ReedPocket"]
+use_collision = true
+position = Vector3(25.000, 0.320, -5.500)
+radius = 0.80
+radial_segments = 10
+rings = 6
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="CulvertBank" type="CSGCombiner3D" parent="World"]
+use_collision = true
+
+[node name="Bank" type="CSGBox3D" parent="World/CulvertBank"]
+position = Vector3(-16.000, 1.500, 0.000)
+size = Vector3(6.000, 3.000, 20.000)
+material = SubResource("StandardMaterial3D_mud")
+
+[node name="Pipe" type="CSGCylinder3D" parent="World/CulvertBank"]
+operation = 2
+position = Vector3(-16.000, 0.700, 0.000)
+rotation = Vector3(0.000, 0.000, 1.571)
+radius = 0.75
+height = 6.5
+sides = 16
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="FarShore" type="Node3D" parent="World"]
+
+[node name="WallN" type="CSGBox3D" parent="World/FarShore"]
+use_collision = true
+position = Vector3(-24.500, 1.000, 10.000)
+size = Vector3(11.000, 2.000, 1.000)
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="WallS" type="CSGBox3D" parent="World/FarShore"]
+use_collision = true
+position = Vector3(-24.500, 1.000, -10.000)
+size = Vector3(11.000, 2.000, 1.000)
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="WallW" type="CSGBox3D" parent="World/FarShore"]
+use_collision = true
+position = Vector3(-30.000, 1.000, 0.000)
+size = Vector3(1.000, 2.000, 21.000)
+material = SubResource("StandardMaterial3D_rock")
+
+[node name="CulvertGate" type="StaticBody3D" parent="World/FarShore"]
+position = Vector3(-16, 0.8, 0)
+script = ExtResource("6_gate")
+max_scale = 1.1
+closed_hint = "You cannot fit through the culvert any more."
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/FarShore/CulvertGate"]
+shape = SubResource("BoxShape3D_culvert")
+
+[node name="Bugs" type="Node3D" parent="World"]
+
+[node name="Bug1" parent="World/Bugs" instance=ExtResource("7_bug")]
+position = Vector3(4.000, -0.350, 6.000)
+
+[node name="Bug2" parent="World/Bugs" instance=ExtResource("7_bug")]
+position = Vector3(-6.000, -0.350, 2.000)
+
+[node name="Bug3" parent="World/Bugs" instance=ExtResource("7_bug")]
+position = Vector3(2.000, -0.350, -7.000)
+
+[node name="Bug4" parent="World/Bugs" instance=ExtResource("7_bug")]
+position = Vector3(8.000, 0.300, 8.500)
+
+[node name="Bug5" parent="World/Bugs" instance=ExtResource("7_bug")]
+position = Vector3(-8.500, 0.350, -8.000)
+
+[node name="Bug6" parent="World/Bugs" instance=ExtResource("7_bug")]
+position = Vector3(22.000, 0.350, 1.500)
+
+[node name="Bug7" parent="World/Bugs" instance=ExtResource("7_bug")]
+position = Vector3(26.000, 0.350, -3.000)
+
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector3(0, 0.1, 12.5)
+
+[node name="GrowthSpurtDirector" type="Node" parent="." node_paths=PackedStringArray("world", "player")]
+script = ExtResource("5_director")
+world = NodePath("../World")
+player = NodePath("../Player")
 
 [node name="DebugHUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("3_hud")
@@ -344,3 +613,20 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
 theme_override_font_sizes/font_size = 18
 text = "..."
+
+[node name="Notice" type="Label" parent="DebugHUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -400.0
+offset_top = 40.0
+offset_right = 400.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.97, 0.85, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 30
+text = ""
+horizontal_alignment = 1
