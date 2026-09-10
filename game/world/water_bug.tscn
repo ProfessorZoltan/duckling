@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://world/water_bug.gd" id="1_bug"]
+[ext_resource type="Script" path="res://world/pickup.gd" id="1_bug"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_bug"]
 radius = 0.45
@@ -17,6 +17,7 @@ height = 0.26
 
 [node name="WaterBug" type="Area3D"]
 script = ExtResource("1_bug")
+kind = "bug"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_bug")

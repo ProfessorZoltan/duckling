@@ -29,6 +29,12 @@ Pre-production. Engine decided: Godot 4.7.2 with GDScript. Solo developer, PC on
 |---|---|---|
 | ![](docs/screenshots/p2_hatchling_by_the_nest.png) | ![](docs/screenshots/p2_world_shrinking.png) | ![](docs/screenshots/p2_duckling_after_spurt.png) |
 
+## Screenshots (P3 heart)
+
+| Heart 70 at the start | Heart 10 after the culvert | Meeting Nib | Heart 100 after Nib's Pantry |
+|---|---|---|---|
+| ![](docs/screenshots/p3_pond_heart_70.png) | ![](docs/screenshots/p3_pond_gone_gray.png) | ![](docs/screenshots/p3_meeting_nib.png) | ![](docs/screenshots/p3_pond_recolored.png) |
+
 ## Screenshots (P4 flight course)
 
 | Gliding off the ledge | Dive | Pull-up |
@@ -41,6 +47,6 @@ Pre-production. Engine decided: Godot 4.7.2 with GDScript. Solo developer, PC on
 |---|---|
 | P1 — Duckling (grey-box pond, walk / swim / hop, camera) | Skeleton in place; needs hands-on feel tuning |
 | P2 — Growth | Growth Spurt cutscene (world shrinks around you), reed wall you grow into, culvert you grow out of, bug collection triggers spurt 1 |
-| P3 — Heart | `Heart` value exists; not wired to visuals |
+| P3 — Heart | Region sub-hearts drive material saturation; global Heart drives sky, sun, post-process. Siblings leave through the culvert (Heart 10), meeting Nib and Nib's Pantry restore it to 100 |
 | P4 — Flight | Cliff test course in place: flap, glide, dive, pull-up, thermals, ring course, water and ledge landings. Needs hands-on feel tuning |
 | P5 — Vertical slice | Not started |

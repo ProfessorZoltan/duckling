@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene load_steps=27 format=3]
 
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://world/water_volume.gd" id="2_water"]
@@ -8,6 +8,10 @@
 [ext_resource type="Script" path="res://world/size_gate.gd" id="6_gate"]
 [ext_resource type="PackedScene" path="res://world/water_bug.tscn" id="7_bug"]
 [ext_resource type="PackedScene" path="res://world/duckling_prop.tscn" id="8_sibling"]
+[ext_resource type="Script" path="res://world/heart_region.gd" id="9_heart_region"]
+[ext_resource type="Script" path="res://world/heart_environment.gd" id="10_heart_env"]
+[ext_resource type="PackedScene" path="res://world/nib.tscn" id="11_nib"]
+[ext_resource type="PackedScene" path="res://world/seed.tscn" id="12_seed"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.36, 0.58, 0.88, 1)
@@ -68,11 +72,21 @@ size = Vector3(0.8, 2.0, 5.2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_culvert"]
 size = Vector3(0.6, 1.6, 1.8)
 
-[node name="PondGreybox" type="Node3D"]
+[node name="PondGreybox" type="Node3D" node_paths=PackedStringArray("siblings", "nib")]
 script = ExtResource("4_pond")
+siblings = [NodePath("World/Siblings/Sibling1"), NodePath("World/Siblings/Sibling2"), NodePath("World/Siblings/Sibling3")]
+nib = NodePath("World/ReedPocket/Nib")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." node_paths=PackedStringArray("sun")]
 environment = SubResource("Environment_pond")
+script = ExtResource("10_heart_env")
+sun = NodePath("../Sun")
+
+[node name="HeartRegion" type="Node" parent="." node_paths=PackedStringArray("visuals_root")]
+script = ExtResource("9_heart_region")
+region_name = "Home Pond"
+visuals_root = NodePath("../World")
+initial_heart = 70.0
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 rotation = Vector3(-0.9, 0.55, 0)
@@ -671,6 +685,36 @@ shape = SubResource("BoxShape3D_culvert")
 position = Vector3(-2.7, 0, 0)
 shape = SubResource("BoxShape3D_culvert")
 
+[node name="Nib" parent="World/ReedPocket" instance=ExtResource("11_nib")]
+position = Vector3(24.5, 0, 0.5)
+rotation = Vector3(0, 2.2, 0)
+
+[node name="Seeds" type="Node3D" parent="World"]
+
+[node name="Seed1" parent="World/Seeds" instance=ExtResource("12_seed")]
+position = Vector3(23.500, 0.300, 4.500)
+
+[node name="Seed2" parent="World/Seeds" instance=ExtResource("12_seed")]
+position = Vector3(27.500, 0.300, 1.000)
+
+[node name="Seed3" parent="World/Seeds" instance=ExtResource("12_seed")]
+position = Vector3(21.000, 0.300, -4.000)
+
+[node name="Seed4" parent="World/Seeds" instance=ExtResource("12_seed")]
+position = Vector3(28.000, 0.300, -5.500)
+
+[node name="Seed5" parent="World/Seeds" instance=ExtResource("12_seed")]
+position = Vector3(25.000, 0.300, 6.500)
+
+[node name="Seed6" parent="World/Seeds" instance=ExtResource("12_seed")]
+position = Vector3(-9.800, 0.300, 8.900)
+
+[node name="Seed7" parent="World/Seeds" instance=ExtResource("12_seed")]
+position = Vector3(9.600, 0.300, -6.200)
+
+[node name="Seed8" parent="World/Seeds" instance=ExtResource("12_seed")]
+position = Vector3(10.200, 0.300, 7.400)
+
 [node name="Bugs" type="Node3D" parent="World"]
 
 [node name="Bug1" parent="World/Bugs" instance=ExtResource("7_bug")]
@@ -732,3 +776,56 @@ theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 30
 text = ""
 horizontal_alignment = 1
+
+[node name="Prompt" type="Label" parent="DebugHUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -70.0
+offset_right = 300.0
+offset_bottom = -36.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_font_sizes/font_size = 22
+text = ""
+horizontal_alignment = 1
+
+[node name="Dialogue" type="PanelContainer" parent="DebugHUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -420.0
+offset_top = -190.0
+offset_right = 420.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBox" type="VBoxContainer" parent="DebugHUD/Dialogue"]
+layout_mode = 2
+
+[node name="Speaker" type="Label" parent="DebugHUD/Dialogue/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 20
+text = "Nib"
+
+[node name="Text" type="Label" parent="DebugHUD/Dialogue/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "..."
+autowrap_mode = 3
+
+[node name="Hint" type="Label" parent="DebugHUD/Dialogue/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "E  continue"
+horizontal_alignment = 2

@@ -1,11 +1,11 @@
 # Cygnet — Godot project
 
-Prototypes **P1 — Duckling** (grey-box pond: waddle, paddle, hop), **P2 — Growth** (Growth Spurt cutscene and size gates in the pond), and **P4 — Flight** (cliff test course: flap, glide, dive, thermals, rings). Built for **Godot 4.7.2** (the project's feature tag is 4.7; 4.7.x or newer opens it directly).
+Prototypes **P1 — Duckling** (grey-box pond: waddle, paddle, hop), **P2 — Growth** (Growth Spurt cutscene and size gates), **P3 — Heart** (the pond drains to gray when the siblings leave and recolors as you befriend Nib), and **P4 — Flight** (cliff test course: flap, glide, dive, thermals, rings). Built for **Godot 4.7.2** (the project's feature tag is 4.7; 4.7.x or newer opens it directly).
 
 ## Run it
 
 1. Open Godot 4.7.2, click **Import**, and pick `game/project.godot`.
-2. Press **F5**. You spawn on the shore next to the nest and your siblings. Eat five water bugs to trigger the first Growth Spurt, or press **G** to force one. Press **F2** to jump to the cliff flight course, **F1** to come back.
+2. Press **F5**. You spawn on the shore next to the nest and your siblings. Eat five water bugs to trigger the first Growth Spurt, or press **G** to force one. Watch the siblings leave, then push through the reeds to the east, talk to Nib with **E**, and bring back eight seeds. Press **F2** to jump to the cliff flight course, **F1** to come back.
 
 ## Controls
 
@@ -17,7 +17,7 @@ Prototypes **P1 — Duckling** (grey-box pond: waddle, paddle, hop), **P2 — Gr
 | Glide (from a hop, Juvenile+) | Hold Space past the apex | Hold A |
 | Pull up / dive (flying) | W / S | Left stick up / down |
 | Turn (flying) | A / D | Left stick left / right |
-| Action (unused in P1) | E / Left click | X / Square |
+| Talk, advance dialogue | E / Left click | X / Square |
 | Release / recapture mouse | Esc / click | Start |
 | Debug: growth spurt cutscene | G | — |
 | Debug: growth stage down / up (instant) | `[` / `]` | — |
@@ -32,7 +32,11 @@ Prototypes **P1 — Duckling** (grey-box pond: waddle, paddle, hop), **P2 — Gr
 | `player/player.gd` | Walk / Swim / Air / Fly state machine. Wobble walk (input smoothing plus body roll), buoyant swimming with a spring-damper, hop from ground or water. Flight is an energy model: nose down trades height for speed, nose up trades it back, a flap adds a decaying burst of lift and costs stamina, hands-off settles into a sinking glide. Water is always a safe landing; ground only below `landing_speed`, otherwise you bounce. Scales everything from `Globals.player_scale`. |
 | `player/third_person_camera.gd` | Orbit camera on a `SpringArm3D`. Arm length and pivot height scale with the player, which is what makes the world feel like it shrinks. In flight it drifts in behind the heading when you aren't steering it and pulls back with speed. |
 | `world/pond_greybox.tscn` | Home Pond grey-box. Everything that should shrink during a Growth Spurt lives under the `World` node: terrain, water, props, siblings, gates, bugs. The player, sun and sky sit outside it. East: a reed wall you can push through once you're a Duckling, hiding two bonus bugs. West: a culvert only a Hatchling fits through, with a sibling already on the far side. The `Environment` has `adjustment_saturation` enabled so P3 can drive it from `Heart`. |
-| `world/pond_greybox.gd` | Counts water bugs. Five eaten as a Hatchling triggers Growth Spurt 1. |
+| `world/pond_greybox.gd` | Stand-ins for the Act 1–3 beats: five bugs trigger Growth Spurt 1; after it the siblings walk a path through the culvert and the region drops to Heart 10; meeting Nib gives +25; eight seeds for Nib's Pantry restore 100. |
+| `world/heart_region.gd` | One region's Heart sub-value made visible: every material under its `visuals_root` desaturates toward gray as the value falls and recovers as it rises, blending over 3 s. |
+| `world/heart_environment.gd` | On the `WorldEnvironment`: drives post-process saturation, sky colors, sun color and ambient energy from the global Heart. |
+| `world/npc.gd`, `world/nib.tscn` | Talkable animal: prompt when near, `E` opens a dialogue of short subtitle lines, `first_talk` signal for quest hooks. Nib is a field mouse in the reed pocket. |
+| `world/pickup.gd`, `world/water_bug.tscn`, `world/seed.tscn` | Collectibles with a `kind`. Scenes count them by group. |
 | `world/growth_spurt_director.gd` | The Growth Spurt cutscene: freezes the player, tweens `World` down around the player's feet for 2.5 s with a flash and a body puff, then snaps the world back to 1.0 and bumps the stage in the same frame. The swap is invisible because camera boom and player scale both key off PlayerScale. |
 | `world/size_gate.gd` | `StaticBody3D` whose collision only exists while the player is outside `[min_scale, max_scale]`. A scale check, not a physical fit (doc §7.2), so the visual opening must be sized to match: the blocked stage must visibly not fit, and the blocker sits at the mouth, never deep inside. Shows a hint and wobbles its reeds when bumped; parts the reeds when it opens. |
 | `world/water_bug.tscn` | Collectible snack. Bobs, spins, vanishes on touch. |
@@ -42,11 +46,12 @@ Prototypes **P1 — Duckling** (grey-box pond: waddle, paddle, hop), **P2 — Gr
 | `world/cliff_test.gd` | Course script: counts rings, times the run, can reset. |
 | `world/thermal.gd` | `Area3D` column that gives a flying player free lift. |
 | `world/flight_ring.tscn` | Ring target: `Area3D` plus a torus that turns green when a flying player passes through. |
-| `ui/debug_hud.gd` | On-screen state, stage, scale, heart, and speed. Handles the `[` `]` stage keys. Delete before shipping. |
+| `ui/debug_hud.gd` | On-screen state, stage, Heart per region, stamina, quest counters, notice line, interaction prompt, and the dialogue box. Handles the debug keys. Trim before shipping; the dialogue box stays. |
 | `tests/smoke_test.tscn` | Headless check that walks the duck into the pond, hops, grows, and reaches the far shore. |
 | `tests/flight_smoke_test.tscn` | Headless check that walks off the cliff, glides through ring 1, dives, pulls up, flaps, and dives into the lake. |
 | `tests/growth_smoke_test.tscn` | Headless check that bumps the closed reed gate, plays a Growth Spurt, verifies the world shrank to 0.8 and snapped back, then walks through the open gate and eats a bug. |
-| `tests/screenshot_tour.tscn`, `tests/flight_screenshot_tour.tscn`, `tests/growth_screenshot_tour.tscn`, `tests/gate_screenshot_tour.tscn` | Drive the duck through the pond, the cliff course, a Growth Spurt, or both size gates at both sizes, and save PNGs for sharing progress without a GPU (see below). Use the gate tour to eyeball any new gate's ratios. |
+| `tests/heart_smoke_test.tscn` | Headless check that grows to Duckling, watches the siblings leave and the grass go gray, talks to Nib through four lines, collects eight seeds, and confirms the grass color is restored exactly. |
+| `tests/screenshot_tour.tscn`, `tests/flight_screenshot_tour.tscn`, `tests/growth_screenshot_tour.tscn`, `tests/gate_screenshot_tour.tscn`, `tests/heart_screenshot_tour.tscn` | Drive the duck through the pond, the cliff course, a Growth Spurt, both size gates at both sizes, or the whole Heart arc, and save PNGs for sharing progress without a GPU (see below). Use the gate tour to eyeball any new gate's ratios. |
 
 ## Smoke test
 
@@ -55,9 +60,10 @@ cd game
 godot --headless --path . tests/smoke_test.tscn
 godot --headless --path . tests/flight_smoke_test.tscn
 godot --headless --path . tests/growth_smoke_test.tscn
+godot --headless --path . tests/heart_smoke_test.tscn
 ```
 
-Exit code 0 means every check passed. Run all three after touching the player, water, scale, growth, or flight code.
+Exit code 0 means every check passed. Run all four after touching the player, water, scale, growth, heart, or flight code.
 
 ## Screenshots without a GPU
 
@@ -78,4 +84,6 @@ All feel values are exported on the `Player` node and the `CameraPivot` node, so
 - No run, and no underwater dive. Those are Stage 3 abilities for P3-era work.
 - No wind. Thermals exist; regional wind (§7.4) was deferred per the doc's solo-dev plan.
 - Only the first Growth Spurt has a trigger (five bugs). Later spurts are story beats that don't exist yet; use G.
+- One region only. The doc's per-region coloring is built (each `HeartRegion` tints its own subtree) but the pond is the only region so far.
+- No music layers. The doc ties the Heart to instrument count; audio is out of scope until there is audio.
 - Water is a flat tinted plane. A noise-driven normal map shader can replace it later without touching gameplay.

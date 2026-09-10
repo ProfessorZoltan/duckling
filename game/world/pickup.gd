@@ -1,9 +1,11 @@
-class_name WaterBug
+class_name Pickup
 extends Area3D
-## A snack. Bobs in place; collected when the player touches it.
+## A collectible: a water bug, a seed. Bobs in place; collected on touch.
+## Scenes count pickups by [member kind].
 
-signal collected(bug: WaterBug)
+signal collected(pickup: Pickup)
 
+@export var kind: String = "bug"
 @export var bob_height: float = 0.05
 @export var bob_speed: float = 3.0
 
@@ -12,7 +14,8 @@ var _time: float = randf() * TAU
 
 
 func _ready() -> void:
-	add_to_group("water_bug")
+	add_to_group("pickup")
+	add_to_group("pickup_" + kind)
 	_rest_y = position.y
 	body_entered.connect(_on_body_entered)
 
