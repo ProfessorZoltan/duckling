@@ -8,6 +8,7 @@ var out_dir: String = "user://screenshots"
 
 
 func _ready() -> void:
+	Globals.start_in_egg = false
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--out="):
 			out_dir = arg.trim_prefix("--out=")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3]
+[gd_scene load_steps=66 format=3]
 
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://world/water_volume.gd" id="2_water"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://world/heart_environment.gd" id="10_heart_env"]
 [ext_resource type="PackedScene" path="res://world/nib.tscn" id="11_nib"]
 [ext_resource type="PackedScene" path="res://world/seed.tscn" id="12_seed"]
+[ext_resource type="Script" path="res://world/egg_prologue.gd" id="13_egg"]
 [ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Bush_Common.gltf" id="k_Bush_Common"]
 [ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Bush_Common_Flowers.gltf" id="k_Bush_Common_Flowers"]
 [ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Clover_1.gltf" id="k_Clover_1"]
@@ -89,6 +90,11 @@ albedo_color = Color(0.5, 0.5, 0.52, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lily"]
 albedo_color = Color(0.3, 0.55, 0.3, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shell"]
+cull_mode = 2
+albedo_color = Color(0.93, 0.9, 0.82, 1)
+roughness = 0.85
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_water"]
 size = Vector2(22, 22)
@@ -1422,6 +1428,49 @@ position = Vector3(11.561, -0.020, 4.405)
 rotation = Vector3(0.000, 5.489, 0.000)
 scale = Vector3(1.253, 1.253, 1.253)
 
+[node name="EggPrologue" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
+position = Vector3(1.5, 0, 12.5)
+script = ExtResource("13_egg")
+player = NodePath("../../Player")
+
+[node name="Cap" type="CSGCombiner3D" parent="World/EggPrologue"]
+position = Vector3(0, 0.3, 0)
+
+[node name="Shell" type="CSGSphere3D" parent="World/EggPrologue/Cap"]
+scale = Vector3(1, 1.25, 1)
+radius = 0.28
+radial_segments = 24
+rings = 12
+material = SubResource("StandardMaterial3D_shell")
+
+[node name="Cut" type="CSGBox3D" parent="World/EggPrologue/Cap"]
+operation = 1
+position = Vector3(0, 0.6, 0)
+size = Vector3(1, 1, 1)
+material = SubResource("StandardMaterial3D_shell")
+
+[node name="Cup" type="CSGCombiner3D" parent="World/EggPrologue"]
+position = Vector3(0, 0.3, 0)
+
+[node name="Shell" type="CSGSphere3D" parent="World/EggPrologue/Cup"]
+scale = Vector3(1, 1.25, 1)
+radius = 0.28
+radial_segments = 24
+rings = 12
+material = SubResource("StandardMaterial3D_shell")
+
+[node name="Cut" type="CSGBox3D" parent="World/EggPrologue/Cup"]
+operation = 1
+position = Vector3(0, -0.4, 0)
+size = Vector3(1, 1, 1)
+material = SubResource("StandardMaterial3D_shell")
+
+[node name="EggCamera" type="Camera3D" parent="World/EggPrologue"]
+position = Vector3(0, 0.33, 0.04)
+fov = 65.0
+
+[node name="Cracks" type="Node3D" parent="World/EggPrologue"]
+
 [node name="Siblings" type="Node3D" parent="World"]
 
 [node name="Sibling1" parent="World/Siblings" instance=ExtResource("8_sibling")]
@@ -1777,7 +1826,7 @@ position = Vector3(22.000, 0.350, 1.500)
 position = Vector3(26.000, 0.350, -3.000)
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
-position = Vector3(0, 0.1, 12.5)
+position = Vector3(1.5, 0.1, 12.5)
 
 [node name="GrowthSpurtDirector" type="Node" parent="." node_paths=PackedStringArray("world", "player")]
 script = ExtResource("5_director")

@@ -65,6 +65,10 @@ var region_hearts: Dictionary = {}
 
 var dialogue_active: bool = false
 
+## The game opens inside the egg (design doc §2 Prologue). Cleared once you
+## hatch so scene reloads and tests start on the shore.
+var start_in_egg: bool = true
+
 
 func advance_stage() -> void:
 	if stage < Stage.ADULT_SWAN:

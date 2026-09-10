@@ -15,6 +15,7 @@ var failures: PackedStringArray = []
 
 
 func _ready() -> void:
+	Globals.start_in_egg = false
 	pond = load("res://world/pond_greybox.tscn").instantiate()
 	add_child(pond)
 	player = pond.get_node("Player")

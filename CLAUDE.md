@@ -21,6 +21,8 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - Story beats call `Globals.request_growth_spurt()`; never timers.
 - Heart recovery is monotonic: quests call `Globals.add_region_heart()`. Only scripted story beats may call `set_region_heart()` to lower it.
 - Anything that should lose and regain color must sit under the scene's `HeartRegion.visuals_root` (the `World` node in the pond).
+- The game opens inside the egg. Any test or tour that loads the pond and expects to move must set `Globals.start_in_egg = false` before instantiating it.
+- Nodes under `World` are ready before `Player`; a director that touches the player's `@onready` fields must `await player.ready` first.
 - Tests that simulate a key an `_input`/`_unhandled_input` handler listens for must dispatch an `InputEventAction` via `Input.parse_input_event()`; `Input.action_press()` only sets polling state.
 - Commit `.uid` sidecar files for every new script so the user's editor never has to generate its own.
 - `project.godot` and `*.import` get rewritten by the user's editor; that is expected noise, not a change to preserve.
@@ -35,6 +37,7 @@ godot --headless --path . tests/smoke_test.tscn
 godot --headless --path . tests/flight_smoke_test.tscn
 godot --headless --path . tests/growth_smoke_test.tscn
 godot --headless --path . tests/heart_smoke_test.tscn
+godot --headless --path . tests/egg_smoke_test.tscn
 ```
 
 Screenshots without a GPU: `LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a -s "-screen 0 1600x900x24" godot --path . --rendering-driver opengl3 --resolution 1600x900 tests/<tour>.tscn -- --out=<dir>`. Look at them before sharing; lighting and ratios only show up in pixels.

@@ -17,6 +17,7 @@ var _min_world_scale: float = 1.0
 
 
 func _ready() -> void:
+	Globals.start_in_egg = false
 	pond = load("res://world/pond_greybox.tscn").instantiate()
 	add_child(pond)
 	player = pond.get_node("Player")

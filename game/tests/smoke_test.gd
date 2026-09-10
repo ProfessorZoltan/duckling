@@ -11,6 +11,7 @@ var _seen_air_after_hop := false
 
 
 func _ready() -> void:
+	Globals.start_in_egg = false
 	var pond: Node = load("res://world/pond_greybox.tscn").instantiate()
 	add_child(pond)
 	player = pond.get_node("Player")
