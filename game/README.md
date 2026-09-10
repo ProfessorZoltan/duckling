@@ -7,6 +7,8 @@ Prototypes **P1 — Duckling** (grey-box pond: waddle, paddle, hop), **P2 — Gr
 1. Open Godot 4.7.2, click **Import**, and pick `game/project.godot`.
 2. Press **F5**. You spawn on the shore next to the nest and your siblings. Eat five water bugs to trigger the first Growth Spurt, or press **G** to force one. Watch the siblings leave, then push through the reeds to the east, talk to Nib with **E**, and bring back eight seeds. Press **F2** to jump to the cliff flight course, **F1** to come back.
 
+The window opens at 1280×720 and the UI scales with it (design resolution 1600×900), so it fits laptop screens and high-DPI displays. Resize or maximise freely.
+
 ## Controls
 
 | Action | Keyboard / Mouse | Gamepad |
