@@ -17,8 +17,9 @@ sky_material = SubResource("ProceduralSkyMaterial_sky")
 background_mode = 2
 sky = SubResource("Sky_main")
 ambient_light_source = 3
-ambient_light_sky_contribution = 0.6
-tonemap_mode = 2
+ambient_light_sky_contribution = 0.35
+ambient_light_energy = 0.8
+tonemap_mode = 3
 adjustment_enabled = true
 adjustment_saturation = 1.0
 
@@ -63,7 +64,7 @@ environment = SubResource("Environment_pond")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 rotation = Vector3(-0.9, 0.55, 0)
-light_energy = 1.2
+light_energy = 1.0
 shadow_enabled = true
 
 [node name="Terrain" type="CSGCombiner3D" parent="."]

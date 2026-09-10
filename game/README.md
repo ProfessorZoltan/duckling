@@ -30,6 +30,7 @@ Prototype **P1 — Duckling**: a grey-box pond you can waddle, paddle, and hop a
 | `world/water_volume.gd` | `Area3D` whose origin marks the water surface. Tells the player when it enters or leaves water. |
 | `ui/debug_hud.gd` | On-screen state, stage, scale, heart, and speed. Handles the `[` `]` stage keys. Delete before shipping. |
 | `tests/smoke_test.tscn` | Headless check that walks the duck into the pond, hops, grows, and reaches the far shore. |
+| `tests/screenshot_tour.tscn` | Drives the duck through the pond and saves PNGs, for sharing progress without a GPU (see below). |
 
 ## Smoke test
 
@@ -39,6 +40,15 @@ godot --headless --path . tests/smoke_test.tscn
 ```
 
 Exit code 0 means every check passed. Run it after touching the player, water, or scale code.
+
+## Screenshots without a GPU
+
+```
+cd game
+LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a -s "-screen 0 1600x900x24" \
+  godot --path . --rendering-driver opengl3 --resolution 1600x900 \
+  tests/screenshot_tour.tscn -- --out=/path/to/output
+```
 
 ## Tuning knobs
 

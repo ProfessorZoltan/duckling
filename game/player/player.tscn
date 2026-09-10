@@ -8,7 +8,7 @@ radius = 0.22
 height = 0.7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_down"]
-albedo_color = Color(0.62, 0.57, 0.48, 1)
+albedo_color = Color(0.5, 0.45, 0.36, 1)
 roughness = 0.9
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_beak"]

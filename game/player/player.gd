@@ -23,7 +23,7 @@ enum State { WALK, SWIM, AIR }
 @export var wobble_roll_degrees: float = 2.5
 @export var wobble_frequency: float = 7.0
 ## How far below the surface the origin sits when floating, at scale 1.0.
-@export var float_depth: float = 0.15
+@export var float_depth: float = 0.22
 @export var buoyancy: float = 18.0
 @export var water_drag: float = 6.0
 

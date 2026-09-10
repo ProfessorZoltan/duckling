@@ -17,6 +17,12 @@ Pre-production. Engine decided: Godot 4.x with GDScript. Solo developer, PC only
 - `docs/design/` — design documents, versioned by filename.
 - `game/` — the Godot 4 project. See [game/README.md](game/README.md) for controls, layout, and the smoke test.
 
+## Screenshots (P1 grey-box, software-rendered)
+
+| Spawn at the nest | Paddling as a hatchling | Same pond at juvenile scale |
+|---|---|---|
+| ![](docs/screenshots/p1_spawn_at_nest.png) | ![](docs/screenshots/p1_paddling.png) | ![](docs/screenshots/p1_juvenile_scale.png) |
+
 ## Progress
 
 | Milestone | Status |
