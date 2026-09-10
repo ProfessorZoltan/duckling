@@ -66,7 +66,7 @@ radius = 10.5
 size = Vector3(0.8, 2.0, 5.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_culvert"]
-size = Vector3(1.2, 1.6, 1.8)
+size = Vector3(0.6, 1.6, 1.8)
 
 [node name="PondGreybox" type="Node3D"]
 script = ExtResource("4_pond")
@@ -402,111 +402,193 @@ script = ExtResource("6_gate")
 min_scale = 1.2
 closed_hint = "The reeds are too thick. You are too small to push through."
 wobble_target = NodePath("Reeds")
+part_when_open = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/ReedPocket/ReedGate"]
 shape = SubResource("BoxShape3D_reedgate")
 
 [node name="Reeds" type="Node3D" parent="World/ReedPocket/ReedGate"]
-position = Vector3(0.000, -1.000, 0.000)
+position = Vector3(0, -1, 0)
 
-[node name="Reed1" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(0.022, 0.892, -1.258)
+[node name="ReedPivot1" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.027, 0, -2.309)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot1"]
+position = Vector3(0, 0.892, 0)
 radius = 0.07
 height = 1.78
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed2" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(0.063, 0.816, 0.499)
+[node name="ReedPivot2" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.075, 0, -1.983)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot2"]
+position = Vector3(0, 0.816, 0)
 radius = 0.07
 height = 1.63
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed3" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(0.169, 0.865, -2.337)
+[node name="ReedPivot3" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.202, 0, -1.811)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot3"]
+position = Vector3(0, 0.865, 0)
 radius = 0.07
 height = 1.73
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed4" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(0.248, 0.918, -1.275)
+[node name="ReedPivot4" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.297, 0, -1.509)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot4"]
+position = Vector3(0, 0.918, 0)
 radius = 0.07
 height = 1.84
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed5" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(-0.012, 0.960, 1.615)
+[node name="ReedPivot5" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(-0.014, 0, -1.146)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot5"]
+position = Vector3(0, 0.960, 0)
 radius = 0.07
 height = 1.92
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed6" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(0.067, 1.017, -1.677)
+[node name="ReedPivot6" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.081, 0, -0.989)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot6"]
+position = Vector3(0, 1.017, 0)
 radius = 0.07
 height = 2.03
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed7" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(0.121, 0.968, 0.111)
+[node name="ReedPivot7" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.145, 0, -0.663)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot7"]
+position = Vector3(0, 0.968, 0)
 radius = 0.07
 height = 1.94
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed8" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(0.129, 0.948, -2.093)
+[node name="ReedPivot8" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.155, 0, -0.470)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot8"]
+position = Vector3(0, 0.948, 0)
 radius = 0.07
 height = 1.90
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed9" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(-0.234, 1.016, -0.954)
+[node name="ReedPivot9" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(-0.281, 0, -0.165)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot9"]
+position = Vector3(0, 1.016, 0)
 radius = 0.07
 height = 2.03
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed10" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(0.109, 1.020, -0.131)
+[node name="ReedPivot10" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.131, 0, 0.129)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot10"]
+position = Vector3(0, 1.020, 0)
 radius = 0.07
 height = 2.04
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed11" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(0.211, 0.899, 1.028)
+[node name="ReedPivot11" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.253, 0, 0.434)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot11"]
+position = Vector3(0, 0.899, 0)
 radius = 0.07
 height = 1.80
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed12" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(-0.028, 1.034, 1.444)
+[node name="ReedPivot12" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(-0.033, 0, 0.715)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot12"]
+position = Vector3(0, 1.034, 0)
 radius = 0.07
 height = 2.07
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed13" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(-0.201, 0.834, 1.819)
+[node name="ReedPivot13" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(-0.242, 0, 0.994)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot13"]
+position = Vector3(0, 0.834, 0)
 radius = 0.07
 height = 1.67
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
-[node name="Reed14" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds"]
-position = Vector3(0.233, 0.909, -1.358)
+[node name="ReedPivot14" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.279, 0, 1.155)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot14"]
+position = Vector3(0, 0.909, 0)
 radius = 0.07
 height = 1.82
 sides = 6
 material = SubResource("StandardMaterial3D_reed")
 
+[node name="ReedPivot15" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(-0.119, 0, 1.487)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot15"]
+position = Vector3(0, 0.927, 0)
+radius = 0.07
+height = 1.85
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="ReedPivot16" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(-0.089, 0, 1.715)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot16"]
+position = Vector3(0, 0.946, 0)
+radius = 0.07
+height = 1.89
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="ReedPivot17" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.243, 0, 2.013)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot17"]
+position = Vector3(0, 0.970, 0)
+radius = 0.07
+height = 1.94
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
+
+[node name="ReedPivot18" type="Node3D" parent="World/ReedPocket/ReedGate/Reeds"]
+position = Vector3(0.214, 0, 2.335)
+
+[node name="Reed" type="CSGCylinder3D" parent="World/ReedPocket/ReedGate/Reeds/ReedPivot18"]
+position = Vector3(0, 1.048, 0)
+radius = 0.07
+height = 2.10
+sides = 6
+material = SubResource("StandardMaterial3D_reed")
 [node name="PocketRock1" type="CSGSphere3D" parent="World/ReedPocket"]
 use_collision = true
 position = Vector3(27.000, 0.240, 5.000)
@@ -524,21 +606,36 @@ rings = 6
 material = SubResource("StandardMaterial3D_rock")
 
 [node name="CulvertBank" type="CSGCombiner3D" parent="World"]
-use_collision = true
 
 [node name="Bank" type="CSGBox3D" parent="World/CulvertBank"]
-position = Vector3(-16.000, 1.500, 0.000)
-size = Vector3(6.000, 3.000, 20.000)
+position = Vector3(-16, 1.5, 0)
+size = Vector3(6, 3, 20)
 material = SubResource("StandardMaterial3D_mud")
 
 [node name="Pipe" type="CSGCylinder3D" parent="World/CulvertBank"]
 operation = 2
-position = Vector3(-16.000, 0.700, 0.000)
-rotation = Vector3(0.000, 0.000, 1.571)
-radius = 0.75
+position = Vector3(-16, 0.2, 0)
+rotation = Vector3(0, 0, 1.5708)
+radius = 0.5
 height = 6.5
 sides = 16
 material = SubResource("StandardMaterial3D_rock")
+
+[node name="CulvertBankCollision" type="CSGCombiner3D" parent="World"]
+visible = false
+use_collision = true
+
+[node name="Bank" type="CSGBox3D" parent="World/CulvertBankCollision"]
+position = Vector3(-16, 1.5, 0)
+size = Vector3(6, 3, 20)
+
+[node name="Pipe" type="CSGCylinder3D" parent="World/CulvertBankCollision"]
+operation = 2
+position = Vector3(-16, 0.2, 0)
+rotation = Vector3(0, 0, 1.5708)
+radius = 0.62
+height = 6.5
+sides = 16
 
 [node name="FarShore" type="Node3D" parent="World"]
 
@@ -566,7 +663,12 @@ script = ExtResource("6_gate")
 max_scale = 1.1
 closed_hint = "You cannot fit through the culvert any more."
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/FarShore/CulvertGate"]
+[node name="NearMouth" type="CollisionShape3D" parent="World/FarShore/CulvertGate"]
+position = Vector3(2.7, 0, 0)
+shape = SubResource("BoxShape3D_culvert")
+
+[node name="FarMouth" type="CollisionShape3D" parent="World/FarShore/CulvertGate"]
+position = Vector3(-2.7, 0, 0)
 shape = SubResource("BoxShape3D_culvert")
 
 [node name="Bugs" type="Node3D" parent="World"]

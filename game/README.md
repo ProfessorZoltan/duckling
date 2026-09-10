@@ -34,7 +34,7 @@ Prototypes **P1 — Duckling** (grey-box pond: waddle, paddle, hop), **P2 — Gr
 | `world/pond_greybox.tscn` | Home Pond grey-box. Everything that should shrink during a Growth Spurt lives under the `World` node: terrain, water, props, siblings, gates, bugs. The player, sun and sky sit outside it. East: a reed wall you can push through once you're a Duckling, hiding two bonus bugs. West: a culvert only a Hatchling fits through, with a sibling already on the far side. The `Environment` has `adjustment_saturation` enabled so P3 can drive it from `Heart`. |
 | `world/pond_greybox.gd` | Counts water bugs. Five eaten as a Hatchling triggers Growth Spurt 1. |
 | `world/growth_spurt_director.gd` | The Growth Spurt cutscene: freezes the player, tweens `World` down around the player's feet for 2.5 s with a flash and a body puff, then snaps the world back to 1.0 and bumps the stage in the same frame. The swap is invisible because camera boom and player scale both key off PlayerScale. |
-| `world/size_gate.gd` | `StaticBody3D` whose collision only exists while the player is outside `[min_scale, max_scale]`. A scale check, not a physical fit (doc §7.2). Shows a hint and wobbles its reeds when bumped. |
+| `world/size_gate.gd` | `StaticBody3D` whose collision only exists while the player is outside `[min_scale, max_scale]`. A scale check, not a physical fit (doc §7.2), so the visual opening must be sized to match: the blocked stage must visibly not fit, and the blocker sits at the mouth, never deep inside. Shows a hint and wobbles its reeds when bumped; parts the reeds when it opens. |
 | `world/water_bug.tscn` | Collectible snack. Bobs, spins, vanishes on touch. |
 | `world/duckling_prop.tscn` | Static yellow sibling, for scale reference. |
 | `world/water_volume.gd` | `Area3D` whose origin marks the water surface. Tells the player when it enters or leaves water. |
@@ -46,7 +46,7 @@ Prototypes **P1 — Duckling** (grey-box pond: waddle, paddle, hop), **P2 — Gr
 | `tests/smoke_test.tscn` | Headless check that walks the duck into the pond, hops, grows, and reaches the far shore. |
 | `tests/flight_smoke_test.tscn` | Headless check that walks off the cliff, glides through ring 1, dives, pulls up, flaps, and dives into the lake. |
 | `tests/growth_smoke_test.tscn` | Headless check that bumps the closed reed gate, plays a Growth Spurt, verifies the world shrank to 0.8 and snapped back, then walks through the open gate and eats a bug. |
-| `tests/screenshot_tour.tscn`, `tests/flight_screenshot_tour.tscn`, `tests/growth_screenshot_tour.tscn` | Drive the duck through the pond, the cliff course, or a Growth Spurt and save PNGs, for sharing progress without a GPU (see below). |
+| `tests/screenshot_tour.tscn`, `tests/flight_screenshot_tour.tscn`, `tests/growth_screenshot_tour.tscn`, `tests/gate_screenshot_tour.tscn` | Drive the duck through the pond, the cliff course, a Growth Spurt, or both size gates at both sizes, and save PNGs for sharing progress without a GPU (see below). Use the gate tour to eyeball any new gate's ratios. |
 
 ## Smoke test
 
