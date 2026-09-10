@@ -1,0 +1,78 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://player/third_person_camera.gd" id="2_camera"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_duck"]
+radius = 0.22
+height = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_down"]
+albedo_color = Color(0.62, 0.57, 0.48, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_beak"]
+albedo_color = Color(0.85, 0.6, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eye"]
+albedo_color = Color(0.1, 0.1, 0.1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+radius = 0.2
+height = 0.7
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+radius = 0.13
+height = 0.26
+
+[sub_resource type="BoxMesh" id="BoxMesh_beak"]
+size = Vector3(0.1, 0.05, 0.14)
+
+[node name="Player" type="CharacterBody3D"]
+floor_max_angle = 0.872665
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.35, 0)
+shape = SubResource("CapsuleShape3D_duck")
+
+[node name="Body" type="Node3D" parent="."]
+
+[node name="Torso" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 0.25, 0)
+rotation = Vector3(1.5708, 0, 0)
+mesh = SubResource("CapsuleMesh_body")
+surface_material_override/0 = SubResource("StandardMaterial3D_down")
+
+[node name="Head" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 0.5, -0.28)
+mesh = SubResource("SphereMesh_head")
+surface_material_override/0 = SubResource("StandardMaterial3D_down")
+
+[node name="Beak" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 0.47, -0.44)
+mesh = SubResource("BoxMesh_beak")
+surface_material_override/0 = SubResource("StandardMaterial3D_beak")
+
+[node name="EyeL" type="MeshInstance3D" parent="Body"]
+position = Vector3(-0.08, 0.54, -0.35)
+scale = Vector3(0.18, 0.18, 0.18)
+mesh = SubResource("SphereMesh_head")
+surface_material_override/0 = SubResource("StandardMaterial3D_eye")
+
+[node name="EyeR" type="MeshInstance3D" parent="Body"]
+position = Vector3(0.08, 0.54, -0.35)
+scale = Vector3(0.18, 0.18, 0.18)
+mesh = SubResource("SphereMesh_head")
+surface_material_override/0 = SubResource("StandardMaterial3D_eye")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+position = Vector3(0, 0.45, 0)
+script = ExtResource("2_camera")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+spring_length = 3.0
+margin = 0.15
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+fov = 65.0

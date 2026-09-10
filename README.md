@@ -15,8 +15,14 @@ Pre-production. Engine decided: Godot 4.x with GDScript. Solo developer, PC only
 ## Layout
 
 - `docs/design/` — design documents, versioned by filename.
-- `game/` — the Godot project (created when prototype P1 starts).
+- `game/` — the Godot 4 project. See [game/README.md](game/README.md) for controls, layout, and the smoke test.
 
-## Next steps
+## Progress
 
-Follow the ordered learning path in section 13 of the design doc. First deliverable is prototype P1: a grey-box pond with walk, swim, hop, and a third-person camera.
+| Milestone | Status |
+|---|---|
+| P1 — Duckling (grey-box pond, walk / swim / hop, camera) | Skeleton in place; needs hands-on feel tuning |
+| P2 — Growth | `PlayerScale` plumbing exists; cutscene and size-gated gap not started |
+| P3 — Heart | `Heart` value exists; not wired to visuals |
+| P4 — Flight | Not started (build this next, per the doc) |
+| P5 — Vertical slice | Not started |
