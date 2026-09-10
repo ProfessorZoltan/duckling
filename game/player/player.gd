@@ -1,12 +1,18 @@
 class_name Player
 extends CharacterBody3D
-## P1 duckling controller: wobble walk, paddle swim, hop.
+## Duckling controller: wobble walk, paddle swim, hop, and (P4) flight.
 ##
-## States follow the design doc's state machine (§9). Dive, Glide and Fly are
-## added in P4. The CharacterBody3D root never rotates; only [member body]
-## turns and wobbles, so the camera pivot stays independent of facing.
+## States follow the design doc's state machine (§9). The CharacterBody3D root
+## never rotates; only [member body] turns, wobbles, pitches and banks, so the
+## camera pivot stays independent of facing.
+##
+## Flight (§7.4) is an A Short Hike style energy model: the bird has a scalar
+## [member air_speed] along its heading and pitch. Nose down trades height for
+## speed, nose up trades it back, a flap adds a decaying burst of lift and costs
+## stamina, and a level glide settles at a trim speed. Water is always a safe
+## landing; ground only accepts a landing below [member landing_speed].
 
-enum State { WALK, SWIM, AIR }
+enum State { WALK, SWIM, AIR, FLY }
 
 @export_group("Speeds at PlayerScale 1.0")
 @export var walk_speed: float = 2.0
@@ -27,10 +33,44 @@ enum State { WALK, SWIM, AIR }
 @export var buoyancy: float = 18.0
 @export var water_drag: float = 6.0
 
+@export_group("Flight at PlayerScale 1.0")
+@export var min_air_speed: float = 3.0
+@export var max_air_speed: float = 14.0
+## Speed a hands-off glide settles toward.
+@export var glide_trim_speed: float = 5.0
+@export var air_drag: float = 0.6
+## Hands-off nose angle. Negative sinks. Improves (gets shallower) with stage.
+@export var glide_sink_degrees: float = -11.0
+@export var juvenile_sink_degrees: float = -18.0
+@export var pitch_up_degrees: float = 35.0
+@export var pitch_down_degrees: float = -65.0
+@export var pitch_rate: float = 2.5
+@export var flight_turn_rate: float = 1.7
+@export var bank_degrees: float = 35.0
+## Upward burst from one flap, and how fast it decays (m/s per second).
+@export var flap_lift: float = 4.5
+@export var flap_boost: float = 1.0
+@export var flap_lift_decay: float = 3.5
+@export var flap_cost: float = 15.0
+@export var max_stamina: float = 100.0
+## Stamina regained per second while on the ground or water.
+@export var stamina_regen: float = 30.0
+## Touching ground below this speed lands; above it, you bounce off.
+@export var landing_speed: float = 5.5
+@export var bounce_damping: float = 0.45
+
 var state: State = State.WALK
 var water_level: float = -INF
+var stamina: float = 100.0
+var air_speed: float = 0.0
+## Flight yaw, using the same convention as Node3D.rotation.y (forward is -Z).
+var heading: float = 0.0
+## Flight pitch in radians, positive is nose up.
+var pitch: float = 0.0
 
 var _water_volume_count: int = 0
+var _thermal_lift: float = 0.0
+var _flap_lift_vel: float = 0.0
 var _smoothed_input: Vector2 = Vector2.ZERO
 var _wobble_time: float = 0.0
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -51,6 +91,7 @@ func _ready() -> void:
 	_base_capsule_radius = capsule.radius
 	_base_capsule_height = capsule.height
 	_base_collision_y = collision_shape.position.y
+	stamina = max_stamina
 	Globals.player_scale_changed.connect(_apply_scale)
 	_apply_scale(Globals.player_scale)
 
@@ -70,10 +111,20 @@ func _physics_process(delta: float) -> void:
 			_swim(delta, wish_dir, s)
 		State.AIR:
 			_air(delta, wish_dir, s)
+		State.FLY:
+			_fly(delta, raw_input, s)
 
 	move_and_slide()
-	_animate(delta)
 
+	if state == State.FLY:
+		_resolve_flight_contact(s)
+	if state == State.WALK or state == State.SWIM:
+		stamina = minf(stamina + stamina_regen * delta, max_stamina)
+
+	_animate(delta, raw_input)
+
+
+# --- Ground and water -------------------------------------------------------
 
 func _walk(delta: float, wish_dir: Vector3, s: float) -> void:
 	var target := wish_dir * walk_speed * s
@@ -107,6 +158,103 @@ func _air(delta: float, wish_dir: Vector3, s: float) -> void:
 	velocity.z = move_toward(velocity.z, target.z, accel)
 	velocity.y -= _gravity * delta
 
+	# A fresh press flaps into flight; holding the button past the apex of a hop
+	# spreads the wings into a glide (the doc's "flap-hop").
+	var pressed := Input.is_action_just_pressed("jump")
+	var held := Input.is_action_pressed("jump") and velocity.y < 0.0
+	if can_glide() and (pressed or held):
+		_start_flight(s)
+		if pressed:
+			_flap(s)
+
+
+# --- Flight -----------------------------------------------------------------
+
+func can_glide() -> bool:
+	return Globals.stage >= Globals.Stage.JUVENILE
+
+
+func can_flap() -> bool:
+	return Globals.stage >= Globals.Stage.FLEDGLING
+
+
+func _start_flight(s: float) -> void:
+	state = State.FLY
+	var planar := Vector3(velocity.x, 0.0, velocity.z)
+	heading = atan2(-planar.x, -planar.z) if planar.length() > 0.5 else body.rotation.y
+	air_speed = clampf(velocity.length(), min_air_speed * s, max_air_speed * s)
+	pitch = 0.0
+	if velocity.length() > 0.1:
+		pitch = clampf(atan2(velocity.y, planar.length()),
+				deg_to_rad(pitch_down_degrees), deg_to_rad(pitch_up_degrees))
+	_flap_lift_vel = 0.0
+
+
+func _flap(s: float) -> void:
+	if not can_flap() or stamina < flap_cost:
+		return
+	stamina -= flap_cost
+	_flap_lift_vel = flap_lift * sqrt(s)
+	air_speed += flap_boost * s
+
+
+func _fly(delta: float, input: Vector2, s: float) -> void:
+	# Pitch: W pulls up, S dives, hands-off settles at the stage's sink angle.
+	var base_pitch := deg_to_rad(glide_sink_degrees if can_flap() else juvenile_sink_degrees)
+	var target_pitch := base_pitch
+	if input.y < 0.0:
+		target_pitch = lerpf(base_pitch, deg_to_rad(pitch_up_degrees), -input.y)
+	elif input.y > 0.0:
+		target_pitch = lerpf(base_pitch, deg_to_rad(pitch_down_degrees), input.y)
+	# Stall guard: no climbing without airspeed.
+	if air_speed <= min_air_speed * s + 0.01 and target_pitch > 0.0:
+		target_pitch = deg_to_rad(-20.0)
+	pitch = move_toward(pitch, target_pitch, pitch_rate * delta)
+
+	heading += -input.x * flight_turn_rate * delta
+
+	# Energy: gravity along the flight path, drag only above trim speed.
+	air_speed += -sin(pitch) * _gravity * delta
+	var trim := glide_trim_speed * s
+	if air_speed > trim:
+		air_speed -= air_drag * (air_speed - trim) * delta
+	air_speed = clampf(air_speed, min_air_speed * s, max_air_speed * s)
+
+	if Input.is_action_just_pressed("jump"):
+		_flap(s)
+	_flap_lift_vel = move_toward(_flap_lift_vel, 0.0, flap_lift_decay * delta)
+
+	var forward := Vector3(-sin(heading), 0.0, -cos(heading))
+	velocity = forward * air_speed * cos(pitch)
+	velocity.y = air_speed * sin(pitch) + _flap_lift_vel + _thermal_lift
+
+
+func _resolve_flight_contact(s: float) -> void:
+	if not (is_on_floor() or is_on_wall() or is_on_ceiling()):
+		return
+	if is_on_floor() and air_speed < landing_speed * s:
+		state = State.WALK
+		return
+	# Too fast: bounce off with damping, keeping the flight state.
+	var normal := Vector3.UP
+	if get_slide_collision_count() > 0:
+		normal = get_last_slide_collision().get_normal()
+	var incoming := Vector3(-sin(heading), 0.0, -cos(heading)) * air_speed * cos(pitch)
+	incoming.y = air_speed * sin(pitch)
+	var bounced := incoming.bounce(normal) * bounce_damping
+	if bounced.y < 1.0 * s:
+		bounced.y = 1.0 * s
+	var planar := Vector3(bounced.x, 0.0, bounced.z)
+	if planar.length() > 0.3:
+		heading = atan2(-planar.x, -planar.z)
+	air_speed = clampf(bounced.length(), min_air_speed * s, max_air_speed * s)
+	pitch = clampf(atan2(bounced.y, maxf(planar.length(), 0.01)),
+			deg_to_rad(pitch_down_degrees), deg_to_rad(pitch_up_degrees))
+	_flap_lift_vel = 0.0
+	velocity = bounced
+
+
+# --- State ------------------------------------------------------------------
 
 func _update_state() -> void:
 	var s := Globals.player_scale
@@ -128,6 +276,11 @@ func _update_state() -> void:
 				state = State.SWIM
 			elif is_on_floor():
 				state = State.WALK
+		State.FLY:
+			# Water is always a safe landing, at any speed.
+			if in_volume and depth > swim_exit:
+				state = State.SWIM
+				velocity *= 0.3
 		State.SWIM:
 			if not in_volume or (is_on_floor() and depth < swim_exit):
 				state = State.WALK
@@ -144,13 +297,23 @@ func _camera_relative(input: Vector2) -> Vector3:
 	return right * input.x + forward * -input.y
 
 
-func _animate(delta: float) -> void:
-	var planar := Vector3(velocity.x, 0.0, velocity.z)
-	var s := Globals.player_scale
+# --- Visuals ----------------------------------------------------------------
 
+func _animate(delta: float, raw_input: Vector2) -> void:
+	var s := Globals.player_scale
+	var blend := clampf(turn_speed * delta, 0.0, 1.0)
+
+	if state == State.FLY:
+		body.rotation.y = lerp_angle(body.rotation.y, heading, blend)
+		body.rotation.x = lerpf(body.rotation.x, pitch, blend)
+		var bank := deg_to_rad(bank_degrees) * raw_input.x
+		body.rotation.z = lerpf(body.rotation.z, bank, blend)
+		return
+
+	var planar := Vector3(velocity.x, 0.0, velocity.z)
 	if planar.length() > 0.05:
 		var target_yaw := atan2(-planar.x, -planar.z)
-		body.rotation.y = lerp_angle(body.rotation.y, target_yaw, clampf(turn_speed * delta, 0.0, 1.0))
+		body.rotation.y = lerp_angle(body.rotation.y, target_yaw, blend)
 
 	var speed_ratio := clampf(planar.length() / (walk_speed * s), 0.0, 1.0)
 	if state == State.WALK and speed_ratio > 0.05:
@@ -172,6 +335,8 @@ func _apply_scale(s: float) -> void:
 	collision_shape.position.y = _base_collision_y * s
 
 
+# --- Environment hooks ------------------------------------------------------
+
 ## Called by [WaterVolume]. [param surface_y] is the water surface in world space.
 func enter_water(surface_y: float) -> void:
 	_water_volume_count += 1
@@ -183,6 +348,16 @@ func exit_water() -> void:
 	_water_volume_count = maxi(_water_volume_count - 1, 0)
 	if _water_volume_count == 0:
 		water_level = -INF
+
+
+## Called by [Thermal]. Adds free upward velocity while flying inside it.
+func enter_thermal(lift: float) -> void:
+	_thermal_lift += lift
+
+
+## Called by [Thermal].
+func exit_thermal(lift: float) -> void:
+	_thermal_lift = maxf(_thermal_lift - lift, 0.0)
 
 
 func state_name() -> String:

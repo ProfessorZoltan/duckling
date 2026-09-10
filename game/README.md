@@ -1,11 +1,11 @@
 # Cygnet — Godot project
 
-Prototype **P1 — Duckling**: a grey-box pond you can waddle, paddle, and hop around in. Built for **Godot 4.7.2** (the project's feature tag is 4.7; 4.7.x or newer opens it directly).
+Prototypes **P1 — Duckling** (grey-box pond: waddle, paddle, hop) and **P4 — Flight** (cliff test course: flap, glide, dive, thermals, rings). Built for **Godot 4.7.2** (the project's feature tag is 4.7; 4.7.x or newer opens it directly).
 
 ## Run it
 
 1. Open Godot 4.7.2, click **Import**, and pick `game/project.godot`.
-2. Press **F5**. You spawn on the shore next to the nest.
+2. Press **F5**. You spawn on the shore next to the nest. Press **F2** to jump to the cliff flight course, **F1** to come back.
 
 ## Controls
 
@@ -13,10 +13,14 @@ Prototype **P1 — Duckling**: a grey-box pond you can waddle, paddle, and hop a
 |---|---|---|
 | Move | WASD | Left stick |
 | Camera | Mouse | Right stick |
-| Hop | Space | A / Cross |
+| Hop, and in the air: flap | Space | A / Cross |
+| Glide (from a hop, Juvenile+) | Hold Space past the apex | Hold A |
+| Pull up / dive (flying) | W / S | Left stick up / down |
+| Turn (flying) | A / D | Left stick left / right |
 | Action (unused in P1) | E / Left click | X / Square |
 | Release / recapture mouse | Esc / click | Start |
 | Debug: growth stage down / up | `[` / `]` | — |
+| Debug: pond / cliff scene | F1 / F2 | — |
 
 ## Layout
 
@@ -24,22 +28,28 @@ Prototype **P1 — Duckling**: a grey-box pond you can waddle, paddle, and hop a
 |---|---|
 | `autoload/globals.gd` | `Globals` singleton: growth `stage`, `player_scale`, `heart`, and their change signals. Everything scale-related listens to `player_scale_changed`. |
 | `player/player.tscn` | The duck: `CharacterBody3D` root, primitive-mesh body under `Body`, and the camera rig under `CameraPivot`. |
-| `player/player.gd` | Walk / Swim / Air state machine. Wobble walk (input smoothing plus body roll), buoyant swimming with a spring-damper, hop from ground or water. Scales speeds, capsule, and model from `Globals.player_scale`. |
-| `player/third_person_camera.gd` | Orbit camera on a `SpringArm3D`. Arm length and pivot height scale with the player, which is what makes the world feel like it shrinks. |
+| `player/player.gd` | Walk / Swim / Air / Fly state machine. Wobble walk (input smoothing plus body roll), buoyant swimming with a spring-damper, hop from ground or water. Flight is an energy model: nose down trades height for speed, nose up trades it back, a flap adds a decaying burst of lift and costs stamina, hands-off settles into a sinking glide. Water is always a safe landing; ground only below `landing_speed`, otherwise you bounce. Scales everything from `Globals.player_scale`. |
+| `player/third_person_camera.gd` | Orbit camera on a `SpringArm3D`. Arm length and pivot height scale with the player, which is what makes the world feel like it shrinks. In flight it drifts in behind the heading when you aren't steering it and pulls back with speed. |
 | `world/pond_greybox.tscn` | Home Pond grey-box: CSG ground with a spherical basin, transparent water plane, `WaterVolume`, reeds, logs, rocks, lily pads, nest, sun, sky. The `Environment` has `adjustment_saturation` enabled so P3 can drive it from `Heart`. |
 | `world/water_volume.gd` | `Area3D` whose origin marks the water surface. Tells the player when it enters or leaves water. |
+| `world/cliff_test.tscn` | P4 flight course: a 60 m plateau, a lake to land in, floating ledges to practice landings, pillars to weave through, two thermals, and eight rings. Forces the Fledgling stage on load. |
+| `world/cliff_test.gd` | Course script: counts rings, times the run, can reset. |
+| `world/thermal.gd` | `Area3D` column that gives a flying player free lift. |
+| `world/flight_ring.tscn` | Ring target: `Area3D` plus a torus that turns green when a flying player passes through. |
 | `ui/debug_hud.gd` | On-screen state, stage, scale, heart, and speed. Handles the `[` `]` stage keys. Delete before shipping. |
 | `tests/smoke_test.tscn` | Headless check that walks the duck into the pond, hops, grows, and reaches the far shore. |
-| `tests/screenshot_tour.tscn` | Drives the duck through the pond and saves PNGs, for sharing progress without a GPU (see below). |
+| `tests/flight_smoke_test.tscn` | Headless check that walks off the cliff, glides through ring 1, dives, pulls up, flaps, and dives into the lake. |
+| `tests/screenshot_tour.tscn`, `tests/flight_screenshot_tour.tscn` | Drive the duck through the pond or the cliff course and save PNGs, for sharing progress without a GPU (see below). |
 
 ## Smoke test
 
 ```
 cd game
 godot --headless --path . tests/smoke_test.tscn
+godot --headless --path . tests/flight_smoke_test.tscn
 ```
 
-Exit code 0 means every check passed. Run it after touching the player, water, or scale code.
+Exit code 0 means every check passed. Run both after touching the player, water, scale, or flight code.
 
 ## Screenshots without a GPU
 
@@ -52,11 +62,12 @@ LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a -s "-screen 0 1600x900x24" \
 
 ## Tuning knobs
 
-All feel values are exported on the `Player` node and the `CameraPivot` node, so they can be tweaked live in the editor while the game runs. Start with `input_smoothing`, `wobble_roll_degrees`, `walk_speed`, and the camera's `base_arm_length`.
+All feel values are exported on the `Player` node and the `CameraPivot` node, so they can be tweaked live in the editor while the game runs. Start with `input_smoothing`, `wobble_roll_degrees`, `walk_speed`, and the camera's `base_arm_length`. For flight, the ones that change the feel most are `glide_sink_degrees` (glide ratio), `flap_lift`, `flap_cost`, `air_drag`, and `landing_speed`.
 
-## What P1 does not do yet
+## What the prototypes do not do yet
 
 - No tumble when bumping into things (doc §7.1). The state machine has room for it.
-- No run, dive, glide, or flight. Those are P4 (`flight`) and Stage 3+ abilities.
+- No run, and no underwater dive. Those are Stage 3 abilities for P3-era work.
+- No wind. Thermals exist; regional wind (§7.4) was deferred per the doc's solo-dev plan.
 - No Growth Spurt cutscene: stages switch instantly. The world-root tween is P2.
 - Water is a flat tinted plane. A noise-driven normal map shader can replace it later without touching gameplay.

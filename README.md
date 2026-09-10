@@ -23,6 +23,12 @@ Pre-production. Engine decided: Godot 4.7.2 with GDScript. Solo developer, PC on
 |---|---|---|
 | ![](docs/screenshots/p1_spawn_at_nest.png) | ![](docs/screenshots/p1_paddling.png) | ![](docs/screenshots/p1_juvenile_scale.png) |
 
+## Screenshots (P4 flight course)
+
+| Gliding off the ledge | Dive | Pull-up |
+|---|---|---|
+| ![](docs/screenshots/p4_glide_off_the_ledge.png) | ![](docs/screenshots/p4_dive.png) | ![](docs/screenshots/p4_pull_up.png) |
+
 ## Progress
 
 | Milestone | Status |
@@ -30,5 +36,5 @@ Pre-production. Engine decided: Godot 4.7.2 with GDScript. Solo developer, PC on
 | P1 — Duckling (grey-box pond, walk / swim / hop, camera) | Skeleton in place; needs hands-on feel tuning |
 | P2 — Growth | `PlayerScale` plumbing exists; cutscene and size-gated gap not started |
 | P3 — Heart | `Heart` value exists; not wired to visuals |
-| P4 — Flight | Not started (build this next, per the doc) |
+| P4 — Flight | Cliff test course in place: flap, glide, dive, pull-up, thermals, ring course, water and ledge landings. Needs hands-on feel tuning |
 | P5 — Vertical slice | Not started |
