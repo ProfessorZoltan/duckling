@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://world/flight_ring.tscn" id="2_ring"]
@@ -6,6 +6,10 @@
 [ext_resource type="Script" path="res://world/thermal.gd" id="4_thermal"]
 [ext_resource type="Script" path="res://world/cliff_test.gd" id="5_course"]
 [ext_resource type="Script" path="res://ui/debug_hud.gd" id="6_hud"]
+[ext_resource type="Texture2D" path="res://assets/textures/ground_grass.png" id="7_grass"]
+[ext_resource type="Texture2D" path="res://assets/textures/ground_mud.png" id="8_mud"]
+[ext_resource type="Texture2D" path="res://assets/textures/ground_sand.png" id="9_sand"]
+[ext_resource type="Texture2D" path="res://assets/textures/ground_normal.png" id="10_normal"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.3, 0.5, 0.85, 1)
@@ -27,16 +31,36 @@ adjustment_enabled = true
 adjustment_saturation = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grass"]
-albedo_color = Color(0.5, 0.58, 0.4, 1)
+albedo_texture = ExtResource("7_grass")
+metallic_specular = 0.15
+normal_enabled = true
+normal_scale = 0.4
+normal_texture = ExtResource("10_normal")
 roughness = 1.0
+uv1_scale = Vector3(0.25, 0.25, 0.25)
+uv1_triplanar = true
+uv1_world_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mud"]
-albedo_color = Color(0.42, 0.37, 0.3, 1)
+albedo_texture = ExtResource("8_mud")
+normal_enabled = true
+normal_scale = 0.4
+normal_texture = ExtResource("10_normal")
 roughness = 1.0
+uv1_scale = Vector3(0.25, 0.25, 0.25)
+uv1_triplanar = true
+uv1_world_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cliff"]
-albedo_color = Color(0.55, 0.5, 0.55, 1)
+albedo_color = Color(0.62, 0.63, 0.7, 1)
+albedo_texture = ExtResource("9_sand")
+normal_enabled = true
+normal_scale = 0.7
+normal_texture = ExtResource("10_normal")
 roughness = 1.0
+uv1_scale = Vector3(0.22, 0.22, 0.22)
+uv1_triplanar = true
+uv1_world_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ledge"]
 albedo_color = Color(0.7, 0.62, 0.5, 1)

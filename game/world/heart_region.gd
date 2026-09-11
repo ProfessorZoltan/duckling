@@ -25,6 +25,7 @@ var displayed_heart: float
 
 var _flat_materials: Dictionary = {}    # StandardMaterial3D -> original albedo
 var _shader_materials: Dictionary = {}  # source material -> ShaderMaterial (shared per source)
+var _saturation_materials: Array[ShaderMaterial] = []  # already have a saturation uniform
 var _target_heart: float
 
 
@@ -81,6 +82,13 @@ func _remember_flat(material: Material) -> void:
 
 
 func _convert_mesh(mi: MeshInstance3D) -> void:
+	# A material that already exposes `saturation` (the terrain) just gets
+	# driven directly; it needs no shader copy.
+	var whole := mi.material_override
+	if whole is ShaderMaterial and _has_saturation(whole as ShaderMaterial):
+		if not _saturation_materials.has(whole):
+			_saturation_materials.append(whole as ShaderMaterial)
+		return
 	if mi.mesh == null:
 		return
 	for i in mi.mesh.get_surface_count():
@@ -108,3 +116,14 @@ func _apply() -> void:
 		(material as StandardMaterial3D).albedo_color = Color(gray, gray, gray, original.a).lerp(original, t)
 	for source in _shader_materials:
 		(_shader_materials[source] as ShaderMaterial).set_shader_parameter("saturation", t)
+	for material in _saturation_materials:
+		material.set_shader_parameter("saturation", t)
+
+
+static func _has_saturation(material: ShaderMaterial) -> bool:
+	if material.shader == null:
+		return false
+	for parameter in material.shader.get_shader_uniform_list():
+		if parameter.get("name", "") == "saturation":
+			return true
+	return false

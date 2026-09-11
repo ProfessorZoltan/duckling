@@ -20,6 +20,15 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - Textured materials cannot be tinted; `HeartRegion` swaps them for `HeartMaterial` shader copies. Anything textured that should lose color must be under `visuals_root`.
 - Collision comes from a `StaticBody3D` wrapper (trees, boulders, lilies) or from an invisible CSG shape, never from the visual mesh. Ground clutter (grass, flowers, pebbles) has no collision.
 
+## Terrain
+
+- The Home Pond ground is `world/pond_terrain.gd` (`PondTerrain`), an `ArrayMesh` built at runtime from `height_at()`. That function reproduces the CSG bowl exactly — a flat plain with a 20 m sphere centred at y=17 subtracted — because every prop, gate and waterline in the scene was placed against it. The hidden `World/Terrain` CSG combiner still provides the collision, so never delete it and never change `basin_centre_y` / `basin_radius` on one without the other.
+- **Godot winds front faces clockwise.** Quads in a generated grid go `[a, b, c, b, d, c]`. Wind them the other way and the whole ground is back-face culled: you see straight through to the sky with only the props left standing, which reads as "the terrain is dark", not "the terrain is missing".
+- `NORMAL` in `fragment()` is in **view** space. A slope or height test needs its own world-space varying, set from `MODEL_MATRIX` in `vertex()`.
+- Ground textures are procedural and seamless — regenerate them with `python3 tools/make_ground_textures.py` (numpy only) rather than editing the PNGs. The tile repeat is 2.6 m, so the shader also drifts brightness with a low-frequency mask; without that the foreground reads as wallpaper.
+- The shader blends mud / wet sand / grass by world height with a noise-wobbled boundary, so the shoreline is never a drawn circle. It exposes a `saturation` uniform and is driven by `HeartRegion` like everything else.
+- The flight course (`world/cliff_test.tscn`) has no generated mesh: its CSG shapes take the same textures through `uv1_triplanar` + `uv1_world_triplanar`, which needs no UVs of its own. Never texture the *pond's* CSG that way — `HeartRegion` greys flat CSG materials through their albedo colour, and a texture under that tint keeps its own colour and never drains.
+
 ## Models
 
 - Characters are `AnimalModel` nodes (`world/animal_model.gd`), never hand-built primitives. Give it a species, a palette and a height in metres; it measures and scales itself.
@@ -45,6 +54,7 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - Anything that should lose and regain color must sit under the scene's `HeartRegion.visuals_root` (the `World` node in the pond).
 - The game opens inside the egg. Any test or tour that loads the pond and expects to move must set `Globals.start_in_egg = false` before instantiating it.
 - Nodes under `World` are ready before `Player`; a director that touches the player's `@onready` fields must `await player.ready` first.
+- `HeartRegion` sits above `World`, so its `_ready` collects materials before anything under `World` has built its own. A node that makes its own mesh or material (the terrain) must hand itself over with `region.adopt(self)`; it will never be found by the initial sweep.
 - Tests that simulate a key an `_input`/`_unhandled_input` handler listens for must dispatch an `InputEventAction` via `Input.parse_input_event()`; `Input.action_press()` only sets polling state.
 - Commit `.uid` sidecar files for every new script so the user's editor never has to generate its own.
 - `project.godot` and `*.import` get rewritten by the user's editor; that is expected noise, not a change to preserve.

@@ -10,6 +10,7 @@ var region: HeartRegion
 var env: WorldEnvironment
 var grass: StandardMaterial3D
 var grass_original: Color
+var terrain_material: ShaderMaterial
 var frame: int = 0
 var failures: PackedStringArray = []
 
@@ -23,10 +24,18 @@ func _ready() -> void:
 	env = pond.get_node("WorldEnvironment")
 	grass = pond.get_node("World/Terrain/Ground").material
 	grass_original = region.original_albedo(grass)
+	terrain_material = pond.get_node("World/TerrainMesh").material_override as ShaderMaterial
 
 
 func _saturation(c: Color) -> float:
 	return c.s
+
+
+## The Heart-driven saturation the terrain shader is currently running at.
+func _terrain_saturation() -> float:
+	if terrain_material == null:
+		return -1.0
+	return terrain_material.get_shader_parameter("saturation")
 
 
 ## Input.action_press only sets polling state; dialogue listens for events.
@@ -48,6 +57,7 @@ func _physics_process(_delta: float) -> void:
 			_expect(is_equal_approx(Globals.heart, 70.0), "starts at Heart 70 (got %.0f)" % Globals.heart)
 			_expect(Globals.region_hearts.has("Home Pond"), "Home Pond region registered")
 			_expect(_saturation(grass.albedo_color) > 0.1, "grass has color at Heart 70")
+			_expect(_terrain_saturation() > 0.5, "textured terrain has color at Heart 70 (%.2f)" % _terrain_saturation())
 			Globals.stage = Globals.Stage.DUCKLING
 		30:
 			_expect(pond.siblings_gone, "siblings start leaving after the spurt")
@@ -57,6 +67,7 @@ func _physics_process(_delta: float) -> void:
 			_expect(is_equal_approx(region.displayed_heart, 10.0), "region blend finished (displayed %.0f)" % region.displayed_heart)
 			_expect(_saturation(grass.albedo_color) < 0.08, "grass is nearly gray (sat %.2f)" % _saturation(grass.albedo_color))
 			_expect(env.environment.adjustment_saturation < 0.7, "post-process desaturated (%.2f)" % env.environment.adjustment_saturation)
+			_expect(_terrain_saturation() < 0.2, "textured terrain drained with it (%.2f)" % _terrain_saturation())
 			var sib: Node3D = pond.flock.siblings[0]
 			_expect(sib.global_position.x < -19.0, "sibling reached the far side (x=%.1f)" % sib.global_position.x)
 			_expect(not pond.flock.mother.visible, "Marra flew off")
@@ -106,6 +117,7 @@ func _physics_process(_delta: float) -> void:
 			print("heart: frame 3200 displayed=%.0f grass=%s original=%s" % [region.displayed_heart, grass.albedo_color, grass_original])
 			_expect(grass.albedo_color.is_equal_approx(grass_original), "grass color fully restored")
 			_expect(env.environment.adjustment_saturation > 1.0, "post-process back to warm (%.2f)" % env.environment.adjustment_saturation)
+			_expect(_terrain_saturation() > 0.99, "textured terrain fully restored (%.2f)" % _terrain_saturation())
 			_finish()
 
 

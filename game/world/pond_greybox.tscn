@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3]
+[gd_scene load_steps=73 format=3]
 
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://world/water_volume.gd" id="2_water"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://world/family_flock.gd" id="16_flock"]
 [ext_resource type="Script" path="res://world/hawk_shadow.gd" id="17_hawk"]
 [ext_resource type="Script" path="res://world/hide_spot.gd" id="18_hide"]
+[ext_resource type="Script" path="res://world/pond_terrain.gd" id="19_terrain"]
 [ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Bush_Common.gltf" id="k_Bush_Common"]
 [ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Bush_Common_Flowers.gltf" id="k_Bush_Common_Flowers"]
 [ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Clover_1.gltf" id="k_Clover_1"]
@@ -164,6 +165,7 @@ shadow_enabled = true
 [node name="World" type="Node3D" parent="."]
 
 [node name="Terrain" type="CSGCombiner3D" parent="World"]
+visible = false
 use_collision = true
 
 [node name="Ground" type="CSGBox3D" parent="World/Terrain"]
@@ -178,6 +180,9 @@ radius = 20.0
 radial_segments = 64
 rings = 32
 material = SubResource("StandardMaterial3D_mud")
+
+[node name="TerrainMesh" type="MeshInstance3D" parent="World"]
+script = ExtResource("19_terrain")
 
 [node name="Water" type="MeshInstance3D" parent="World"]
 position = Vector3(0, -0.5, 0)
