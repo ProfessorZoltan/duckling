@@ -41,10 +41,11 @@ The window opens at 1280×720 and the UI scales with it (design resolution 1600�
 | `world/family_flock.gd` | Marra and the four siblings as a moving group. Marra follows a waypoint route at 1.15× the player's speed and waits at each stop until the player is close; siblings hold slots behind her; the group scatters to hide spots when the hawk comes. Members find the ground under them by raycast and float only where it dips below the waterline. |
 | `world/hawk_shadow.gd` | The Shadow: a hawk silhouette high up and a dark disc sliding along a line aimed at the player. In cover it counts a hide; in the open it knocks you into the water. Three hides finish the quest. |
 | `world/hide_spot.gd` | `Area3D` cover under the reed clusters and the shore log. |
-| `world/duck_npc.tscn`, `world/marra_prop.tscn` | Talkable family members. Each sibling has two dismissive lines; Marra is distracted, not cruel. |
+| `world/duck_npc.tscn`, `world/marra_prop.tscn`, `world/duckling_prop.tscn` | Talkable family members, all the same duck model recoloured: the siblings yellow, Marra a larger brown hen. Each sibling has two dismissive lines; Marra is distracted, not cruel. |
 | `world/heart_region.gd` | One region's Heart sub-value made visible: every material under its `visuals_root` desaturates toward gray as the value falls and recovers as it rises. Draining takes 15 s (to sit under the music dropping away); recovering takes 3 s. Flat materials are tinted in place; textured kit materials are swapped for a `HeartMaterial` shader copy on the mesh's surface override. |
 | `shaders/heart_material.gd` | Builds ShaderMaterials mirroring an imported StandardMaterial3D (albedo texture, normal map, cutout, culling) plus a `saturation` uniform. |
-| `assets/models/` | Animated duck, swan and mouse (Sketchfab, CC BY 4.0). Not yet used in any scene. Credits in `assets/models/CREDITS.md`; measurements, animation names and recolouring notes in `assets/models/NOTES.md`. |
+| `assets/models/` | Animated duck, swan and mouse (Sketchfab, CC BY 4.0). Credits in `assets/models/CREDITS.md`; measurements, animation names, wing limitations and recolouring notes in `assets/models/NOTES.md`. |
+| `world/animal_model.gd` | Wraps one of those models: measures it as posed, scales it to a height in metres, sets its feet on the node's origin, recolours it by material name, and drives the walk cycle from how fast it is actually moving. The duck's seven flat materials make one mesh serve the player, every sibling and Marra. |
 | `assets/audio/` | Music and sound effects. See `assets/audio/CREDITS.md`, which records the sources and flags that four Freesound licences still need confirming before release. |
 | `assets/nature_kit/` | Stylized Nature MegaKit by Quaternius, CC0 (see `License_Standard.txt`). glTF only. Human scale: grass 1.3–1.9 m, trees 7–9 m, boulders 2–3 m, so a 0.67 m hatchling sees reeds as forests. |
 | `world/heart_environment.gd` | On the `WorldEnvironment`: drives post-process saturation, sky colors, sun color and ambient energy from the global Heart. |
@@ -104,6 +105,7 @@ All feel values are exported on the `Player` node and the `CameraPivot` node, so
 - No wind. Thermals exist; regional wind (§7.4) was deferred per the doc's solo-dev plan.
 - Only the first Growth Spurt has a trigger (three hides from the hawk). Later spurts are story beats that don't exist yet; use G.
 - No dusk. The doc's "back to the nest by dusk" task needs a day cycle, which was cut for v1.
+- The duck has no flap: in flight it holds its wings folded and the pose reads through body pitch and bank. The swan does flap, but stands with its wings spread. Both need a Blender pass; see `assets/models/NOTES.md`.
 - Audio has no footsteps, no ambience (wind, water, frogs), and no in-game volume sliders. The buses (`Music`, `SFX`) exist for when there is a menu.
 - One region only. The doc's per-region coloring is built (each `HeartRegion` tints its own subtree) but the pond is the only region so far.
 - Water is a flat tinted plane. A noise-driven normal map shader can replace it later without touching gameplay.

@@ -20,6 +20,14 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - Textured materials cannot be tinted; `HeartRegion` swaps them for `HeartMaterial` shader copies. Anything textured that should lose color must be under `visuals_root`.
 - Collision comes from a `StaticBody3D` wrapper (trees, boulders, lilies) or from an invisible CSG shape, never from the visual mesh. Ground clutter (grass, flowers, pebbles) has no collision.
 
+## Models
+
+- Characters are `AnimalModel` nodes (`world/animal_model.gd`), never hand-built primitives. Give it a species, a palette and a height in metres; it measures and scales itself.
+- Never edit an imported material or mesh in place: every instance shares it. Recolour by duplicating the material onto a surface override, which is what `AnimalModel` does.
+- Measure a model in its own space (`global_transform.affine_inverse()`), never world space, or a parent's scale corrupts the result. Skinned meshes report a bind-pose AABB, so walk the vertices through the skeleton.
+- `AnimationPlayer.pause()` in 4.7 drops the animation and snaps the model to its bind pose. Hold a frame with `speed_scale = 0.0` instead.
+- Model licences are CC BY 4.0: the credit lines in `assets/models/CREDITS.md` must reach a credits screen before release.
+
 ## Audio
 
 - `game/assets/audio/CREDITS.md` records every source and its licence. Four Freesound sounds still have unconfirmed licences; anything new must be logged there before it is used, and CC BY-NC is unusable in a game that is sold.

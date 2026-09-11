@@ -85,6 +85,8 @@ var _wobble_time: float = 0.0
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var body: Node3D = $Body
+@onready var duck_model: AnimalModel = $Body/Duck
+@onready var swan_model: AnimalModel = $Body/Swan
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 
@@ -102,7 +104,9 @@ func _ready() -> void:
 	_base_collision_y = collision_shape.position.y
 	stamina = max_stamina
 	Globals.player_scale_changed.connect(_apply_scale)
+	Globals.stage_changed.connect(_apply_plumage)
 	_apply_scale(Globals.player_scale)
+	_apply_plumage(Globals.stage)
 
 
 func _process(_delta: float) -> void:
@@ -353,6 +357,7 @@ func _animate(delta: float, raw_input: Vector2) -> void:
 		body.rotation.x = lerpf(body.rotation.x, pitch, blend)
 		var bank := deg_to_rad(bank_degrees) * raw_input.x
 		body.rotation.z = lerpf(body.rotation.z, bank, blend)
+		_drive_model(air_speed)
 		return
 
 	var planar := Vector3(velocity.x, 0.0, velocity.z)
@@ -370,6 +375,32 @@ func _animate(delta: float, raw_input: Vector2) -> void:
 	# Nose dips a touch while paddling.
 	var target_pitch := deg_to_rad(6.0) * speed_ratio if state == State.SWIM else 0.0
 	body.rotation.x = lerpf(body.rotation.x, target_pitch, clampf(5.0 * delta, 0.0, 1.0))
+	_drive_model(planar.length())
+
+
+## The reveal (design doc §2 Act 5): a duck until you are plainly a swan.
+func _apply_plumage(stage: Globals.Stage) -> void:
+	if duck_model == null or swan_model == null:
+		return
+	var swan := stage >= Globals.Stage.YOUNG_SWAN
+	duck_model.visible = not swan
+	swan_model.visible = swan
+	if not swan:
+		duck_model.palette = "juvenile" if stage >= Globals.Stage.JUVENILE else "duckling"
+		duck_model.build()
+
+
+func model() -> AnimalModel:
+	return swan_model if swan_model and swan_model.visible else duck_model
+
+
+## The legs follow whatever the body is actually doing. There is no wing
+## animation: see the note in AnimalModel.
+func _drive_model(speed: float) -> void:
+	var m := model()
+	if m == null:
+		return
+	m.set_gait(speed, state == State.FLY or state == State.AIR)
 
 
 func _apply_scale(s: float) -> void:

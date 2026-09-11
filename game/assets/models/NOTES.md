@@ -16,6 +16,27 @@ or simply scale by eye against a reference post.
 Imported animations arrive with `loop_mode = 0`; set `LOOP_LINEAR` at runtime
 before playing a walk cycle.
 
+## Wings
+
+Neither bird can be made to do everything, and both limits are in the assets:
+
+- **The duck cannot flap.** Its armature carries `fin.L_1` and `fin.R_0`
+  bones, but they hold no meaningful vertex weight: posing them moves nothing
+  on screen. This was established by posing `neck_6` the same way, which bends
+  the neck right over, so the posing code is sound and the weights are not.
+  Duck flight reads through the body's pitch and bank alone. Fixing it means
+  weighting the wings in Blender, or finding a duck with a flap cycle.
+- **The swan flaps, but never folds.** Its single animation is a wing beat and
+  makes a good flight cycle. Its rest pose has the wings spread, and no frame
+  of that animation folds them, so it stands and swims with its wings out.
+  Fixing it means a folded pose added in Blender.
+
+## Animation gotchas
+
+`AnimationPlayer.pause()` in Godot 4.7 drops the animation entirely and snaps
+the model back to its bind pose. To hold a frame, set `speed_scale = 0.0` and
+leave it playing.
+
 ## Recolouring
 
 The duck is the flexible one. Its seven materials are flat `albedo_color`
@@ -34,9 +55,14 @@ handles tinting textured materials for the Heart system.
 
 ## Scale factors
 
+`AnimalModel` does this automatically: it measures the model as posed and
+scales it to the `height` given, so a scene only asks for "a duckling this
+tall". Measure in the model's **own** space, never world space, or a parent's
+scale (the player's growth, a preview holder) silently corrupts the result.
+
 Scale to a target height rather than hard-coding a factor, since the player's
 own size is driven by `Globals.player_scale`. Reference heights: the hatchling's
 head top is 0.67 m at `PlayerScale` 1.0, so the adult swan at 3.5 is 2.35 m.
 
-The swan's measured height includes its raised wings, so scaling by total height
-makes the body read small. Scale the swan against its body or neck instead.
+The swan's height is dominated by its long neck, not its wings, so scaling by
+total height works: at `height` 0.78 it reads correctly beside a duck.
