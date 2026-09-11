@@ -26,6 +26,7 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - Never edit an imported material or mesh in place: every instance shares it. Recolour by duplicating the material onto a surface override, which is what `AnimalModel` does.
 - Measure a model in its own space (`global_transform.affine_inverse()`), never world space, or a parent's scale corrupts the result. Skinned meshes report a bind-pose AABB, so walk the vertices through the skeleton.
 - `AnimationPlayer.pause()` in 4.7 drops the animation and snaps the model to its bind pose. Hold a frame with `speed_scale = 0.0` instead.
+- Everything in the game faces -Z. Models disagree, so every species needs a `FACING` entry in `AnimalModel`; without one a character steered by its heading walks backwards, which no still render will reveal.
 - Model licences are CC BY 4.0: the credit lines in `assets/models/CREDITS.md` must reach a credits screen before release.
 
 ## Audio

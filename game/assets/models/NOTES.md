@@ -31,6 +31,15 @@ Neither bird can be made to do everything, and both limits are in the assets:
   of that animation folds them, so it stands and swims with its wings out.
   Fixing it means a folded pose added in Blender.
 
+## Facing
+
+Models do not agree on which way is forward. Everything in the game points
+along -Z, and `AnimalModel.FACING` turns each model to match: the duck is
+already correct, the swan and the mouse are modelled facing +Z and are turned
+180°. Getting this wrong is not subtle in motion but is invisible in a still
+render, since a bird steered by its heading simply walks backwards. Any new
+species needs an entry; `build()` warns if one is missing.
+
 ## Animation gotchas
 
 `AnimationPlayer.pause()` in Godot 4.7 drops the animation entirely and snaps

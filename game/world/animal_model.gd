@@ -26,6 +26,10 @@ const SPECIES := {
 }
 
 const WALK_ANIMATION := {"duck": "walkcycle_1", "swan": "", "mouse": ""}
+## Degrees to turn each model so it faces -Z, which is the way everything in
+## the game points. The swan model is modelled facing the other way, so
+## steering it by heading would walk it backwards.
+const FACING := {"duck": 0.0, "swan": 180.0, "mouse": 180.0}
 ## The swan's one animation is a wing beat, so it doubles as its flight cycle.
 ## The duck has no flight animation at all.
 const FLIGHT_ANIMATION := {"duck": "", "swan": "Animation", "mouse": ""}
@@ -88,6 +92,9 @@ func build() -> void:
 		return
 	model = (load(path) as PackedScene).instantiate()
 	add_child(model)
+	if not FACING.has(species):
+		push_warning("AnimalModel: '%s' has no FACING entry; it may walk backwards." % species)
+	model.rotation.y = deg_to_rad(FACING.get(species, 0.0))
 	skeleton = null
 	anim = null
 	for child in _descendants(model):
