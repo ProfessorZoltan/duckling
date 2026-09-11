@@ -4,7 +4,10 @@ extends WorldEnvironment
 ## toward the current value over [member blend_time].
 
 @export var sun: DirectionalLight3D
-@export var blend_time: float = 3.0
+## Seconds for a full 0-100 swing. Losing color is slow (paired with the music
+## dropping to one instrument); regaining it is quicker.
+@export var drain_time: float = 15.0
+@export var recover_time: float = 3.0
 
 @export_group("At Heart 0")
 @export var cold_sky_top: Color = Color(0.45, 0.48, 0.52)
@@ -33,7 +36,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if is_equal_approx(displayed_heart, Globals.heart):
 		return
-	displayed_heart = move_toward(displayed_heart, Globals.heart, 100.0 / maxf(blend_time, 0.01) * delta)
+	var seconds := drain_time if Globals.heart < displayed_heart else recover_time
+	displayed_heart = move_toward(displayed_heart, Globals.heart, 100.0 / maxf(seconds, 0.01) * delta)
 	_apply()
 
 

@@ -92,10 +92,12 @@ func _physics_process(delta: float) -> void:
 			if _index >= _route.size():
 				moving = false
 				route_finished.emit()
-				return
-		else:
+			# Next frame walks toward the new target; stepping on the stale one
+			# here would count as a second arrival and skip a waypoint.
 			_follow_slots(delta)
 			return
+		_follow_slots(delta)
+		return
 	if _step(mother, target, speed, delta):
 		waypoint_reached.emit(_index)
 		if _pause:
@@ -116,17 +118,32 @@ func _follow_slots(delta: float) -> void:
 
 
 ## Moves [param node] toward [param target]; returns true once it arrives.
+## Height comes from the ground under the member, or the waterline where the
+## ground dips below it, so nobody sinks into a bank or hovers over a slope.
 func _step(node: Node3D, target: Vector3, speed: float, delta: float, arrive: float = 0.25) -> bool:
 	var to := target - node.global_position
 	var flat := Vector3(to.x, 0.0, to.z)
-	if flat.length() <= arrive:
-		node.global_position.y = lerpf(node.global_position.y, target.y, 6.0 * delta)
-		return true
-	var step := flat.normalized() * minf(speed * delta, flat.length())
-	node.global_position += step
-	node.global_position.y = lerpf(node.global_position.y, target.y + (0.02 * sin(_bob + node.get_index()) if target.y < -0.2 else 0.0), 6.0 * delta)
-	node.rotation.y = lerp_angle(node.rotation.y, atan2(-flat.x, -flat.z), 8.0 * delta)
-	return false
+	var arrived := flat.length() <= arrive
+	if not arrived:
+		node.global_position += flat.normalized() * minf(speed * delta, flat.length())
+		node.rotation.y = lerp_angle(node.rotation.y, atan2(-flat.x, -flat.z), 8.0 * delta)
+	var floor_y := _surface_height(node.global_position, target.y)
+	var bob := 0.02 * sin(_bob + node.get_index()) if floor_y <= WATER_Y + 0.001 else 0.0
+	node.global_position.y = lerpf(node.global_position.y, floor_y + bob, 8.0 * delta)
+	return arrived
+
+
+func _surface_height(at: Vector3, fallback: float) -> float:
+	var space := get_world_3d().direct_space_state
+	var query := PhysicsRayQueryParameters3D.create(at + Vector3.UP * 4.0, at + Vector3.DOWN * 6.0)
+	query.collision_mask = 1
+	if player:
+		query.exclude = [player.get_rid()]
+	var hit := space.intersect_ray(query)
+	if hit.is_empty():
+		return fallback
+	var ground: float = hit.position.y
+	return WATER_Y if ground < WATER_Y else ground
 
 
 func _walk_speed() -> float:

@@ -14,7 +14,10 @@ extends Node
 @export var region_name: String = "Home Pond"
 @export var visuals_root: Node3D
 @export var initial_heart: float = 70.0
-@export var blend_time: float = 3.0
+## Seconds for a full 0-100 swing. Losing color is slow (paired with the music
+## dropping to one instrument); regaining it is quicker.
+@export var drain_time: float = 15.0
+@export var recover_time: float = 3.0
 ## Saturation kept at Heart 0, so gray is never dead flat.
 @export var floor_saturation: float = 0.06
 
@@ -38,8 +41,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if is_equal_approx(displayed_heart, _target_heart):
 		return
-	var step := 100.0 / maxf(blend_time, 0.01) * delta
-	displayed_heart = move_toward(displayed_heart, _target_heart, step)
+	var seconds := drain_time if _target_heart < displayed_heart else recover_time
+	displayed_heart = move_toward(displayed_heart, _target_heart, 100.0 / maxf(seconds, 0.01) * delta)
 	_apply()
 
 

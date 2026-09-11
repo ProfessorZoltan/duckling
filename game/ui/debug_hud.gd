@@ -101,6 +101,7 @@ func _on_dialogue_requested(speaker: String, lines: PackedStringArray) -> void:
 	_line_index = 0
 	dialogue_speaker.text = speaker
 	dialogue_box.visible = true
+	Globals.show_prompt("")
 	if player:
 		player.frozen = true
 	_show_line()
@@ -117,5 +118,7 @@ func _advance_dialogue() -> void:
 		if player:
 			player.frozen = false
 		Globals.end_dialogue()
+		if player:
+			player._refresh_prompt()
 	else:
 		_show_line()

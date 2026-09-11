@@ -7,6 +7,9 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - **Size gates must match what the eye sees.** A `SizeGate` is a scale check, not a physical fit, so the visual opening must be sized so the blocked stage visibly does not fit and the allowed stage visibly does. Player heights at scale 1.0: head top ≈ 0.67 m, body width ≈ 0.44 m. Multiply by `Globals.STAGE_SCALE` for each stage (Duckling 1.25 → 0.84 m tall). Give the physical collision a little more room than the visual so the allowed stage never snags. When a gate opens, change the visual too (reeds part, etc.), never just the collision.
 - **Hazards never kill, and they never miss by accident.** The hawk aims its line at the player so hiding is the only thing that matters; being caught is a knockback into water, nothing more. Keep any new hazard on the same terms.
 - **Marra waits.** The family is faster than the player but pauses at every waypoint until the player is close (or `max_wait`). Tension without punishment; never let the flock strand the player.
+- **One talk target.** NPCs never read input themselves. They register with the player while in range; the player picks the nearest, the prompt names it, and E talks to exactly that one. Overlapping talk circles must never grab the key.
+- **Flock members follow the real ground.** Height comes from a raycast under each member (waterline where the ground dips below it), never from waypoint heights. After a wait ends, the frame must return without stepping on the stale target or a waypoint gets skipped.
+- **Losing color is slow, regaining it is quick.** `drain_time` 15 s, `recover_time` 3 s on both HeartRegion and HeartEnvironment. The drain will sit under the music dropping to one instrument.
 - **Flight is fun as tuned.** Don't retune `glide_sink_degrees`, `flap_lift`, `flap_cost`, `air_drag`, or `landing_speed` without the user asking.
 
 ## Art assets

@@ -51,8 +51,8 @@ func _physics_process(_delta: float) -> void:
 			Globals.stage = Globals.Stage.DUCKLING
 		30:
 			_expect(pond.siblings_gone, "siblings start leaving after the spurt")
-		1900:
-			print("heart: frame 1900 heart=%.0f displayed=%.0f grass=%s" % [Globals.heart, region.displayed_heart, grass.albedo_color])
+		2600:
+			print("heart: frame 2600 heart=%.0f displayed=%.0f grass=%s" % [Globals.heart, region.displayed_heart, grass.albedo_color])
 			_expect(is_equal_approx(Globals.heart, 10.0), "pond dropped to Heart 10 after the culvert (got %.0f)" % Globals.heart)
 			_expect(is_equal_approx(region.displayed_heart, 10.0), "region blend finished (displayed %.0f)" % region.displayed_heart)
 			_expect(_saturation(grass.albedo_color) < 0.08, "grass is nearly gray (sat %.2f)" % _saturation(grass.albedo_color))
@@ -62,37 +62,37 @@ func _physics_process(_delta: float) -> void:
 			_expect(not pond.flock.mother.visible, "Marra flew off")
 			# Step up to Nib (talk radius 1.6 m).
 			player.global_position = Vector3(24.5, 0.1, 1.8)
-		1960:
+		2660:
 			_press_action()
-		1962:
+		2662:
 			_expect(Globals.dialogue_active, "E near Nib opens dialogue")
 			_expect(player.frozen, "player frozen during dialogue")
-		1980:
+		2680:
 			_press_action()
-		2000:
+		2700:
 			_press_action()
-		2020:
+		2720:
 			_press_action()
-		2040:
+		2740:
 			_press_action()
-		2060:
+		2760:
 			_expect(not Globals.dialogue_active, "dialogue closed after four lines")
 			_expect(not player.frozen, "player unfrozen after dialogue")
 			_expect(is_equal_approx(Globals.heart, 35.0), "meeting Nib gave +25 Heart (got %.0f)" % Globals.heart)
 			_expect(pond.pantry_started, "Nib's Pantry started")
-		2100:
+		2800:
 			# Vacuum up the seeds by teleporting onto each one.
 			for seed in get_tree().get_nodes_in_group("pickup_seed"):
 				player.global_position = (seed as Node3D).global_position + Vector3(0, 0.1, 0)
 				await get_tree().physics_frame
 				await get_tree().physics_frame
-		2160:
-			print("heart: frame 2160 seeds=%d heart=%.0f" % [pond.seeds_collected, Globals.heart])
+		2860:
+			print("heart: frame 2860 seeds=%d heart=%.0f" % [pond.seeds_collected, Globals.heart])
 			_expect(pond.seeds_collected == 8, "collected all eight seeds (got %d)" % pond.seeds_collected)
 			_expect(pond.pantry_done, "pantry complete")
 			_expect(is_equal_approx(Globals.heart, 100.0), "pantry restored Heart to 100 (got %.0f)" % Globals.heart)
-		2500:
-			print("heart: frame 2500 displayed=%.0f grass=%s original=%s" % [region.displayed_heart, grass.albedo_color, grass_original])
+		3200:
+			print("heart: frame 3200 displayed=%.0f grass=%s original=%s" % [region.displayed_heart, grass.albedo_color, grass_original])
 			_expect(grass.albedo_color.is_equal_approx(grass_original), "grass color fully restored")
 			_expect(env.environment.adjustment_saturation > 1.0, "post-process back to warm (%.2f)" % env.environment.adjustment_saturation)
 			_finish()

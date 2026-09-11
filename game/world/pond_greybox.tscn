@@ -1492,7 +1492,7 @@ player = NodePath("../../Player")
 position = Vector3(0.2, 0, 11.2)
 rotation = Vector3(0, 3.0, 0)
 npc_name = "Marra"
-lines_first = PackedStringArray("Keep up, little one.", "Stay close to the others.")
+lines_first = PackedStringArray("There you are. Big one.", "Stay close to the others. Mm.")
 lines_repeat = PackedStringArray("Mm. Eat something.")
 
 [node name="Model" parent="World/Family/Marra" instance=ExtResource("15_marra")]

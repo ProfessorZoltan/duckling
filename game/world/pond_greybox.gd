@@ -1,6 +1,7 @@
 extends Node3D
 ## Home Pond director. Runs the Prologue through Act 3 beats (design doc §2):
 ##  - Prologue: the egg (EggPrologue).
+##  - Act 1 "Hello": say hello to Marra and each sibling before she sets off.
 ##  - Act 1 "Keep Up": follow Marra and the siblings round the pond (M2).
 ##  - Act 1 "First Supper": eat five water bugs (M3).
 ##  - Act 1 "The Shadow": hide from the hawk three times -> Growth Spurt 1 (M4).
@@ -8,7 +9,7 @@ extends Node3D
 ##    through the culvert, Marra flies; the pond drains to gray (M5, M6).
 ##  - Act 3 "A Small Voice": meet Nib in the reeds; Nib's Pantry (M7).
 
-enum Act { EGG, KEEP_UP, FIRST_SUPPER, SHADOW, GROWN, LEAVING, ALONE }
+enum Act { EGG, HELLO, KEEP_UP, FIRST_SUPPER, SHADOW, GROWN, LEAVING, ALONE }
 
 const REGION := "Home Pond"
 
@@ -23,6 +24,8 @@ const REGION := "Home Pond"
 @export var nib: NPC
 
 var act: Act = Act.EGG
+var greeted: int = 0
+var family_size: int = 0
 var bugs_total: int = 0
 var bugs_collected: int = 0
 var seeds_total: int = 0
@@ -62,14 +65,44 @@ func _ready() -> void:
 		hawk.caught.connect(_on_caught)
 		hawk.all_hidden.connect(_on_all_hidden)
 	Globals.stage_changed.connect(_on_stage_changed)
+	if flock:
+		var members: Array[Node3D] = [flock.mother]
+		members.append_array(flock.siblings)
+		for member in members:
+			if member is NPC:
+				family_size += 1
+				(member as NPC).first_talk.connect(_on_greeted)
 	if egg and is_instance_valid(egg) and Globals.start_in_egg:
 		act = Act.EGG
-		egg.hatched.connect(_begin_keep_up)
+		egg.hatched.connect(_begin_hello)
 	else:
-		_begin_keep_up.call_deferred()
+		_begin_hello.call_deferred()
 
 
 # --- Act 1 --------------------------------------------------------------------
+
+func _begin_hello() -> void:
+	if act > Act.HELLO:
+		return
+	act = Act.HELLO
+	if family_size == 0 or greeted >= family_size:
+		_begin_keep_up()
+		return
+	Globals.notify("Marra: There you are. Say hello to everyone.")
+	Globals.set_objective("Say hello to your family (%d / %d)." % [greeted, family_size])
+
+
+func _on_greeted(_npc: NPC) -> void:
+	greeted += 1
+	if act != Act.HELLO:
+		return
+	if greeted >= family_size:
+		Globals.set_objective("")
+		await get_tree().create_timer(1.0).timeout
+		_begin_keep_up()
+	else:
+		Globals.set_objective("Say hello to your family (%d / %d)." % [greeted, family_size])
+
 
 func _begin_keep_up() -> void:
 	if act > Act.KEEP_UP:

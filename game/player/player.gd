@@ -72,6 +72,10 @@ var pitch: float = 0.0
 var frozen: bool = false
 ## Number of HideSpot areas the player is inside. Above zero means hidden.
 var in_cover: int = 0
+## The one NPC E will talk to: the nearest of those in range.
+var nearest_npc: NPC = null
+
+var _npcs_in_range: Array[NPC] = []
 
 var _water_volume_count: int = 0
 var _thermal_lift: float = 0.0
@@ -99,6 +103,16 @@ func _ready() -> void:
 	stamina = max_stamina
 	Globals.player_scale_changed.connect(_apply_scale)
 	_apply_scale(Globals.player_scale)
+
+
+func _process(_delta: float) -> void:
+	_update_nearest_npc()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("action") and nearest_npc and not Globals.dialogue_active and not frozen:
+		get_viewport().set_input_as_handled()
+		nearest_npc.talk(self)
 
 
 func _physics_process(delta: float) -> void:
@@ -349,6 +363,43 @@ func _apply_scale(s: float) -> void:
 	capsule.radius = _base_capsule_radius * s
 	capsule.height = _base_capsule_height * s
 	collision_shape.position.y = _base_collision_y * s
+
+
+# --- Talking ----------------------------------------------------------------
+
+## Called by [NPC] when the player enters its talk radius.
+func enter_talk_range(npc: NPC) -> void:
+	if not _npcs_in_range.has(npc):
+		_npcs_in_range.append(npc)
+
+
+## Called by [NPC].
+func exit_talk_range(npc: NPC) -> void:
+	_npcs_in_range.erase(npc)
+
+
+func _update_nearest_npc() -> void:
+	var best: NPC = null
+	var best_d := INF
+	for npc in _npcs_in_range:
+		if not is_instance_valid(npc):
+			continue
+		var d := npc.global_position.distance_to(global_position)
+		if d < best_d:
+			best_d = d
+			best = npc
+	if best != nearest_npc:
+		nearest_npc = best
+		_refresh_prompt()
+	elif Globals.dialogue_active:
+		_refresh_prompt()
+
+
+func _refresh_prompt() -> void:
+	if nearest_npc and not Globals.dialogue_active and not frozen:
+		Globals.show_prompt("E   Talk to %s" % nearest_npc.npc_name)
+	else:
+		Globals.show_prompt("")
 
 
 # --- Environment hooks ------------------------------------------------------
