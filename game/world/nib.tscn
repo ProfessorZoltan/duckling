@@ -27,6 +27,8 @@ height = 0.35
 [node name="Nib" type="Area3D"]
 script = ExtResource("1_npc")
 npc_name = "Nib"
+voice = "squeak"
+voice_pitch = 1.0
 lines_first = PackedStringArray("Squeak! ...You're not going to eat me?", "Huh. You're very big. And very grey.", "Doesn't matter. Nobody comes to the reeds.", "I'm Nib. Stay if you like.")
 lines_repeat = PackedStringArray("Squeak. Still here?", "Good.")
 

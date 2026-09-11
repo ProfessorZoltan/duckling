@@ -66,6 +66,9 @@ var heart: float = 70.0:
 var region_hearts: Dictionary = {}
 
 var dialogue_active: bool = false
+## Sound set and pitch the speaker's lines are voiced with.
+var dialogue_voice: String = ""
+var dialogue_voice_pitch: float = 1.0
 
 ## The game opens inside the egg (design doc §2 Prologue). Cleared once you
 ## hatch so scene reloads and tests start on the shore.
@@ -151,10 +154,12 @@ func set_objective(text: String) -> void:
 	objective.emit(text)
 
 
-func request_dialogue(speaker: String, lines: PackedStringArray) -> void:
+func request_dialogue(speaker: String, lines: PackedStringArray, voice: String = "", voice_pitch: float = 1.0) -> void:
 	if dialogue_active:
 		return
 	dialogue_active = true
+	dialogue_voice = voice
+	dialogue_voice_pitch = voice_pitch
 	dialogue_requested.emit(speaker, lines)
 
 

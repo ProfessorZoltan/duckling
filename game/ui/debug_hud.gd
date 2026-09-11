@@ -109,6 +109,8 @@ func _on_dialogue_requested(speaker: String, lines: PackedStringArray) -> void:
 
 func _show_line() -> void:
 	dialogue_text.text = _lines[_line_index] if _line_index < _lines.size() else ""
+	if _line_index < _lines.size() and Globals.dialogue_voice != "":
+		Audio.play(Globals.dialogue_voice, Globals.dialogue_voice_pitch)
 
 
 func _advance_dialogue() -> void:

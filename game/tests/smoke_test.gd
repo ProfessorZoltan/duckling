@@ -8,6 +8,7 @@ var player: Player
 var frame: int = 0
 var failures: PackedStringArray = []
 var _seen_air_after_hop := false
+var _heard: Dictionary = {}
 
 
 func _ready() -> void:
@@ -15,6 +16,7 @@ func _ready() -> void:
 	var pond: Node = load("res://world/pond_greybox.tscn").instantiate()
 	add_child(pond)
 	player = pond.get_node("Player")
+	Audio.played.connect(func(name: String) -> void: _heard[name] = true)
 	print("smoke: pond loaded, player at ", player.global_position)
 
 
@@ -25,6 +27,7 @@ func _physics_process(_delta: float) -> void:
 			_expect(player.state == Player.State.WALK, "starts in WALK, got %s" % player.state_name())
 			Input.action_press("move_forward")
 		300:
+			_expect(_heard.has("splash"), "a splash played when the duck entered the water")
 			print("smoke: frame 300 state=%s pos=%s" % [player.state_name(), player.global_position])
 			_expect(player.state == Player.State.SWIM, "in SWIM after walking into pond, got %s" % player.state_name())
 			_expect(player.global_position.y < -0.5, "floating below water surface, y=%.2f" % player.global_position.y)
@@ -34,6 +37,7 @@ func _physics_process(_delta: float) -> void:
 		420:
 			_expect(_seen_air_after_hop, "hop from water entered AIR")
 			_expect(player.state == Player.State.SWIM, "back in SWIM after hop, got %s" % player.state_name())
+			_expect(_heard.has("splash"), "landing back in the water splashed again")
 			Globals.advance_stage()
 		422:
 			_expect(is_equal_approx(Globals.player_scale, 1.25), "scale 1.25 after stage bump, got %.2f" % Globals.player_scale)

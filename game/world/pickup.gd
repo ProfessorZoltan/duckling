@@ -28,5 +28,6 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(node: Node3D) -> void:
 	if node is Player:
+		Audio.play_at("pickup", global_position)
 		collected.emit(self)
 		queue_free()

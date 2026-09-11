@@ -68,6 +68,7 @@ func start_pass() -> void:
 	_shadow.visible = true
 	_hawk.visible = true
 	_place(from)
+	Audio.play("hawk")
 	# Warning: the shadow lingers at the edge before it sweeps.
 	await get_tree().create_timer(warning_seconds).timeout
 	var tween := create_tween()

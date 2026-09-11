@@ -36,6 +36,7 @@ var _muffled_lines := [
 func _ready() -> void:
 	_cap_rest = cap.transform
 	if not Globals.start_in_egg or player == null:
+		Audio.set_muffle(0.0)
 		queue_free()
 		return
 	# World is earlier in the tree than Player, so wait for its @onready fields.
@@ -46,6 +47,7 @@ func _ready() -> void:
 	player.body.visible = false
 	player.global_position = global_position + Vector3(0, 0.1, 0)
 	_build_overlay()
+	Audio.set_muffle(1.0)
 	egg_camera.current = true
 	_narrate()
 
@@ -59,6 +61,10 @@ func _narrate() -> void:
 		if not active or _hatching:
 			return
 		Globals.notify(entry[1])
+		if entry[1].begins_with("(a warm voice"):
+			Audio.play("muffled_call", 1.0)
+		else:
+			Audio.play("quack", 1.6, -14.0)
 	await get_tree().create_timer(2.5).timeout
 	if active and not _hatching and cracks == 0:
 		Globals.show_prompt("Mash SPACE to peck")
@@ -77,6 +83,7 @@ func peck() -> void:
 	Globals.show_prompt("")
 	_add_crack()
 	_nudge()
+	Audio.play("peck", randf_range(0.94, 1.1))
 	Input.start_joy_vibration(0, 0.25, 0.0, 0.08)
 	var t := float(cracks) / float(pecks_to_hatch)
 	_set_darkness(darkness_start * pow(1.0 - t, 0.7) + 0.05 * (1.0 - t))
@@ -121,13 +128,15 @@ func _nudge() -> void:
 func _hatch() -> void:
 	_hatching = true
 	Globals.notify("")
+	Audio.play("shell_break")
 	# The cap pops up and tumbles off beside the nest.
 	var pop := create_tween()
 	pop.tween_property(cap, "position:y", cap.position.y + 0.35, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	pop.parallel().tween_property(cap, "rotation:x", 0.9, 0.18)
 	pop.tween_property(cap, "position", Vector3(0.9, 0.02, 0.3), 0.55).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	pop.parallel().tween_property(cap, "rotation", Vector3(2.6, 0.4, 0.5), 0.55)
-	# Light floods in.
+	# Light and sound flood in together.
+	Audio.muffle_to(0.0, 0.9)
 	var light := create_tween()
 	light.tween_method(_set_darkness, _overlay.color.a, 0.0, 0.5)
 	await light.finished

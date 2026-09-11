@@ -17,6 +17,7 @@ Pre-production. Engine decided: Godot 4.7.2 with GDScript. Solo developer, PC on
 - `docs/design/` — design documents, versioned by filename.
 - `game/` — the Godot 4 project. See [game/README.md](game/README.md) for controls, layout, and the smoke tests.
 - `game/assets/nature_kit/` — Stylized Nature MegaKit (standard, free version) by Quaternius, CC0. Trees, grass, rocks, flowers, pebbles.
+- `game/assets/audio/` — music and sound effects. Sources and licence status in [game/assets/audio/CREDITS.md](game/assets/audio/CREDITS.md).
 
 ## Screenshots (Home Pond with the Stylized Nature MegaKit, software-rendered)
 

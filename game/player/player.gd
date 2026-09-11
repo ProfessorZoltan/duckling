@@ -119,6 +119,9 @@ func _physics_process(delta: float) -> void:
 	if frozen:
 		velocity = Vector3.ZERO
 		return
+	# Snapshot before the transition, so a landing can be heard and measured.
+	var previous_state := state
+	var entry_speed := absf(velocity.y)
 	_update_state()
 
 	var raw_input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -143,6 +146,7 @@ func _physics_process(delta: float) -> void:
 		_resolve_flight_contact(s)
 	if state == State.WALK or state == State.SWIM:
 		stamina = minf(stamina + stamina_regen * delta, max_stamina)
+	_watch_for_splash(previous_state, entry_speed)
 
 	_animate(delta, raw_input)
 
@@ -216,6 +220,7 @@ func _start_flight(s: float) -> void:
 func _flap(s: float) -> void:
 	if not can_flap() or stamina < flap_cost:
 		return
+	Audio.play_at("flap", global_position, 1.0 / maxf(sqrt(s), 0.2))
 	stamina -= flap_cost
 	_flap_lift_vel = flap_lift * sqrt(s)
 	air_speed += flap_boost * s
@@ -314,6 +319,16 @@ func _update_state() -> void:
 		State.SWIM:
 			if not in_volume or (is_on_floor() and depth < swim_exit):
 				state = State.WALK
+
+
+## A splash when the duck lands in water, louder the harder it hits.
+func _watch_for_splash(previous_state: State, entry_speed: float) -> void:
+	if state != State.SWIM or previous_state == State.SWIM:
+		return
+	var hardness := clampf(entry_speed / (6.0 * Globals.player_scale), 0.15, 1.0)
+	var surface := Vector3(global_position.x, water_level, global_position.z)
+	Audio.play_at("splash", surface, randf_range(0.92, 1.12) / maxf(sqrt(Globals.player_scale), 0.2),
+			linear_to_db(hardness))
 
 
 func _camera_relative(input: Vector2) -> Vector3:

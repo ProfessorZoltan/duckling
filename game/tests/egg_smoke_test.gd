@@ -38,6 +38,7 @@ func _physics_process(_delta: float) -> void:
 			_expect(not player.body.visible, "player body hidden inside the egg")
 			_expect(egg.egg_camera.current, "egg camera is current")
 			_expect(egg._overlay.color.a > 0.8, "starts dark (alpha %.2f)" % egg._overlay.color.a)
+			_expect(Audio._muffle.cutoff_hz < 1000.0, "music is muffled inside the shell (%.0f Hz)" % Audio._muffle.cutoff_hz)
 		75:
 			_expect(egg.cracks == 4, "four pecks registered (got %d)" % egg.cracks)
 			_expect(egg.crack_root.get_child_count() == 4, "four crack slivers")
@@ -55,6 +56,7 @@ func _physics_process(_delta: float) -> void:
 			_expect(egg.cap.global_position.distance_to(_cap_start) > 0.6, "cap tumbled off the nest")
 			_expect(egg.cup.global_position.distance_to(_cap_start) < 0.01, "cup stayed in the nest")
 			_expect(not Globals.start_in_egg, "start_in_egg cleared")
+			_expect(Audio._muffle.cutoff_hz > 15000.0, "music opened up after hatching (%.0f Hz)" % Audio._muffle.cutoff_hz)
 			Input.action_press("move_forward")
 		420:
 			_expect(player.global_position.z < 12.0, "walked out of the shell (z=%.2f)" % player.global_position.z)

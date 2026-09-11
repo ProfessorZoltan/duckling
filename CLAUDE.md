@@ -20,6 +20,13 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - Textured materials cannot be tinted; `HeartRegion` swaps them for `HeartMaterial` shader copies. Anything textured that should lose color must be under `visuals_root`.
 - Collision comes from a `StaticBody3D` wrapper (trees, boulders, lilies) or from an invisible CSG shape, never from the visual mesh. Ground clutter (grass, flowers, pebbles) has no collision.
 
+## Audio
+
+- `game/assets/audio/CREDITS.md` records every source and its licence. Four Freesound sounds still have unconfirmed licences; anything new must be logged there before it is used, and CC BY-NC is unusable in a game that is sold.
+- Music is two piano layers crossfaded on `Globals.heart` with the same `drain_time` / `recover_time` as the colour. Never fade them independently of the Heart.
+- Sound effects go through `Audio.play` (flat) or `Audio.play_at` (positioned). Effects are mono so they can be spatialised; music is stereo Ogg with a three-second tail-to-head crossfade so it loops seamlessly.
+- `Audio.played` is a signal for tests; assert on it rather than on a player's `playing` flag, which is unreliable under the headless dummy driver.
+
 ## Structural rules
 
 - Everything that should shrink in a Growth Spurt lives under a scene's `World` node. Player, lights and sky stay outside it.
@@ -45,6 +52,7 @@ godot --headless --path . tests/growth_smoke_test.tscn
 godot --headless --path . tests/heart_smoke_test.tscn
 godot --headless --path . tests/egg_smoke_test.tscn
 godot --headless --path . tests/act1_smoke_test.tscn
+godot --headless --path . tests/audio_smoke_test.tscn
 ```
 
 Screenshots without a GPU: `LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a -s "-screen 0 1600x900x24" godot --path . --rendering-driver opengl3 --resolution 1600x900 tests/<tour>.tscn -- --out=<dir>`. Look at them before sharing; lighting and ratios only show up in pixels.

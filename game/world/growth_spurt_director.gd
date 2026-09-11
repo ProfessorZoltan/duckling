@@ -41,6 +41,7 @@ func play() -> void:
 	var body_rest := player.body.scale
 
 	player.frozen = true
+	Audio.play("growth")
 
 	var tween := create_tween().set_parallel(true)
 	# The world shrinks around the duck's feet.

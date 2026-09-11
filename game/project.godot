@@ -19,6 +19,11 @@ config/icon="res://icon.svg"
 [autoload]
 
 Globals="*res://autoload/globals.gd"
+Audio="*res://autoload/audio.gd"
+
+[audio]
+
+buses/default_bus_layout="res://default_bus_layout.tres"
 
 [display]
 

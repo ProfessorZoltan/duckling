@@ -9,6 +9,10 @@ signal first_talk(npc: NPC)
 signal talked(npc: NPC)
 
 @export var npc_name: String = "Nib"
+## Sound set each line is voiced with ("quack", "squeak", or "" for silence).
+@export var voice: String = "squeak"
+## Bigger birds speak lower, ducklings higher.
+@export var voice_pitch: float = 1.0
 @export var lines_first: PackedStringArray = ["Squeak?", "Oh. You're big. That's fine."]
 @export var lines_repeat: PackedStringArray = ["Squeak."]
 ## Set by the scene when a quest for this NPC is complete.
@@ -47,7 +51,7 @@ func talk(player: Player = null) -> void:
 		lines = lines_repeat
 	if player:
 		_face(player.global_position)
-	Globals.request_dialogue(npc_name, lines)
+	Globals.request_dialogue(npc_name, lines, voice, voice_pitch)
 	var was_first := not has_talked
 	has_talked = true
 	await Globals.dialogue_finished
