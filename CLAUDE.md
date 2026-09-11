@@ -59,6 +59,12 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - Commit `.uid` sidecar files for every new script so the user's editor never has to generate its own.
 - `project.godot` and `*.import` get rewritten by the user's editor; that is expected noise, not a change to preserve.
 
+## Packaging
+
+- `game/export_presets.cfg` is committed (Windows / Linux / Web) and is exempt from the Godot `.gitignore` on purpose. All three presets exclude `tests/*`, so a build never ships the smoke tests or screenshot tours.
+- Build a shareable zip with `tools/package.ps1` (or `tools/package.sh`); it exports, drops `dist/README.txt` and `dist/CREDITS.txt` in beside the binary, and stamps the zip with the date and commit. Full steps in `docs/PACKAGING.md`.
+- `dist/CREDITS.txt` travels inside every build: the three character models are CC BY 4.0 and their attribution lines have to reach whoever is playing. Until the four unconfirmed Freesound licences are checked, builds are for private playtesting only.
+
 ## Verification before every push
 
 Run from `game/` with a Godot 4.7.2 binary:

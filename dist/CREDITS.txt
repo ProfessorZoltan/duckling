@@ -1,0 +1,59 @@
+CYGNET — credits and licences
+=============================
+
+This is a prototype build. Every third-party asset in it is listed here,
+and the attributions below travel with the build wherever it goes.
+
+
+ENVIRONMENT ART
+---------------
+
+Stylized Nature MegaKit by Quaternius — CC0 1.0 (public domain).
+https://quaternius.com/
+No attribution is required; it is given anyway.
+
+
+CHARACTER MODELS — CC BY 4.0, attribution REQUIRED
+--------------------------------------------------
+
+This work is based on "Lowpoly Duck (animated)"
+(https://sketchfab.com/3d-models/lowpoly-duck-animated-0242fe38361c4bdabadcfddb42eb3325)
+by wisdom3D (https://sketchfab.com/wisdom3D)
+licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+
+This work is based on "Swan"
+(https://sketchfab.com/3d-models/swan-56291f4202ba4d6f8755e71109107651)
+by merlincodes (https://sketchfab.com/merlincodes)
+licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+
+This work is based on "Mouse Low Poly"
+(https://sketchfab.com/3d-models/mouse-low-poly-2f34c0d825e84b289880b21754b9ce36)
+by dayrook (https://sketchfab.com/dayrook)
+licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+
+
+AUDIO
+-----
+
+Water splashes: "Waboba Moon Ball Water Splashes" by qubodup, Freesound
+pack 46186 — CC0 1.0, confirmed from the pack's own licence file.
+
+Music and voices, from Freesound — LICENCES NOT YET CONFIRMED:
+  "Distant Sad Piano"   by patricklieberkind  freesound.org/s/216669/
+  "Peaceful Simple Piano" by theojt           freesound.org/s/510949/
+  "Generic Duck Quack"  by mastersoundboy2005 freesound.org/s/754978/
+  "Mouse Squeaks"       by shyguy014          freesound.org/s/463789/
+
+These four were downloaded without their licence text. Freesound sounds
+carry a mix of CC0, CC BY 4.0, CC BY-NC and Sampling Plus. Until each one
+is checked, this build is for private playtesting only — do not put it on
+a storefront, a public download page, or anywhere it could be sold.
+
+Sound effects generated for this project (pecks, shell break, pickup,
+wingbeats, hawk pass, growth swell) are original.
+
+
+ENGINE
+------
+
+Made with Godot Engine 4.7.2 — MIT licence. https://godotengine.org

@@ -1,9 +1,12 @@
 # Godot 4
 .godot/
 export.cfg
-export_presets.cfg
 export/
 build/
+
+# export_presets.cfg is deliberately NOT ignored (Godot's own template ignores
+# it because it can hold signing keystore passwords; ours holds none, and a
+# playtest build should come out the same on every machine).
 
 # Editors / OS
 .vscode/
