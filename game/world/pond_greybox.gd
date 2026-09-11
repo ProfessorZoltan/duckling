@@ -1,15 +1,16 @@
 extends Node3D
 ## Home Pond director. Runs the Prologue through Act 3 beats (design doc §2):
 ##  - Prologue: the egg (EggPrologue).
-##  - Act 1 "Hello": say hello to Marra and each sibling before she sets off.
 ##  - Act 1 "Keep Up": follow Marra and the siblings round the pond (M2).
+##  - Act 1 "Hello": say hello to everyone once the loop is over, so the
+##    siblings' lines land after they've watched you struggle to keep up.
 ##  - Act 1 "First Supper": eat five water bugs (M3).
 ##  - Act 1 "The Shadow": hide from the hawk three times -> Growth Spurt 1 (M4).
 ##  - Act 2 "The Far Shore" / "The Culvert": the family leaves; siblings squeeze
 ##    through the culvert, Marra flies; the pond drains to gray (M5, M6).
 ##  - Act 3 "A Small Voice": meet Nib in the reeds; Nib's Pantry (M7).
 
-enum Act { EGG, HELLO, KEEP_UP, FIRST_SUPPER, SHADOW, GROWN, LEAVING, ALONE }
+enum Act { EGG, KEEP_UP, HELLO, FIRST_SUPPER, SHADOW, GROWN, LEAVING, ALONE }
 
 const REGION := "Home Pond"
 
@@ -74,21 +75,35 @@ func _ready() -> void:
 				(member as NPC).first_talk.connect(_on_greeted)
 	if egg and is_instance_valid(egg) and Globals.start_in_egg:
 		act = Act.EGG
-		egg.hatched.connect(_begin_hello)
+		egg.hatched.connect(_begin_keep_up)
 	else:
-		_begin_hello.call_deferred()
+		_begin_keep_up.call_deferred()
 
 
 # --- Act 1 --------------------------------------------------------------------
+
+func _begin_keep_up() -> void:
+	if act > Act.KEEP_UP:
+		return
+	act = Act.KEEP_UP
+	Globals.notify("Marra: Keep up, little one.")
+	Globals.set_objective("Keep up with Marra.")
+	if flock:
+		flock.route_finished.connect(_begin_hello, CONNECT_ONE_SHOT)
+		flock.start_route(KEEP_UP_ROUTE)
+	else:
+		_begin_hello()
+
 
 func _begin_hello() -> void:
 	if act > Act.HELLO:
 		return
 	act = Act.HELLO
+	# Greetings during the loop already counted; only ask for the ones left.
 	if family_size == 0 or greeted >= family_size:
-		_begin_keep_up()
+		_begin_first_supper()
 		return
-	Globals.notify("Marra: There you are. Say hello to everyone.")
+	Globals.notify("Marra: Rest a moment. Say hello to the others.")
 	Globals.set_objective("Say hello to your family (%d / %d)." % [greeted, family_size])
 
 
@@ -99,22 +114,9 @@ func _on_greeted(_npc: NPC) -> void:
 	if greeted >= family_size:
 		Globals.set_objective("")
 		await get_tree().create_timer(1.0).timeout
-		_begin_keep_up()
+		_begin_first_supper()
 	else:
 		Globals.set_objective("Say hello to your family (%d / %d)." % [greeted, family_size])
-
-
-func _begin_keep_up() -> void:
-	if act > Act.KEEP_UP:
-		return
-	act = Act.KEEP_UP
-	Globals.notify("Marra: Keep up, little one.")
-	Globals.set_objective("Keep up with Marra.")
-	if flock:
-		flock.route_finished.connect(_begin_first_supper, CONNECT_ONE_SHOT)
-		flock.start_route(KEEP_UP_ROUTE)
-	else:
-		_begin_first_supper()
 
 
 func _begin_first_supper() -> void:
@@ -241,10 +243,14 @@ func _after_culvert() -> void:
 func _on_met_nib(_npc: NPC) -> void:
 	Globals.add_region_heart(REGION, heart_for_meeting_nib)
 	pantry_started = true
-	Globals.notify("Nib's Pantry: find %d seeds in the reeds." % seeds_for_pantry)
-	Globals.set_objective("Nib's Pantry: find seeds (0 / %d)." % seeds_for_pantry)
 	if nib:
 		nib.lines_repeat = PackedStringArray(["Squeak. Seeds are scattered everywhere.", "The storm did it. I'm too small to carry them."])
+	if seeds_collected > 0:
+		Globals.notify("Nib's Pantry: you already have %d of %d seeds." % [mini(seeds_collected, seeds_for_pantry), seeds_for_pantry])
+	else:
+		Globals.notify("Nib's Pantry: find %d seeds in the reeds." % seeds_for_pantry)
+	# Seeds found before meeting her still count, so a full pouch finishes now.
+	_refresh_pantry()
 
 
 func _on_seed_collected(_seed: Pickup) -> void:
@@ -252,7 +258,13 @@ func _on_seed_collected(_seed: Pickup) -> void:
 	if not pantry_started:
 		Globals.notify("A seed. Someone might want these.")
 		return
-	if seeds_collected >= seeds_for_pantry and not pantry_done:
+	_refresh_pantry()
+
+
+func _refresh_pantry() -> void:
+	if pantry_done or not pantry_started:
+		return
+	if seeds_collected >= seeds_for_pantry:
 		pantry_done = true
 		Globals.notify("Nib's pantry is full.")
 		Globals.set_objective("")

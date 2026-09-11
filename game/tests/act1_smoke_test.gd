@@ -62,51 +62,51 @@ func _physics_process(_delta: float) -> void:
 		_worst_sink = maxf(_worst_sink, expected - m.y)
 	match frame:
 		5:
-			_expect(pond.act == pond.Act.HELLO, "Act 1 begins with Hello (act %d)" % pond.act)
-			_expect(not flock.moving, "Marra waits until everyone has been greeted")
+			_expect(pond.act == pond.Act.KEEP_UP, "Act 1 begins with Keep Up (act %d)" % pond.act)
+			_expect(flock.moving, "flock sets off straight after hatching")
+			# Stay put on the far side so she has to wait.
+			player.global_position = Vector3(6.0, 0.1, 12.5)
+		200:
+			var wp: Vector3 = pond.KEEP_UP_ROUTE[0]
+			print("act1: frame 200 marra=%s waiting=%.1f" % [flock.mother.global_position, flock._waiting])
+			_expect(flock.mother.global_position.distance_to(wp) < 0.8, "Marra reached the first waypoint")
+			_expect(flock._waiting >= 0.0, "Marra waits there for the straggler")
+			_expect(flock.siblings[0].global_position.distance_to(flock.mother.global_position) < 4.0, "siblings hold near Marra")
+			# Catch up.
+			player.global_position = flock.mother.global_position + Vector3(1.5, 0.1, 1.0)
+		260:
+			var wp: Vector3 = pond.KEEP_UP_ROUTE[0]
+			print("act1: frame 260 marra=%s waiting=%.1f" % [flock.mother.global_position, flock._waiting])
+			_expect(flock._waiting < 0.0 and flock.mother.global_position.distance_to(wp) > 0.8, "Marra moves on once you're close")
+			_expect(flock.mother.global_position.y < -0.3, "Marra is swimming toward the next waypoint")
+		300:
+			# Skip the rest of the loop: finish the route.
+			flock.stop()
+			flock.route_finished.emit()
+		320:
+			_expect(pond.act == pond.Act.HELLO, "Hello begins after the loop, so the lines land (act %d)" % pond.act)
 			# Stand among the siblings: several talk circles overlap.
-			player.global_position = Vector3(1.5, 0.1, 12.6)
-		20:
+			player.global_position = flock.siblings[3].global_position + Vector3(0.6, 0.1, 0.4)
+		340:
 			_expect(player.nearest_npc != null, "an NPC is in range")
 			var d_best := player.nearest_npc.global_position.distance_to(player.global_position)
 			for npc in get_tree().get_nodes_in_group("npc"):
 				if (npc as Node3D).global_position.distance_to(player.global_position) < d_best - 0.01:
 					_expect(false, "nearest NPC chosen (%s is closer than %s)" % [npc.npc_name, player.nearest_npc.npc_name])
 			_press_action()
-		22:
+		342:
 			_expect(Globals.dialogue_active, "E opens dialogue with the nearest duck")
 			_end_dialogue_quickly()
-		40:
+		380:
 			_expect(pond.greeted == 1, "one greeting counted (got %d)" % pond.greeted)
+			_expect(pond.act == pond.Act.HELLO, "still greeting (act %d)" % pond.act)
 			# Greet the rest directly; the mechanic is the same.
 			for npc in get_tree().get_nodes_in_group("npc"):
 				if npc.get_parent() == flock and not npc.has_talked:
 					npc.has_talked = true
 					npc.first_talk.emit(npc)
-		130:
-			_expect(pond.act == pond.Act.KEEP_UP, "Keep Up begins once all five are greeted (act %d)" % pond.act)
-			_expect(flock.moving, "flock is moving")
-			# Stay put on the far side so she has to wait.
-			player.global_position = Vector3(6.0, 0.1, 12.5)
-		330:
-			var wp: Vector3 = pond.KEEP_UP_ROUTE[1]
-			print("act1: frame 330 marra=%s waiting=%.1f" % [flock.mother.global_position, flock._waiting])
-			_expect(flock.mother.global_position.distance_to(wp) < 0.8, "Marra reached the second waypoint")
-			_expect(flock._waiting >= 0.0, "Marra waits there for the straggler")
-			_expect(flock.siblings[0].global_position.distance_to(flock.mother.global_position) < 4.0, "siblings hold near Marra")
-			# Catch up.
-			player.global_position = flock.mother.global_position + Vector3(1.5, 0.1, 1.0)
-		390:
-			var wp: Vector3 = pond.KEEP_UP_ROUTE[1]
-			print("act1: frame 390 marra=%s waiting=%.1f" % [flock.mother.global_position, flock._waiting])
-			_expect(flock._waiting < 0.0 and flock.mother.global_position.distance_to(wp) > 0.8, "Marra moves on once you're close")
-			_expect(flock.mother.global_position.y < -0.3, "Marra is swimming toward the next waypoint")
-		430:
-			# Skip the rest of the loop: finish the route.
-			flock.stop()
-			flock.route_finished.emit()
 		450:
-			_expect(pond.act == pond.Act.FIRST_SUPPER, "First Supper begins after the route (act %d)" % pond.act)
+			_expect(pond.act == pond.Act.FIRST_SUPPER, "First Supper begins once all five are greeted (act %d)" % pond.act)
 			for bug in get_tree().get_nodes_in_group("pickup_bug"):
 				if pond.bugs_collected >= 5:
 					break

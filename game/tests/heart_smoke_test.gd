@@ -60,6 +60,16 @@ func _physics_process(_delta: float) -> void:
 			var sib: Node3D = pond.flock.siblings[0]
 			_expect(sib.global_position.x < -19.0, "sibling reached the far side (x=%.1f)" % sib.global_position.x)
 			_expect(not pond.flock.mother.visible, "Marra flew off")
+			# Grab two seeds BEFORE meeting Nib: they must still count.
+			var taken := 0
+			for seed in get_tree().get_nodes_in_group("pickup_seed"):
+				if taken >= 2:
+					break
+				player.global_position = (seed as Node3D).global_position + Vector3(0, 0.1, 0)
+				taken += 1
+				await get_tree().physics_frame
+				await get_tree().physics_frame
+			_expect(pond.seeds_collected == 2, "two seeds found before meeting Nib (got %d)" % pond.seeds_collected)
 			# Step up to Nib (talk radius 1.6 m).
 			player.global_position = Vector3(24.5, 0.1, 1.8)
 		2660:
@@ -80,6 +90,7 @@ func _physics_process(_delta: float) -> void:
 			_expect(not player.frozen, "player unfrozen after dialogue")
 			_expect(is_equal_approx(Globals.heart, 35.0), "meeting Nib gave +25 Heart (got %.0f)" % Globals.heart)
 			_expect(pond.pantry_started, "Nib's Pantry started")
+			_expect(pond.seeds_collected == 2, "the two early seeds still count (got %d)" % pond.seeds_collected)
 		2800:
 			# Vacuum up the seeds by teleporting onto each one.
 			for seed in get_tree().get_nodes_in_group("pickup_seed"):
@@ -88,7 +99,7 @@ func _physics_process(_delta: float) -> void:
 				await get_tree().physics_frame
 		2860:
 			print("heart: frame 2860 seeds=%d heart=%.0f" % [pond.seeds_collected, Globals.heart])
-			_expect(pond.seeds_collected == 8, "collected all eight seeds (got %d)" % pond.seeds_collected)
+			_expect(pond.seeds_collected == 8, "collected all eight seeds, early ones included (got %d)" % pond.seeds_collected)
 			_expect(pond.pantry_done, "pantry complete")
 			_expect(is_equal_approx(Globals.heart, 100.0), "pantry restored Heart to 100 (got %.0f)" % Globals.heart)
 		3200:
