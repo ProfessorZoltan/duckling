@@ -16,6 +16,8 @@ signal growth_spurt_requested
 signal notice(text: String)
 ## Interaction prompt ("E  Talk to Nib"). Empty string clears it.
 signal prompt(text: String)
+## Current objective line for the HUD. Empty string clears it.
+signal objective(text: String)
 ## A region's Heart sub-value changed.
 signal region_heart_changed(region: String, value: float)
 ## Dialogue: an NPC asks the HUD to show lines; the HUD reports when done.
@@ -143,6 +145,10 @@ func _recompute_heart() -> void:
 
 func show_prompt(text: String) -> void:
 	prompt.emit(text)
+
+
+func set_objective(text: String) -> void:
+	objective.emit(text)
 
 
 func request_dialogue(speaker: String, lines: PackedStringArray) -> void:

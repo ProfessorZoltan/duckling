@@ -30,6 +30,10 @@ Pre-production. Engine decided: Godot 4.7.2 with GDScript. Solo developer, PC on
 |---|---|---|
 | ![](docs/screenshots/p5_inside_the_egg.png) | ![](docs/screenshots/p5_the_pop.png) | ![](docs/screenshots/p5_hatched.png) |
 
+| The Shadow | Hiding under the reeds | The family leaves |
+|---|---|---|
+| ![](docs/screenshots/p5_the_shadow.png) | ![](docs/screenshots/p5_hiding_from_the_hawk.png) | ![](docs/screenshots/p5_the_family_leaves.png) |
+
 ## Screenshots (P2 growth spurt)
 
 | Hatchling by the nest | World shrinking mid-spurt | Duckling afterward |
@@ -56,4 +60,4 @@ Pre-production. Engine decided: Godot 4.7.2 with GDScript. Solo developer, PC on
 | P2 — Growth | Growth Spurt cutscene (world shrinks around you), reed wall you grow into, culvert you grow out of, bug collection triggers spurt 1 |
 | P3 — Heart | Region sub-hearts drive material saturation; global Heart drives sky, sun, post-process. Siblings leave through the culvert (Heart 10), meeting Nib and Nib's Pantry restore it to 100 |
 | P4 — Flight | Cliff test course in place: flap, glide, dive, pull-up, thermals, ring course, water and ledge landings. Needs hands-on feel tuning |
-| P5 — Vertical slice | Egg prologue done (first person, peck to crack, pull-out reveal). Act 1 family, hawk shadow, and playtest to come |
+| P5 — Vertical slice | Prologue through Act 3 playable end to end: egg, Keep Up with Marra and the siblings, First Supper, the hawk shadow, Growth Spurt 1, the family leaving through the culvert, Nib. Needs a playtest |

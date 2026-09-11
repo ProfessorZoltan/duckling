@@ -99,10 +99,10 @@ func _add_crack() -> void:
 	material.emission = crack_color
 	material.emission_energy_multiplier = 3.0
 	sliver.material_override = material
+	crack_root.add_child(sliver)
 	sliver.position = egg_camera.position + dir * 0.24
 	sliver.look_at(egg_camera.global_position + dir * 10.0, Vector3.UP)
 	sliver.rotate_object_local(Vector3.FORWARD, randf_range(0.0, TAU))
-	crack_root.add_child(sliver)
 	# Older cracks spread a little with every new peck.
 	for child in crack_root.get_children():
 		if child != sliver:

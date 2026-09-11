@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3]
+[gd_scene load_steps=72 format=3]
 
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://world/water_volume.gd" id="2_water"]
@@ -13,6 +13,11 @@
 [ext_resource type="PackedScene" path="res://world/nib.tscn" id="11_nib"]
 [ext_resource type="PackedScene" path="res://world/seed.tscn" id="12_seed"]
 [ext_resource type="Script" path="res://world/egg_prologue.gd" id="13_egg"]
+[ext_resource type="PackedScene" path="res://world/duck_npc.tscn" id="14_duck"]
+[ext_resource type="PackedScene" path="res://world/marra_prop.tscn" id="15_marra"]
+[ext_resource type="Script" path="res://world/family_flock.gd" id="16_flock"]
+[ext_resource type="Script" path="res://world/hawk_shadow.gd" id="17_hawk"]
+[ext_resource type="Script" path="res://world/hide_spot.gd" id="18_hide"]
 [ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Bush_Common.gltf" id="k_Bush_Common"]
 [ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Bush_Common_Flowers.gltf" id="k_Bush_Common_Flowers"]
 [ext_resource type="PackedScene" path="res://assets/nature_kit/glTF/Clover_1.gltf" id="k_Clover_1"]
@@ -96,6 +101,10 @@ cull_mode = 2
 albedo_color = Color(0.93, 0.9, 0.82, 1)
 roughness = 0.85
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cover"]
+height = 2.0
+radius = 1.7
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_water"]
 size = Vector2(22, 22)
 
@@ -129,9 +138,11 @@ radius = 0.770
 [sub_resource type="SphereShape3D" id="SphereShape3D_rock4"]
 radius = 0.605
 
-[node name="PondGreybox" type="Node3D" node_paths=PackedStringArray("siblings", "nib")]
+[node name="PondGreybox" type="Node3D" node_paths=PackedStringArray("flock", "hawk", "egg", "nib")]
 script = ExtResource("4_pond")
-siblings = [NodePath("World/Siblings/Sibling1"), NodePath("World/Siblings/Sibling2"), NodePath("World/Siblings/Sibling3")]
+flock = NodePath("World/Family")
+hawk = NodePath("World/Hawk")
+egg = NodePath("World/EggPrologue")
 nib = NodePath("World/ReedPocket/Nib")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." node_paths=PackedStringArray("sun")]
@@ -1471,28 +1482,94 @@ fov = 65.0
 
 [node name="Cracks" type="Node3D" parent="World/EggPrologue"]
 
-[node name="Siblings" type="Node3D" parent="World"]
+[node name="Family" type="Node3D" parent="World" node_paths=PackedStringArray("mother", "siblings", "player")]
+script = ExtResource("16_flock")
+mother = NodePath("Marra")
+siblings = [NodePath("Pip"), NodePath("Dab"), NodePath("Quill"), NodePath("Sedge")]
+player = NodePath("../../Player")
 
-[node name="Sibling1" parent="World/Siblings" instance=ExtResource("8_sibling")]
-position = Vector3(2.600, 0.000, 13.400)
-rotation = Vector3(0.000, 2.400, 0.000)
-scale = Vector3(0.850, 0.850, 0.850)
+[node name="Marra" parent="World/Family" instance=ExtResource("14_duck")]
+position = Vector3(0.2, 0, 11.2)
+rotation = Vector3(0, 3.0, 0)
+npc_name = "Marra"
+lines_first = PackedStringArray("Keep up, little one.", "Stay close to the others.")
+lines_repeat = PackedStringArray("Mm. Eat something.")
 
-[node name="Sibling2" parent="World/Siblings" instance=ExtResource("8_sibling")]
-position = Vector3(0.400, 0.000, 13.600)
-rotation = Vector3(0.000, 3.600, 0.000)
-scale = Vector3(0.850, 0.850, 0.850)
+[node name="Model" parent="World/Family/Marra" instance=ExtResource("15_marra")]
 
-[node name="Sibling3" parent="World/Siblings" instance=ExtResource("8_sibling")]
-position = Vector3(3.200, 0.000, 11.600)
-rotation = Vector3(0.000, 1.200, 0.000)
-scale = Vector3(0.850, 0.850, 0.850)
+[node name="Pip" parent="World/Family" instance=ExtResource("14_duck")]
+position = Vector3(2.7, 0, 13.3)
+rotation = Vector3(0, 2.4, 0)
+npc_name = "Pip"
+lines_first = PackedStringArray("You're slow.", "And you're the wrong colour.")
+lines_repeat = PackedStringArray("Go away.")
 
-[node name="Sibling4" parent="World/Siblings" instance=ExtResource("8_sibling")]
-position = Vector3(-21.500, 0.000, 0.000)
-rotation = Vector3(0.000, -1.570, 0.000)
-scale = Vector3(0.850, 0.850, 0.850)
+[node name="Model" parent="World/Family/Pip" instance=ExtResource("8_sibling")]
+scale = Vector3(0.85, 0.85, 0.85)
 
+[node name="Dab" parent="World/Family" instance=ExtResource("14_duck")]
+position = Vector3(0.3, 0, 13.7)
+rotation = Vector3(0, 3.6, 0)
+npc_name = "Dab"
+lines_first = PackedStringArray("Pip says you're weird.", "I think so too. Probably.")
+lines_repeat = PackedStringArray("Peep. Whatever.")
+
+[node name="Model" parent="World/Family/Dab" instance=ExtResource("8_sibling")]
+scale = Vector3(0.85, 0.85, 0.85)
+
+[node name="Quill" parent="World/Family" instance=ExtResource("14_duck")]
+position = Vector3(3.3, 0, 11.5)
+rotation = Vector3(0, 1.2, 0)
+npc_name = "Quill"
+lines_first = PackedStringArray("...You're okay.", "Don't tell Pip I said that.")
+lines_repeat = PackedStringArray("Peep.")
+
+[node name="Model" parent="World/Family/Quill" instance=ExtResource("8_sibling")]
+scale = Vector3(0.85, 0.85, 0.85)
+
+[node name="Sedge" parent="World/Family" instance=ExtResource("14_duck")]
+position = Vector3(-0.8, 0, 12.6)
+rotation = Vector3(0, 0.4, 0)
+npc_name = "Sedge"
+lines_first = PackedStringArray("Peep!", "Peep peep!")
+lines_repeat = PackedStringArray("Peep.")
+
+[node name="Model" parent="World/Family/Sedge" instance=ExtResource("8_sibling")]
+scale = Vector3(0.85, 0.85, 0.85)
+
+[node name="Hawk" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
+script = ExtResource("17_hawk")
+player = NodePath("../../Player")
+
+[node name="HideSpots" type="Node3D" parent="World"]
+
+[node name="HideSpot1" type="Area3D" parent="World/HideSpots"]
+position = Vector3(-5.944, 0.338, -8.166)
+script = ExtResource("18_hide")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/HideSpots/HideSpot1"]
+shape = SubResource("CylinderShape3D_cover")
+
+[node name="HideSpot2" type="Area3D" parent="World/HideSpots"]
+position = Vector3(6.278, 0.338, 7.912)
+script = ExtResource("18_hide")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/HideSpots/HideSpot2"]
+shape = SubResource("CylinderShape3D_cover")
+
+[node name="HideSpot3" type="Area3D" parent="World/HideSpots"]
+position = Vector3(-7.448, 0.338, 6.822)
+script = ExtResource("18_hide")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/HideSpots/HideSpot3"]
+shape = SubResource("CylinderShape3D_cover")
+
+[node name="HideSpot4" type="Area3D" parent="World/HideSpots"]
+position = Vector3(7.000, 0.600, 9.500)
+script = ExtResource("18_hide")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/HideSpots/HideSpot4"]
+shape = SubResource("CylinderShape3D_cover")
 [node name="ReedPocket" type="Node3D" parent="World"]
 
 [node name="WallN" type="CSGBox3D" parent="World/ReedPocket"]
@@ -1915,4 +1992,19 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
 theme_override_font_sizes/font_size = 14
 text = "E  continue"
+horizontal_alignment = 2
+
+[node name="Objective" type="Label" parent="DebugHUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -520.0
+offset_top = 12.0
+offset_right = -16.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.97, 0.85, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_font_sizes/font_size = 20
+text = ""
 horizontal_alignment = 2

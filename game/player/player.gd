@@ -70,6 +70,8 @@ var pitch: float = 0.0
 
 ## While frozen (cutscenes) the body ignores input and physics.
 var frozen: bool = false
+## Number of HideSpot areas the player is inside. Above zero means hidden.
+var in_cover: int = 0
 
 var _water_volume_count: int = 0
 var _thermal_lift: float = 0.0
@@ -362,6 +364,24 @@ func exit_water() -> void:
 	_water_volume_count = maxi(_water_volume_count - 1, 0)
 	if _water_volume_count == 0:
 		water_level = -INF
+
+
+## Called by [HideSpot].
+func enter_cover() -> void:
+	in_cover += 1
+
+
+## Called by [HideSpot].
+func exit_cover() -> void:
+	in_cover = maxi(in_cover - 1, 0)
+
+
+## Shove the duck (the hawk, a bump). Harmless: it just tumbles into the air.
+func knock(impulse: Vector3) -> void:
+	if state == State.FLY:
+		return
+	velocity = impulse
+	state = State.AIR
 
 
 ## Called by [Thermal]. Adds free upward velocity while flying inside it.

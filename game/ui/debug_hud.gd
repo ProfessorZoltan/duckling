@@ -13,6 +13,7 @@ const SCENES := {
 @onready var label: Label = $Label
 @onready var notice_label: Label = $Notice
 @onready var prompt_label: Label = $Prompt
+@onready var objective_label: Label = $Objective
 @onready var dialogue_box: PanelContainer = $Dialogue
 @onready var dialogue_speaker: Label = $Dialogue/VBox/Speaker
 @onready var dialogue_text: Label = $Dialogue/VBox/Text
@@ -25,6 +26,8 @@ var _line_index: int = 0
 func _ready() -> void:
 	Globals.notice.connect(_on_notice)
 	Globals.prompt.connect(_on_prompt)
+	Globals.objective.connect(func(text: String) -> void: objective_label.text = text)
+	objective_label.text = ""
 	Globals.dialogue_requested.connect(_on_dialogue_requested)
 	notice_label.text = ""
 	prompt_label.text = ""
@@ -49,7 +52,7 @@ func _process(delta: float) -> void:
 	if player.state == Player.State.FLY:
 		lines.append("Air speed  %.1f m/s   pitch %d°" % [player.air_speed, int(rad_to_deg(player.pitch))])
 	else:
-		lines.append("Speed  %.2f m/s" % planar.length())
+		lines.append("Speed  %.2f m/s%s" % [planar.length(), "   HIDDEN" if player.in_cover > 0 else ""])
 
 	var course := get_tree().get_first_node_in_group("flight_course")
 	if course:
