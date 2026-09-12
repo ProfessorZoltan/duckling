@@ -13,13 +13,17 @@ is the usual cause of "No export template found at the expected path".
 
 ## The quick way (one command)
 
-From the repo root, with Godot on your PATH:
+From the repo root:
 
 ```powershell
 .\tools\package.ps1
 ```
 
-or point it at the editor executable if it isn't on your PATH:
+It finds Godot itself — first on your PATH, then under `Program Files`,
+`%LOCALAPPDATA%\Programs`, `Downloads`, `Desktop`, `Documents` and `C:\Godot`,
+preferring a 4.7.2 build and warning if all it can find is another version. The
+Windows download is a bare `.exe` you unzip wherever, so it is normal for it not
+to be on the PATH. If yours lives somewhere else, say so:
 
 ```powershell
 .\tools\package.ps1 -Godot "C:\Godot\Godot_v4.7.2-stable_win64.exe"

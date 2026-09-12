@@ -6,13 +6,63 @@
 # Exports through the presets in game/export_presets.cfg, drops the player
 # README and the credits in beside the binary, and zips the result into
 # build/. Needs the 4.7.2 export templates installed (see docs/PACKAGING.md).
+#
+# Godot is found automatically: first on the PATH, then in the usual install
+# and download folders. Pass a path as the second argument if it lives
+# somewhere unusual.
 set -euo pipefail
 
 target="${1:-windows}"
-godot="${2:-godot}"
+hint="${2:-}"
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 stamp="$(date +%Y%m%d)"
 rev="$(git -C "$root" rev-parse --short HEAD 2>/dev/null || echo nogit)"
+
+resolve_godot() {
+	# An explicit path wins, and a wrong one is an error rather than a silent
+	# fallback to something else on the machine.
+	if [[ -n "$hint" ]]; then
+		if [[ -x "$hint" ]]; then echo "$hint"; return; fi
+		if command -v "$hint" >/dev/null 2>&1; then command -v "$hint"; return; fi
+		echo "error: '$hint' is not executable and is not on your PATH." >&2
+		exit 1
+	fi
+
+	local name
+	for name in godot godot4 Godot_v4.7.2-stable_linux.x86_64; do
+		if command -v "$name" >/dev/null 2>&1; then command -v "$name"; return; fi
+	done
+
+	# Not on the PATH, which is normal — the Linux build of Godot is a bare
+	# binary you unzip wherever, so look where it usually lands.
+	local dir found
+	for dir in "$HOME/Downloads" "$HOME/Desktop" "$HOME/bin" "$HOME/.local/bin" \
+		"/opt" "/usr/local/bin" "$HOME/Applications"; do
+		[[ -d "$dir" ]] || continue
+		found="$(find "$dir" -maxdepth 3 -type f -name 'Godot*' -perm -u+x 2>/dev/null \
+			| grep -v '_console' | sort -r | head -n 1)"
+		[[ -n "$found" ]] && { echo "$found"; return; }
+	done
+
+	cat >&2 <<-MSG
+	error: could not find Godot.
+
+	Looked on your PATH and under ~/Downloads, ~/Desktop, ~/bin, ~/.local/bin,
+	/opt, /usr/local/bin and ~/Applications.
+
+	Run it again pointing at the editor binary, for example:
+	  tools/package.sh windows ~/Downloads/Godot_v4.7.2-stable_linux.x86_64
+	MSG
+	exit 1
+}
+
+godot="$(resolve_godot)"
+echo "Godot: $godot"
+case "$godot" in
+	*4.7.2*) ;;
+	*) echo "warning: that does not look like Godot 4.7.2. The project needs 4.7.2;" >&2
+	   echo "         a different version may fail to export or produce a broken build." >&2 ;;
+esac
 
 package() {
 	local preset="$1" dir="$2" binary="$3"
@@ -20,7 +70,18 @@ package() {
 	rm -rf "$out"
 	mkdir -p "$out"
 	echo "==> exporting $preset"
-	"$godot" --headless --path "$root/game" --export-release "$preset" "$out/$binary"
+	if ! "$godot" --headless --path "$root/game" --export-release "$preset" "$out/$binary" \
+		|| [[ ! -e "$out/$binary" ]]; then
+		cat >&2 <<-MSG
+
+		error: export failed for '$preset'.
+
+		The usual cause is missing export templates. In the Godot editor:
+		  Editor -> Manage Export Templates... -> Download and Install
+		It has to say 4.7.2.stable when it finishes.
+		MSG
+		exit 1
+	fi
 	cp "$root/dist/README.txt" "$root/dist/CREDITS.txt" "$out/"
 	local zip="$root/build/Cygnet-$dir-$stamp-$rev.zip"
 	rm -f "$zip"
