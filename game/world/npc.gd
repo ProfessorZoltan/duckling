@@ -13,10 +13,14 @@ signal talked(npc: NPC)
 @export var voice: String = "squeak"
 ## Bigger birds speak lower, ducklings higher.
 @export var voice_pitch: float = 1.0
-@export var lines_first: PackedStringArray = ["Squeak?", "Oh. You're big. That's fine."]
-@export var lines_repeat: PackedStringArray = ["Squeak."]
+## Write packed-array defaults with the constructor, never as a bare [...]
+## literal: an Array-literal default makes an exported build throw away the
+## value the scene set and fall back to this one, which is invisible in the
+## editor and in every headless test. See CLAUDE.md.
+@export var lines_first: PackedStringArray = PackedStringArray(["Squeak?", "Oh. You're big. That's fine."])
+@export var lines_repeat: PackedStringArray = PackedStringArray(["Squeak."])
 ## Set by the scene when a quest for this NPC is complete.
-var lines_override: PackedStringArray = []
+var lines_override: PackedStringArray = PackedStringArray()
 
 var has_talked: bool = false
 var talking: bool = false

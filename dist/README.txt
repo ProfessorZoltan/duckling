@@ -33,10 +33,13 @@ WHAT TO TRY
 -----------
 
 You start inside the egg. Mash Space to peck your way out, then follow
-Marra when she calls. Keep up with the family across the pond, say hello to all five
-of them, catch the water bugs at supper, and hide when a shadow crosses
-the water. After that the pond goes quiet — find the mouse on the far
-shore and collect eight seeds for him.
+Marra when she calls. Keep up with the family across the pond, say hello
+to all five of them, catch the water bugs at supper, and hide when a
+shadow crosses the water. After that the pond goes quiet — find the mouse
+on the far shore and collect eight seeds for him.
+
+One of the supper bugs is on the other side of the culvert pipe, on the
+west bank. You fit through it. Remember that you did.
 
 
 DEBUG KEYS (left in on purpose, for poking around)
@@ -54,6 +57,9 @@ WHAT I'D LIKE TO KNOW
 ---------------------
 
 - Did anything block you that looked like it should have let you through?
+- Did you find the bug through the culvert without being told twice?
+- Later on, when the pipe is too small for you — does that register as
+  something you lost, or just as a wall?
 - Did the family ever leave you behind, or feel like they were waiting
   too obviously?
 - When the colour drains out of the pond, does it land?

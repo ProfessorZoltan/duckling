@@ -11,6 +11,7 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - **One talk target.** NPCs never read input themselves. They register with the player while in range; the player picks the nearest, the prompt names it, and E talks to exactly that one. Overlapping talk circles must never grab the key.
 - **Flock members follow the real ground.** Height comes from a raycast under each member (waterline where the ground dips below it), never from waypoint heights. After a wait ends, the frame must return without stepping on the stale target or a waypoint gets skipped.
 - **Losing color is slow, regaining it is quick.** `drain_time` 15 s, `recover_time` 3 s on both HeartRegion and HeartEnvironment. The drain will sit under the music dropping to one instrument.
+- **The culvert must be used before it is lost.** First Supper's fifth bug sits past the culvert's far mouth (`BugCulvert`), and the Reed Pocket needs scale 1.2, so at supper the only other bugs in reach are Bug1-4. The player therefore walks the pipe once as a Hatchling and is refused it as a Duckling, which is the point. If you add or move bugs, keep exactly one past `CULVERT_FAR_SIDE_X` and keep the reachable count below `bugs_for_supper` — `tests/culvert_smoke_test.tscn` checks both, and walks the pipe at both stages rather than trusting the numbers.
 - **Flight is fun as tuned.** Don't retune `glide_sink_degrees`, `flap_lift`, `flap_cost`, `air_drag`, or `landing_speed` without the user asking.
 
 ## Art assets
@@ -53,11 +54,21 @@ Godot 4.7.2, GDScript. Design doc: `docs/design/cygnet-design-doc-v0.1.md`. Game
 - Heart recovery is monotonic: quests call `Globals.add_region_heart()`. Only scripted story beats may call `set_region_heart()` to lower it.
 - Anything that should lose and regain color must sit under the scene's `HeartRegion.visuals_root` (the `World` node in the pond).
 - The game opens inside the egg. Any test or tour that loads the pond and expects to move must set `Globals.start_in_egg = false` before instantiating it.
-- Nodes under `World` are ready before `Player`; a director that touches the player's `@onready` fields must `await player.ready` first.
+- Nodes under `World` are ready before `Player`; a director that touches the player's `@onready` fields must `await player.ready` first. Only from inside the scene's own `_ready`, though: a test that has already called `add_child(pond)` has run the whole subtree's `_ready`, and awaiting `player.ready` there waits forever for a signal that has been and gone. Await a `physics_frame` instead.
 - `HeartRegion` sits above `World`, so its `_ready` collects materials before anything under `World` has built its own. A node that makes its own mesh or material (the terrain) must hand itself over with `region.adopt(self)`; it will never be found by the initial sweep.
 - Tests that simulate a key an `_input`/`_unhandled_input` handler listens for must dispatch an `InputEventAction` via `Input.parse_input_event()`; `Input.action_press()` only sets polling state.
 - Commit `.uid` sidecar files for every new script so the user's editor never has to generate its own.
 - `project.godot` and `*.import` get rewritten by the user's editor; that is expected noise, not a change to preserve.
+
+## Exported builds differ from the editor
+
+Everything here was found the hard way, from a build where all six animals read
+Nib's placeholder line. `tests/export_safety_test.tscn` guards it now; run it
+before packaging, because no other test in this project can see these.
+
+- **Never give a packed-array `@export` a bare `[...]` default.** `@export var x: PackedStringArray = ["a"]` loses whatever the scene set once the project is exported and silently falls back to the script's default. Write `PackedStringArray(["a"])`, or leave the default off. Text scenes take a more forgiving load path, so the editor and every headless test look right while the shipped build is wrong.
+- **Always `--import` before `--export-release`.** A stale `.godot` holds the old property list for a changed script, and the export then drops scene values it no longer recognises. This masked the fix above for an entire debugging session — the corrected script still produced a broken build until the cache was wiped. `tools/package.*` now reimports first.
+- A build is the only place some bugs exist. To check one, point `run/main_scene` at a probe scene, drop `tests/*` from the preset's `exclude_filter`, export, and run the binary — the probe's `print` output is the answer.
 
 ## Packaging
 
@@ -78,6 +89,8 @@ godot --headless --path . tests/heart_smoke_test.tscn
 godot --headless --path . tests/egg_smoke_test.tscn
 godot --headless --path . tests/act1_smoke_test.tscn
 godot --headless --path . tests/audio_smoke_test.tscn
+godot --headless --path . tests/culvert_smoke_test.tscn
+godot --headless --path . tests/export_safety_test.tscn
 ```
 
 Screenshots without a GPU: `LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -a -s "-screen 0 1600x900x24" godot --path . --rendering-driver opengl3 --resolution 1600x900 tests/<tour>.tscn -- --out=<dir>`. Look at them before sharing; lighting and ratios only show up in pixels.

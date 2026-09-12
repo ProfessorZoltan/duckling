@@ -70,6 +70,11 @@ package() {
 	rm -rf "$out"
 	mkdir -p "$out"
 	echo "==> exporting $preset"
+	# Always reimport first. A stale .godot cache keeps the OLD property list
+	# for a changed script, and the export then silently drops scene values it
+	# no longer recognises — which is how a build shipped with every duck
+	# reading the same placeholder line. Cheap insurance.
+	"$godot" --headless --path "$root/game" --import >/dev/null 2>&1 || true
 	if ! "$godot" --headless --path "$root/game" --export-release "$preset" "$out/$binary" \
 		|| [[ ! -e "$out/$binary" ]]; then
 		cat >&2 <<-MSG

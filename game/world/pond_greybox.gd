@@ -34,6 +34,7 @@ var seeds_collected: int = 0
 var pantry_started: bool = false
 var pantry_done: bool = false
 var siblings_gone: bool = false
+var culvert_hinted: bool = false
 
 ## Marra's loop round the pond. Points below the waterline are swum.
 const KEEP_UP_ROUTE: Array[Vector3] = [
@@ -47,6 +48,8 @@ const LEAVE_ROUTE: Array[Vector3] = [
 	Vector3(-12.3, 0.0, 0.0),
 ]
 const CULVERT_EXIT := Vector3(-21.0, 0.0, 0.5)
+## Anything west of the culvert's far mouth is through the pipe.
+const CULVERT_FAR_SIDE_X := -18.7
 
 
 func _ready() -> void:
@@ -127,7 +130,7 @@ func _begin_first_supper() -> void:
 		_begin_shadow()
 
 
-func _on_bug_collected(_bug: Pickup) -> void:
+func _on_bug_collected(bug: Pickup) -> void:
 	bugs_collected += 1
 	if act == Act.FIRST_SUPPER:
 		if bugs_collected >= bugs_for_supper:
@@ -137,8 +140,45 @@ func _on_bug_collected(_bug: Pickup) -> void:
 				_begin_shadow()
 		else:
 			Globals.set_objective("First Supper: eat %d water bugs (%d / %d)." % [bugs_for_supper, bugs_collected, bugs_for_supper])
+			_hint_past_the_culvert(bug)
 	elif act >= Act.SHADOW:
 		Globals.notify("Yum.")
+
+
+## Supper's last bug sits through the culvert, and a player who has eaten the
+## open pond dry has no reason to think there is anywhere else to look. Say so
+## the moment nothing is left in reach — and say that they still fit, so the day
+## the pipe closes on them is a loss and not a puzzle.
+##
+## "In reach" is the open pond only. The bugs in the Reed Pocket sit behind a
+## gate that wants scale 1.2, so a Hatchling at supper can never reach them;
+## count those as remaining and this hint never fires at all.
+##
+## [param eaten] is the pickup that triggered this. It is still in the group and
+## still valid — queue_free() has not run yet — so it has to be skipped by hand
+## or the last bug in the pond counts itself as still there and nothing is said.
+func _hint_past_the_culvert(eaten: Pickup) -> void:
+	if culvert_hinted:
+		return
+	var reed_wall_x := INF
+	var reeds := get_node_or_null("World/ReedPocket/ReedGate") as SizeGate
+	if reeds and not reeds.is_open():
+		reed_wall_x = reeds.global_position.x
+	var in_reach := 0
+	var beyond := 0
+	for bug in get_tree().get_nodes_in_group("pickup_bug"):
+		var node := bug as Node3D
+		if node == eaten or not is_instance_valid(node):
+			continue
+		var x := node.global_position.x
+		if x <= CULVERT_FAR_SIDE_X:
+			beyond += 1
+		elif x < reed_wall_x:
+			in_reach += 1
+	if beyond == 0 or in_reach > 0:
+		return
+	culvert_hinted = true
+	Globals.notify("Marra: One more. Through the pipe. You still fit.")
 
 
 func _begin_shadow() -> void:

@@ -1908,8 +1908,13 @@ position = Vector3(2.000, -0.350, -7.000)
 [node name="Bug4" parent="World/Bugs" instance=ExtResource("7_bug")]
 position = Vector3(8.000, 0.300, 8.500)
 
-[node name="Bug5" parent="World/Bugs" instance=ExtResource("7_bug")]
-position = Vector3(-8.500, 0.350, -8.000)
+; Through the culvert. A Hatchling fits, a Duckling never will again, and this
+; is the fifth bug First Supper asks for — so the player has to use the passage
+; once, which is what makes losing it later mean anything. The Reed Pocket needs
+; scale 1.2, so at supper the only other bugs in reach are Bug1-4: this one is
+; not optional. Keep it in sight of the far mouth.
+[node name="BugCulvert" parent="World/Bugs" instance=ExtResource("7_bug")]
+position = Vector3(-21.500, 0.350, 1.000)
 
 [node name="Bug6" parent="World/Bugs" instance=ExtResource("7_bug")]
 position = Vector3(22.000, 0.350, 1.500)

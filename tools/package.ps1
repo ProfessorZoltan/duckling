@@ -92,6 +92,12 @@ function Build-Package($preset, $dir, $binary) {
 	New-Item -ItemType Directory -Path $out -Force | Out-Null
 
 	Write-Host "==> exporting $preset"
+	# Always reimport first. A stale .godot cache keeps the OLD property list
+	# for a changed script, and the export then silently drops scene values it
+	# no longer recognises — which is how a build shipped with every duck
+	# reading the same placeholder line. Cheap insurance.
+	& $godotExe --headless --path (Join-Path $root 'game') --import 2>&1 | Out-Null
+
 	& $godotExe --headless --path (Join-Path $root 'game') --export-release $preset (Join-Path $out $binary)
 	$code = $LASTEXITCODE
 	if ($code -ne 0 -or -not (Test-Path (Join-Path $out $binary))) {
